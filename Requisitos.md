@@ -34,12 +34,12 @@ Status: ⬜ = pendente, ✅ = concluído.
 
 | ID   | Requisito                                                                                                                                                                         | Prio | Status |
 | ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ------ |
-| RF01 | O organizador deve poder cadastrar eventos (nome, datas, local, hashtag oficial, descrição).                                                                                      | M    | ⬜     |
-| RF02 | O organizador deve poder cadastrar checkpoints em um evento, com nome, resumo breve, imagem e logomarca ou símbolo do projeto.                                                    | M    | ⬜     |
-| RF03 | O organizador deve poder classificar cada checkpoint por categoria (ex.: estande de pesquisa, banner, oficina, curso, apresentação, cultural). **[A CONFIRMAR] quais categorias** | S    | ⬜     |
-| RF04 | O organizador deve poder importar checkpoints em lote a partir de uma lista (ex.: planilha de projetos pré-cadastrados enviada pela Propex).                                      | S    | ⬜     |
-| RF05 | O organizador deve poder editar, desativar e remover checkpoints.                                                                                                                 | M    | ⬜     |
-| RF06 | O sistema deve manter os eventos separados: checkpoints e passaportes de um evento não se misturam com os de outro.                                                               | M    | ⬜     |
+| RF01 | O organizador deve poder cadastrar eventos (nome, datas, local, hashtag oficial, descrição).                                                                                      | M    | ✅     |
+| RF02 | O organizador deve poder cadastrar checkpoints em um evento, com nome, resumo breve, imagem e logomarca ou símbolo do projeto.                                                    | M    | ✅     |
+| RF03 | O organizador deve poder classificar cada checkpoint por categoria (ex.: estande de pesquisa, banner, oficina, curso, apresentação, cultural). **[A CONFIRMAR] quais categorias** | S    | ✅     |
+| RF04 | O organizador deve poder importar checkpoints em lote a partir de uma lista (ex.: planilha de projetos pré-cadastrados enviada pela Propex).                                      | S    | ✅     |
+| RF05 | O organizador deve poder editar, desativar e remover checkpoints.                                                                                                                 | M    | ✅     |
+| RF06 | O sistema deve manter os eventos separados: checkpoints e passaportes de um evento não se misturam com os de outro.                                                               | M    | ✅     |
 
 ### 4.2 QR codes
 
