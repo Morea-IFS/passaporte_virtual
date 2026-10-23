@@ -24,7 +24,19 @@ docker compose up --build --renew-anon-volumes
 - API: http://localhost:3333 (health check em `/health`)
 - Painel da organização: http://localhost:3000/admin
 
-Para entrar no painel, crie uma conta de organizador (não há cadastro público):
+Depois que a API subir, **rode os seeds** para criar o administrador padrão (não há cadastro público) e a massa de testes:
+
+```bash
+pnpm db:seed
+```
+
+- Painel: `admin@passaporte.local` / `admin12345` (troque com `SEED_ADMIN_EMAIL`, `SEED_ADMIN_NAME` e `SEED_ADMIN_PASSWORD`; em produção `SEED_ADMIN_PASSWORD` é obrigatória e a massa de testes não roda).
+- Massa de testes (só em desenvolvimento): administradores `maria.souza@`, `joao.lima@`, `ana.rocha@passaporte.local` com senha `senha12345` (`carla.mendes@` desativada, `pedro.alves@` removido), eventos em andamento, futuro, encerrado e excluído, pontos, visitantes, carimbos e auditoria.
+- Visitante de teste: apelido `teste`, código de recuperação `TEST-2345` (em `/recuperar`).
+
+Rodar de novo não duplica nada. Para recomeçar do zero, `pnpm db:fresh` (**apaga o banco**, roda migrations e seeds).
+
+Outras contas de organizador podem ser criadas pelo painel ou com:
 
 ```bash
 docker compose exec api node ace organizer:create
@@ -42,6 +54,8 @@ Para testar os QR codes lendo com o celular, coloque no `.env` o IP da máquina 
 ```bash
 pnpm db:migrate                                   # roda migrations
 pnpm db:rollback                                  # desfaz última migration
+pnpm db:seed                                      # admin padrão + massa de testes
+pnpm db:fresh                                     # APAGA o banco, migrations + seeds
 docker compose exec api node ace make:model Nome -m   # cria model + migration
 docker compose exec api node ace organizer:create     # cria conta de organizador
 docker compose exec postgres psql -U postgres -d passaporte_virtual
@@ -57,6 +71,7 @@ Imagens enviadas pelo painel ficam em `apps/api/storage` (fora do git).
 pnpm install
 cp apps/api/.env.example apps/api/.env   # ajuste DB_* e APP_KEY
 pnpm dev
+cd apps/api && node ace db:seed          # admin padrão + massa de testes
 ```
 
 ## Scripts da raiz

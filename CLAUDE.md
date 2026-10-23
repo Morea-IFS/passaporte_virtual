@@ -62,6 +62,8 @@ pnpm docker:up                   # sobe postgres + api + web com hot reload
 pnpm dev | build | lint | typecheck | test   # via turbo, na raiz
 pnpm format | format:check       # prettier, config única na raiz
 pnpm db:migrate | db:rollback    # migrations dentro do container
+pnpm db:seed                     # admin padrão + massa de testes (só em dev); idempotente
+pnpm db:fresh                    # APAGA o banco, roda migrations e seeds
 docker compose exec api node ace make:model Nome -m
 docker compose exec api node ace organizer:create   # conta do painel /admin
 ```
@@ -71,6 +73,7 @@ docker compose exec api node ace organizer:create   # conta do painel /admin
 - Prettier único na raiz (`.prettierrc.json`): sem ponto e vírgula, aspas simples, 100 colunas, plugin Tailwind. Rodar `pnpm format` antes de commitar.
 - Dependências: rodar `pnpm install` na raiz (lockfile único) e depois `pnpm docker:up` (`--build --renew-anon-volumes`). Sem renovar os volumes anônimos, o container segue com o `node_modules` antigo. Os Dockerfiles usam `--frozen-lockfile`.
 - Containers de dev rodam como usuário `node` (uid 1000) para não criar arquivos root no repo. Não adicionar volumes anônimos em pastas que não existem no host (o Docker cria a pasta como root).
+- Seeds em `apps/api/database/seeders/`: `01_admin_seeder` (todo ambiente; `admin@passaporte.local` / `admin12345`, sobrescreva com `SEED_ADMIN_EMAIL`/`SEED_ADMIN_NAME`/`SEED_ADMIN_PASSWORD`, obrigatória em produção) e `02_demo_seeder` (só development: 5 admins com senha `senha12345`, eventos em andamento/futuro/encerrado/excluído, pontos, ~90 visitantes, carimbos e auditoria; visitante `teste` com código `TEST-2345`). Categorias padrão não têm seed: nascem com cada evento (`CheckpointCategory.createDefaults`). Dado novo de teste entra no `02_demo_seeder`.
 - `apps/api/database/schema.ts` é gerado pelo Lucid nas migrations. Não editar à mão. Models estendem as classes dele (`EventSchema`, `CheckpointSchema`...).
 - Listas são paginadas com 20 itens (`PER_PAGE` em `app/validators/pagination.ts`, `?page=N`; resposta `{ data, metadata }`). No web, o componente `Pagination` usa `?pagina=N`.
 - API: rotas do organizador em `/api/v1/admin/*` (token Bearer). Respostas passam por transformers (`app/transformers`) e saem em `{ data }`. Mensagens de validação em português em `start/validator.ts`.
