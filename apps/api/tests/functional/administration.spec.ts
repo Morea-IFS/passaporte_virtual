@@ -143,8 +143,15 @@ test.group('Administração, auditoria e participantes', (group) => {
       .get(`/api/v1/admin/participants/${visitor.id}`)
       .header('Authorization', authorization)
     detail.assertStatus(200)
-    detail.assertBodyContains({
-      data: { events: [{ checkpoints: [{ code: 'CP-001', name: 'Visitado' }] }] },
+    detail.assertBodyContains({ data: { events: [{ id: event.id, visited: 1, total: 2 }] } })
+
+    const checkins = await client
+      .get(`/api/v1/admin/participants/${visitor.id}/checkins`)
+      .header('Authorization', authorization)
+    checkins.assertStatus(200)
+    checkins.assertBodyContains({
+      data: [{ code: 'CP-001', name: 'Visitado', eventName: event.name }],
+      metadata: { perPage: 20, total: 1 },
     })
   })
 })

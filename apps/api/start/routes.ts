@@ -97,6 +97,9 @@ router
 
         router.get('participants', [controllers.Participants, 'index']).as('participants.index')
         router.get('participants/:id', [controllers.Participants, 'show']).as('participants.show')
+        router
+          .get('participants/:id/checkins', [controllers.Participants, 'checkins'])
+          .as('participants.checkins')
 
         router.resource('events', controllers.Events).apiOnly()
 

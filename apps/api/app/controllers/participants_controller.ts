@@ -10,6 +10,13 @@ type CheckinRow = {
   event_name: string
   event_slug: string
   checkpoint_id: number
+  created_at: Date | string
+}
+
+type VisitedRow = {
+  id: number
+  event_id: number
+  event_name: string
   checkpoint_code: string
   checkpoint_name: string
   created_at: Date | string
@@ -37,8 +44,6 @@ async function participation(visitorIds: number[]) {
       'e.name as event_name',
       'e.slug as event_slug',
       'ci.checkpoint_id',
-      'cp.code as checkpoint_code',
-      'cp.name as checkpoint_name',
       'ci.created_at'
     )) as CheckinRow[]
   const eventIds = [...new Set(checkins.map((row) => row.event_id))]
@@ -60,17 +65,10 @@ async function participation(visitorIds: number[]) {
         name: row.event_name,
         slug: row.event_slug,
         visited: new Set<number>(),
-        checkpoints: [],
       }
       summary.events.set(row.event_id, event)
     }
     event.visited.add(row.checkpoint_id)
-    event.checkpoints.push({
-      id: row.checkpoint_id,
-      code: row.checkpoint_code,
-      name: row.checkpoint_name,
-      visitedAt: iso(row.created_at),
-    })
     summary.totalCheckins++
     const timestamp = iso(row.created_at)
     if (!summary.lastActivity || timestamp > summary.lastActivity) summary.lastActivity = timestamp
@@ -80,7 +78,6 @@ async function participation(visitorIds: number[]) {
       event.total = checkpoints.filter(
         (cp) => cp.event_id === event.id && (cp.is_active || event.visited.has(cp.id))
       ).length
-      event.checkpoints.sort((a, b) => a.code.localeCompare(b.code))
     }
   }
   return byVisitor
@@ -98,13 +95,12 @@ function makeSummary() {
         slug: string
         visited: Set<number>
         total?: number
-        checkpoints: { id: number; code: string; name: string; visitedAt: string }[]
       }
     >(),
   }
 }
 
-function output(visitor: Visitor, summary: ReturnType<typeof makeSummary>, detail = false) {
+function output(visitor: Visitor, summary: ReturnType<typeof makeSummary>) {
   return {
     id: visitor.id,
     nickname: visitor.nickname,
@@ -117,7 +113,6 @@ function output(visitor: Visitor, summary: ReturnType<typeof makeSummary>, detai
       slug: event.slug,
       visited: event.visited.size,
       total: event.total ?? 0,
-      ...(detail ? { checkpoints: event.checkpoints } : {}),
     })),
   }
 }
@@ -142,6 +137,43 @@ export default class ParticipantsController {
   async show({ params, serialize }: HttpContext) {
     const visitor = await Visitor.findOrFail(params.id)
     const summaries = await participation([visitor.id])
-    return serialize(output(visitor, summaries.get(visitor.id)!, true))
+    return serialize(output(visitor, summaries.get(visitor.id)!))
+  }
+
+  /** Pontos visitados pelo participante, do mais recente ao mais antigo */
+  async checkins({ params, request }: HttpContext) {
+    const visitor = await Visitor.findOrFail(params.id)
+    const { eventId, page = 1 } = await participantFiltersValidator.validate(request.qs())
+    const checkins = await db
+      .from('checkins as ci')
+      .join('events as e', 'e.id', 'ci.event_id')
+      .join('checkpoints as cp', 'cp.id', 'ci.checkpoint_id')
+      .where('ci.visitor_id', visitor.id)
+      .if(eventId, (query) => query.where('ci.event_id', eventId!))
+      .whereNull('ci.deleted_at')
+      .whereNull('e.deleted_at')
+      .whereNull('cp.deleted_at')
+      .select(
+        'ci.id',
+        'ci.event_id',
+        'e.name as event_name',
+        'cp.code as checkpoint_code',
+        'cp.name as checkpoint_name',
+        'ci.created_at'
+      )
+      .orderBy('ci.created_at', 'desc')
+      .orderBy('ci.id', 'desc')
+      .paginate(page, PER_PAGE)
+    return {
+      data: (checkins.all() as VisitedRow[]).map((row) => ({
+        id: row.id,
+        eventId: row.event_id,
+        eventName: row.event_name,
+        code: row.checkpoint_code,
+        name: row.checkpoint_name,
+        visitedAt: iso(row.created_at),
+      })),
+      metadata: checkins.getMeta(),
+    }
   }
 }

@@ -38,7 +38,15 @@ export type ParticipantEvent = {
   slug: string
   visited: number
   total: number
-  checkpoints?: { id: number; code: string; name: string; visitedAt: string }[]
+}
+
+export type ParticipantCheckin = {
+  id: number
+  eventId: number
+  eventName: string
+  code: string
+  name: string
+  visitedAt: string
 }
 
 export type Participant = {

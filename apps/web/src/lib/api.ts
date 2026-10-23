@@ -18,6 +18,7 @@ import type {
   AuditLog,
   AuditOptions,
   Participant,
+  ParticipantCheckin,
 } from '@/lib/types'
 
 /**
@@ -159,6 +160,8 @@ export const api = {
   participants: (filters: Record<string, string | number | undefined> = {}) =>
     requestPage<Participant>(hrefWith('/admin/participants', filters)),
   participant: (id: number) => request<Participant>(`/admin/participants/${id}`),
+  participantCheckins: (id: number, filters: { eventId?: string; page?: number } = {}) =>
+    requestPage<ParticipantCheckin>(hrefWith(`/admin/participants/${id}/checkins`, filters)),
 
   events: (page = 1) => requestPage<PassportEvent>(hrefWith('/admin/events', { page })),
   event: (id: number) => request<PassportEvent>(`/admin/events/${id}`),
