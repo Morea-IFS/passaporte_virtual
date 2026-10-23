@@ -32,9 +32,9 @@ export default async function EditCheckpointPage({
         <Notice tone="neutral">Este ponto está desativado: não aceita novos carimbos.</Notice>
       )}
 
-      <CheckpointQrPanel checkpoint={checkpoint} />
-
       <CheckpointForm eventId={event.id} categories={categories} checkpoint={checkpoint} />
+
+      <CheckpointQrPanel checkpoint={checkpoint} />
 
       <DangerZone
         title="Excluir ponto"

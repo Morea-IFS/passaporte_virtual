@@ -49,21 +49,31 @@ type Doc = PDFKit.PDFDocument
  * - cartaz: um ponto por página A4, para o estande;
  * - etiquetas: 6 por página A4 (2 × 3), com contorno tracejado para recortar.
  */
-export async function buildQrCodesPdf(event: Event, checkpoints: Checkpoint[], layout: QrLayout) {
+/** Documento A4 com as fontes da marca; `finish()` fecha e devolve o PDF */
+function createDocument(title: string) {
   const doc = new PDFDocument({
     size: 'A4',
     margin: 0,
     autoFirstPage: false,
-    info: { Title: `QR codes · ${event.name}`, Author: 'Passaporte Virtual' },
+    info: { Title: title, Author: 'Passaporte Virtual' },
   })
   for (const font of Object.values(FONTS)) {
     doc.registerFont(font, app.makePath('resources/fonts', `${font}.ttf`))
   }
-
   const chunks: Buffer[] = []
   doc.on('data', (chunk: Buffer) => chunks.push(chunk))
   const done = new Promise<Buffer>((resolve) => doc.on('end', () => resolve(Buffer.concat(chunks))))
+  return {
+    doc,
+    finish() {
+      doc.end()
+      return done
+    },
+  }
+}
 
+export async function buildQrCodesPdf(event: Event, checkpoints: Checkpoint[], layout: QrLayout) {
+  const { doc, finish } = createDocument(`QR codes · ${event.name}`)
   const logos = await loadLogos(checkpoints)
 
   if (layout === 'cartaz') {
@@ -75,8 +85,76 @@ export async function buildQrCodesPdf(event: Event, checkpoints: Checkpoint[], l
     drawLabels(doc, event, checkpoints, logos)
   }
 
-  doc.end()
-  return done
+  return finish()
+}
+
+/**
+ * Cartaz de entrada (recepção): QR que abre o site para a pessoa escolher
+ * o evento e criar o passaporte. Não é um ponto e não carimba.
+ */
+export async function buildEntrancePdf(event: Event, url: string) {
+  const { doc, finish } = createDocument(`QR de entrada · ${event.name}`)
+  doc.addPage()
+  const { width, height } = doc.page
+  doc.rect(0, 0, width, height).fill(BRAND.creme)
+  drawMosaic(doc, 0, 0, width, 220, 8)
+
+  const card = { x: 44, y: 150, w: width - 88, h: height - 194 }
+  doc.roundedRect(card.x, card.y, card.w, card.h, 22).fillAndStroke(BRAND.papel, BRAND.linha)
+  const inner = { x: card.x + 36, w: card.w - 72 }
+  let y = card.y + 36
+
+  doc
+    .font(FONTS.displayBold)
+    .fontSize(11)
+    .fillColor(BRAND.muted)
+    .text(event.name.toUpperCase(), inner.x, y, {
+      width: inner.w,
+      align: 'center',
+      characterSpacing: 1.4,
+    })
+  y += 26
+  doc
+    .font(FONTS.display)
+    .fontSize(36)
+    .fillColor(BRAND.violeta)
+    .text('Comece seu passaporte', inner.x, y, { width: inner.w, align: 'center', lineGap: -4 })
+  y += doc.heightOfString('Comece seu passaporte', { width: inner.w, lineGap: -4 }) + 20
+
+  const qrSize = 280
+  drawQr(doc, url, (width - qrSize) / 2, y, qrSize)
+  y += qrSize + 24
+
+  const steps = [
+    'Aponte a câmera do celular para o QR code.',
+    'Escolha o evento e crie um apelido.',
+    'Leia o QR de cada estande e atividade para carimbar.',
+  ]
+  steps.forEach((step, index) => {
+    const circleX = inner.x + 40
+    doc.circle(circleX, y + 9, 11).fill(BRAND.violeta)
+    doc
+      .font(FONTS.displayBold)
+      .fontSize(11)
+      .fillColor(BRAND.papel)
+      .text(String(index + 1), circleX - 11, y + 3, { width: 22, align: 'center' })
+    doc
+      .font(FONTS.body)
+      .fontSize(14)
+      .fillColor(BRAND.noite)
+      .text(step, circleX + 22, y, { width: inner.w - 82 })
+    y += 30
+  })
+
+  if (event.hashtag) {
+    doc
+      .font(FONTS.displayBold)
+      .fontSize(14)
+      .fillColor(BRAND.violeta)
+      .text(event.hashtag, inner.x, card.y + card.h - 44, { width: inner.w, align: 'center' })
+  }
+
+  return finish()
 }
 
 /* ---------- Cartaz (1 por página) ---------- */

@@ -52,7 +52,7 @@ export const checkpointStatusValidator = vine.create({
 })
 
 export const qrCodesExportValidator = vine.create({
-  layout: vine.enum(['cartaz', 'etiquetas']),
+  layout: vine.enum(['cartaz', 'etiquetas', 'entrada']),
   ids: vine
     .string()
     .regex(/^\d+(,\d+)*$/)

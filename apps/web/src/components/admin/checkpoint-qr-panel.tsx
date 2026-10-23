@@ -1,7 +1,7 @@
 import { buttonClass } from '@/components/ui/button'
-import { Panel } from '@/components/ui/card'
+import { Disclosure } from '@/components/ui/disclosure'
 import { CopyButton } from '@/components/ui/copy-button'
-import { DownloadIcon } from '@/components/ui/icons'
+import { DownloadIcon, QrIcon } from '@/components/ui/icons'
 import { QrCode } from '@/components/ui/qr-code'
 import { hrefWith } from '@/lib/url'
 import type { Checkpoint } from '@/lib/types'
@@ -18,36 +18,34 @@ export function CheckpointQrPanel({ checkpoint }: { checkpoint: Checkpoint }) {
     })
 
   return (
-    <Panel as="section">
-      <h2 className="font-display text-lg font-extrabold">QR code</h2>
-
-      <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+    <Disclosure
+      title="QR code"
+      icon={<QrIcon className="size-5" />}
+      summary="Ver, copiar o link e baixar para imprimir"
+    >
+      <div className="flex flex-col items-center gap-3 text-center">
         <QrCode value={checkpoint.checkinUrl} label={`QR code de ${checkpoint.name}`} />
-        <div className="flex min-w-0 flex-col items-start gap-3">
-          <div className="flex flex-col gap-1">
-            <span className="font-mono text-[12px] break-all text-muted">
-              {checkpoint.checkinUrl}
-            </span>
-            <span className="-ml-2">
-              <CopyButton value={checkpoint.checkinUrl} />
-            </span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <a href={pdfHref('cartaz')} download className={buttonClass('ghost', { size: 'sm' })}>
-              <DownloadIcon className="size-4" />
-              Cartaz A4
-            </a>
-            <a
-              href={pdfHref('etiquetas')}
-              download
-              className={buttonClass('ghost', { size: 'sm' })}
-            >
-              <DownloadIcon className="size-4" />
-              Etiqueta
-            </a>
-          </div>
-        </div>
+        <span className="font-mono text-[12px] break-all text-muted">{checkpoint.checkinUrl}</span>
+        <CopyButton value={checkpoint.checkinUrl} />
       </div>
-    </Panel>
+      <div className="grid grid-cols-2 gap-2">
+        <a
+          href={pdfHref('cartaz')}
+          download
+          className={buttonClass('ghost', { size: 'sm', block: true })}
+        >
+          <DownloadIcon className="size-4" />
+          Cartaz A4
+        </a>
+        <a
+          href={pdfHref('etiquetas')}
+          download
+          className={buttonClass('ghost', { size: 'sm', block: true })}
+        >
+          <DownloadIcon className="size-4" />
+          Etiqueta
+        </a>
+      </div>
+    </Disclosure>
   )
 }

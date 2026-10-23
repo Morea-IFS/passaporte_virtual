@@ -1,17 +1,24 @@
 import Event from '#models/event'
 import Checkpoint from '#models/checkpoint'
-import { buildQrCodesPdf } from '#services/qr_codes_pdf'
+import { buildEntrancePdf, buildQrCodesPdf } from '#services/qr_codes_pdf'
+import env from '#start/env'
 import { qrCodesExportValidator } from '#validators/checkpoint'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class QrCodesController {
   /**
    * PDF para imprimir os QR codes do evento (RF08/RF09).
-   * ?layout=cartaz|etiquetas, ?ids=1,2 (opcional) e ?includeInactive=true.
+   * ?layout=cartaz|etiquetas|entrada, ?ids=1,2 (opcional) e ?includeInactive=true.
+   * "entrada" é o cartaz da recepção (abre o site; não é ponto).
    */
   async show({ params, request, response }: HttpContext) {
     const event = await Event.findOrFail(params.eventId)
     const { layout, ids, includeInactive } = await qrCodesExportValidator.validate(request.qs())
+
+    if (layout === 'entrada') {
+      const pdf = await buildEntrancePdf(event, `${env.get('PUBLIC_WEB_URL').replace(/\/$/, '')}/`)
+      return this.sendPdf(response, pdf, `qrcode-entrada-${event.slug}.pdf`)
+    }
 
     const checkpoints = await Checkpoint.query()
       .where('event_id', event.id)
@@ -28,11 +35,12 @@ export default class QrCodesController {
 
     const pdf = await buildQrCodesPdf(event, checkpoints, layout)
     const suffix = checkpoints.length === 1 ? checkpoints[0].code.toLowerCase() : layout
+    return this.sendPdf(response, pdf, `qrcodes-${event.slug}-${suffix}.pdf`)
+  }
+
+  private sendPdf(response: HttpContext['response'], pdf: Buffer, filename: string) {
     response.header('Content-Type', 'application/pdf')
-    response.header(
-      'Content-Disposition',
-      `attachment; filename="qrcodes-${event.slug}-${suffix}.pdf"`
-    )
+    response.header('Content-Disposition', `attachment; filename="${filename}"`)
     return response.send(pdf)
   }
 }
