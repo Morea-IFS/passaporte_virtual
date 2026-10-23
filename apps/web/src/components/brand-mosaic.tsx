@@ -2,7 +2,8 @@
  * Mosaico da identidade Ciência Delas: blocos nas cores da marca com
  * quartos e meios círculos, e a rede de pontos (constelação) por cima.
  * Padrão determinístico (mesmo resultado no servidor e no navegador).
- * Preenche o container; blocos excedentes ficam cortados.
+ * Não tem altura própria: quem usa define (h-*, flex-1...); blocos que
+ * passarem da área ficam cortados.
  */
 
 const COLORS = [
@@ -49,7 +50,7 @@ const TILES = (() => {
 export function BrandMosaic({ className = '' }: { className?: string }) {
   return (
     <div aria-hidden="true" className={`relative overflow-hidden bg-violeta-noite ${className}`}>
-      <div className="grid grid-cols-6 sm:grid-cols-8">
+      <div className="absolute inset-x-0 top-0 grid grid-cols-6 sm:grid-cols-8">
         {TILES.map((tile, index) => (
           <span
             key={index}

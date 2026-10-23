@@ -3,7 +3,7 @@
 import { refresh, revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { api, ApiValidationError } from '@/lib/api'
-import { clearToken, setToken } from '@/lib/session'
+import { adminSession } from '@/lib/session'
 import type { FormState, ImportPreview } from '@/lib/types'
 
 function text(formData: FormData, key: string) {
@@ -43,7 +43,7 @@ export async function login(_: FormState, formData: FormData): Promise<FormState
   const email = text(formData, 'email')
   try {
     const { token } = await api.login(email, text(formData, 'password'))
-    await setToken(token)
+    await adminSession.set(token)
   } catch (error) {
     if (error instanceof ApiValidationError && error.status === 400) {
       return { error: 'E-mail ou senha incorretos.', values: { email } }
@@ -57,7 +57,7 @@ export async function logout() {
   try {
     await api.logout()
   } finally {
-    await clearToken()
+    await adminSession.clear()
   }
   redirect('/admin/login')
 }

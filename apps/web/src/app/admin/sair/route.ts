@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { SESSION_COOKIE } from '@/lib/session'
+import { adminSession } from '@/lib/session'
 
 /**
  * Sessão expirada ou inválida: apaga o cookie e volta ao login.
@@ -7,6 +7,6 @@ import { SESSION_COOKIE } from '@/lib/session'
  */
 export function GET(request: NextRequest) {
   const response = NextResponse.redirect(new URL('/admin/login', request.url))
-  response.cookies.delete(SESSION_COOKIE)
+  response.cookies.delete(adminSession.name)
   return response
 }

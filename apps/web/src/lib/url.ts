@@ -15,3 +15,8 @@ export function hrefWith(path: string, params: Record<string, string | number | 
 export function firstParam(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value
 }
+
+/** Só caminhos internos do site (evita redirecionar para outro domínio) */
+export function safePath(path: string | undefined, fallback = '/') {
+  return path && path.startsWith('/') && !path.startsWith('//') ? path : fallback
+}

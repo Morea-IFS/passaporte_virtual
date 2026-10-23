@@ -33,3 +33,25 @@ export function formatEventPeriod(startsOn: string, endsOn: string) {
 export function pluralize(count: number, singular: string, plural: string) {
   return `${count} ${count === 1 ? singular : plural}`
 }
+
+const stampDay = new Intl.DateTimeFormat('pt-BR', {
+  day: '2-digit',
+  month: 'short',
+  timeZone: 'America/Sao_Paulo',
+})
+const stampTime = new Intl.DateTimeFormat('pt-BR', {
+  hour: '2-digit',
+  minute: '2-digit',
+  timeZone: 'America/Sao_Paulo',
+})
+
+/** Data do carimbo no fuso do evento: { day: "03 DEZ", time: "14:32" } */
+export function formatStampDate(iso: string) {
+  const date = new Date(iso)
+  const day = stampDay
+    .formatToParts(date)
+    .filter((part) => part.type === 'day' || part.type === 'month')
+    .map((part) => part.value.replace('.', '').toUpperCase())
+    .join(' ')
+  return { day, time: stampTime.format(date) }
+}

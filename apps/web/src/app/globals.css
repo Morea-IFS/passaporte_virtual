@@ -111,6 +111,18 @@
   }
 }
 
+/* Carimbo batendo no passaporte (Stamp animate), só com motion-safe */
+@keyframes stamp-in {
+  from {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Rolagem horizontal sem barra visível (ex.: fileira de chips no celular) */
 @utility scrollbar-none {
   scrollbar-width: none;

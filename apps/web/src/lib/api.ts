@@ -1,6 +1,6 @@
 import 'server-only'
 import { notFound, redirect } from 'next/navigation'
-import { getToken } from '@/lib/session'
+import { adminSession, visitorSession } from '@/lib/session'
 import { hrefWith } from '@/lib/url'
 import type {
   Checkpoint,
@@ -9,7 +9,11 @@ import type {
   Organizer,
   Page,
   PassportEvent,
+  Passport,
   PublicCheckpoint,
+  PublicEvent,
+  CheckinResult,
+  VisitorAccount,
 } from '@/lib/types'
 
 /**
@@ -30,22 +34,36 @@ export class ApiValidationError extends Error {
   }
 }
 
+/** Visitante sem passaporte válido neste dispositivo (API respondeu 401) */
+export class VisitorUnauthorizedError extends Error {}
+
 type RequestOptions = {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
   json?: unknown
   form?: FormData
-  /** Rota pública: não envia token nem redireciona em 401 */
-  anonymous?: boolean
+  /**
+   * admin (padrão): token do organizador, 401 → login do painel.
+   * visitor: token do passaporte, 401 → VisitorUnauthorizedError.
+   * none: rota pública.
+   */
+  auth?: 'admin' | 'visitor' | 'none'
+  /** Token do visitante já conhecido (ex.: recém-criado, antes do cookie valer) */
+  visitorToken?: string
 }
 
 /** Faz a chamada e trata 401/404/validação; devolve a resposta crua */
 async function call(path: string, options: RequestOptions = {}): Promise<Response> {
   const headers: Record<string, string> = { Accept: 'application/json' }
 
-  if (!options.anonymous) {
-    const token = await getToken()
+  const auth = options.auth ?? 'admin'
+  if (auth === 'admin') {
+    const token = await adminSession.get()
     if (!token) redirect('/admin/login')
     headers.Authorization = `Bearer ${token}`
+  } else if (auth === 'visitor') {
+    const token = options.visitorToken ?? (await visitorSession.get())
+    if (!token) throw new VisitorUnauthorizedError()
+    headers['X-Visitor-Token'] = token
   }
 
   let body: BodyInit | undefined
@@ -63,7 +81,8 @@ async function call(path: string, options: RequestOptions = {}): Promise<Respons
     cache: 'no-store',
   })
 
-  if (response.status === 401 && !options.anonymous) redirect('/admin/sair')
+  if (response.status === 401 && auth === 'admin') redirect('/admin/sair')
+  if (response.status === 401 && auth === 'visitor') throw new VisitorUnauthorizedError()
   if (response.status === 404) notFound()
 
   if (response.status === 400 || response.status === 422) {
@@ -108,7 +127,7 @@ export const api = {
     request<{ token: string; user: Organizer }>('/auth/login', {
       method: 'POST',
       json: { email, password },
-      anonymous: true,
+      auth: 'none',
     }),
   logout: () => request<void>('/account/logout', { method: 'POST' }),
   profile: () => request<Organizer>('/account/profile'),
@@ -149,9 +168,47 @@ export const api = {
   /** PDF dos QR codes (resposta crua, para repassar ao navegador) */
   qrCodesPdf: (eventId: number, params: Record<string, string | undefined>) =>
     call(hrefWith(`/admin/events/${eventId}/qrcodes`, params)),
+  publicEvents: () => request<PublicEvent[]>('/public/events', { auth: 'none' }),
+  visitorPassports: () =>
+    request<{ nickname: string; passports: { slug: string; visited: number }[] }>(
+      '/visitor/passports',
+      { auth: 'visitor' }
+    ),
+  publicEvent: (slug: string) =>
+    request<Passport>(`/public/events/${encodeURIComponent(slug)}`, { auth: 'none' }),
+
+  /* ---------- Visitante ---------- */
+  nicknameAvailable: (nickname: string) =>
+    request<{ available: boolean }>(hrefWith('/visitor/nickname', { nickname }), { auth: 'none' }),
+  registerVisitor: (nickname: string) =>
+    request<VisitorAccount & { token: string }>('/visitor', {
+      method: 'POST',
+      json: { nickname },
+      auth: 'none',
+    }),
+  recoverVisitor: (nickname: string, code: string) =>
+    request<VisitorAccount & { token: string }>('/visitor/recover', {
+      method: 'POST',
+      json: { nickname, code },
+      auth: 'none',
+    }),
+  visitorLogout: () => request<void>('/visitor/logout', { method: 'POST', auth: 'visitor' }),
+  visitorMe: () => request<VisitorAccount>('/visitor/me', { auth: 'visitor' }),
+  checkIn: (qrToken: string, visitorToken?: string) =>
+    request<CheckinResult>('/visitor/checkins', {
+      method: 'POST',
+      json: { qrToken },
+      auth: 'visitor',
+      visitorToken,
+    }),
+  passport: (slug: string) =>
+    request<Passport & { nickname: string }>(`/visitor/passports/${encodeURIComponent(slug)}`, {
+      auth: 'visitor',
+    }),
+
   publicCheckpoint: (token: string) =>
     request<PublicCheckpoint>(`/public/checkpoints/${encodeURIComponent(token)}`, {
-      anonymous: true,
+      auth: 'none',
     }),
 
   setCheckpointStatus: (id: number, isActive: boolean) =>

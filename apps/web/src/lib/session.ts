@@ -1,23 +1,34 @@
 import 'server-only'
 import { cookies } from 'next/headers'
 
-export const SESSION_COOKIE = 'pv_admin_token'
-const THIRTY_DAYS = 60 * 60 * 24 * 30
+const DAY = 60 * 60 * 24
 
-export async function getToken() {
-  return (await cookies()).get(SESSION_COOKIE)?.value
+/**
+ * Sessão guardada num cookie httpOnly (o JavaScript da página não lê).
+ */
+function cookieSession(name: string, maxAge: number) {
+  return {
+    name,
+    async get() {
+      return (await cookies()).get(name)?.value
+    },
+    async set(token: string) {
+      ;(await cookies()).set(name, token, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        path: '/',
+        maxAge,
+      })
+    },
+    async clear() {
+      ;(await cookies()).delete(name)
+    },
+  }
 }
 
-export async function setToken(token: string) {
-  ;(await cookies()).set(SESSION_COOKIE, token, {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
-    path: '/',
-    maxAge: THIRTY_DAYS,
-  })
-}
+/** Organizador (painel): 30 dias */
+export const adminSession = cookieSession('pv_admin_token', 30 * DAY)
 
-export async function clearToken() {
-  ;(await cookies()).delete(SESSION_COOKIE)
-}
+/** Visitante (passaporte): 1 ano, para o celular continuar reconhecido (RF20) */
+export const visitorSession = cookieSession('pv_visitor', 365 * DAY)

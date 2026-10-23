@@ -1,47 +1,107 @@
-import { BrandLockup } from '@/components/brand-lockup'
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { EventChoiceCard } from '@/components/passport/event-choice-card'
+import { VisitorShell } from '@/components/passport/visitor-shell'
+import { quietButtonClass } from '@/components/ui/button'
+import { EmptyState } from '@/components/ui/feedback'
+import { api, VisitorUnauthorizedError } from '@/lib/api'
+import { firstParam } from '@/lib/url'
 
-const CATEGORIAS = [
-  { label: 'Pesquisa', className: 'bg-pesquisa text-creme' },
-  { label: 'Oficina', className: 'bg-oficina text-violeta-noite' },
-  { label: 'Apresentação', className: 'bg-apresentacao text-creme' },
-  { label: 'Cultural', className: 'bg-cultural text-creme' },
-  { label: 'Curso', className: 'bg-curso text-creme' },
-]
+export const metadata: Metadata = {
+  title: 'Passaporte Virtual',
+}
 
-export default function Home() {
+async function loadVisitor() {
+  try {
+    return await api.visitorPassports()
+  } catch (error) {
+    if (error instanceof VisitorUnauthorizedError) return null
+    throw error
+  }
+}
+
+/**
+ * Entrada do visitante (QR da recepção). Um evento aberto: vai direto
+ * para o passaporte dele. Vários: a pessoa escolhe.
+ */
+export default async function HomePage({ searchParams }: PageProps<'/'>) {
+  // ?escolher=1: veio de "Trocar de evento", mostra a lista mesmo com um evento só
+  const choosing = firstParam((await searchParams).escolher) === '1'
+  const [events, visitor] = await Promise.all([api.publicEvents(), loadVisitor()])
+  const open = events.filter((event) => !event.ended)
+  const ended = events.filter((event) => event.ended)
+
+  if (open.length === 1 && !choosing) redirect(`/passaporte/${open[0].slug}`)
+
+  const visitedBySlug = new Map(
+    visitor?.passports.map((passport) => [passport.slug, passport.visited])
+  )
+  const visitedFor = (slug: string) => (visitor ? (visitedBySlug.get(slug) ?? 0) : undefined)
+
   return (
-    <main className="mx-auto flex w-full max-w-md flex-1 flex-col gap-6 px-4 py-8 sm:py-12">
-      <BrandLockup />
-
-      <p className="font-display text-sm font-semibold tracking-[0.16em] text-accent uppercase">
-        Semana Nacional de
-        <br />
-        Ciência e Tecnologia
-      </p>
-
-      <div className="flex flex-col gap-2">
-        <h1 className="text-xl font-bold">Seu passaporte do evento</h1>
-        <p className="text-muted">
-          Visite estandes, oficinas e apresentações. Cada QR code vira um carimbo.
+    <VisitorShell>
+      <header className="flex flex-col gap-2">
+        <p className="font-display text-xs font-bold tracking-[0.14em] text-muted uppercase">
+          {visitor ? (
+            <>
+              Olá, <span className="tracking-normal normal-case">{visitor.nickname}</span>
+            </>
+          ) : (
+            'Passaporte Virtual'
+          )}
         </p>
-      </div>
+        <h1 className="text-[28px] leading-[1.1] font-black text-accent">Escolha o evento</h1>
+        <p className="text-muted">
+          {visitor
+            ? 'Abra o passaporte do evento em que você está.'
+            : 'Toque no evento em que você está para criar seu passaporte.'}
+        </p>
+      </header>
 
-      <ul className="flex flex-wrap gap-2">
-        {CATEGORIAS.map(({ label, className }) => (
-          <li
-            key={label}
-            className={`inline-flex min-h-[30px] items-center rounded-full px-3 font-display text-xs font-bold tracking-wider uppercase ${className}`}
-          >
-            {label}
-          </li>
-        ))}
-      </ul>
+      {events.length === 0 ? (
+        <EmptyState title="Nenhum evento por aqui ainda">
+          Volte mais perto da data do evento.
+        </EmptyState>
+      ) : null}
 
-      <p className="mt-auto font-display text-accent">
-        <strong className="text-3xl font-black">3 e 4</strong>{' '}
-        <span className="text-lg tracking-wide">DEZEMBRO</span>
-        <span className="block text-sm font-bold">Aracaju Parque Shopping</span>
-      </p>
-    </main>
+      {open.length > 0 ? (
+        <section aria-label="Eventos acontecendo e próximos" className="flex flex-col gap-2">
+          <ul className="flex flex-col gap-2">
+            {open.map((event) => (
+              <EventChoiceCard key={event.slug} event={event} visited={visitedFor(event.slug)} />
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {ended.length > 0 ? (
+        <section aria-labelledby="encerrados" className="flex flex-col gap-2">
+          <h2 id="encerrados" className="text-lg font-extrabold text-muted">
+            Encerrados
+          </h2>
+          <ul className="flex flex-col gap-2 opacity-80">
+            {ended.map((event) => (
+              <EventChoiceCard key={event.slug} event={event} visited={visitedFor(event.slug)} />
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {visitor ? null : (
+        <Link
+          href="/recuperar?voltar=%2F"
+          className="self-center font-display text-[14px] font-bold text-accent underline underline-offset-4"
+        >
+          Já tenho passaporte
+        </Link>
+      )}
+
+      <footer className="mt-6 flex justify-center border-t border-line pt-4">
+        <Link href="/admin" className={quietButtonClass()}>
+          Área da organização
+        </Link>
+      </footer>
+    </VisitorShell>
   )
 }

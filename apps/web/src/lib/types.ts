@@ -86,3 +86,44 @@ export type Page<T> = {
     lastPage: number
   }
 }
+
+/* ---------- Visitante ---------- */
+
+/** Evento na home do passaporte */
+export type PublicEvent = Pick<
+  PassportEvent,
+  'name' | 'slug' | 'hashtag' | 'location' | 'startsOn' | 'endsOn' | 'checkpointsCount'
+> & { ended: boolean }
+
+export type VisitorAccount = { nickname: string; recoveryCode: string }
+
+export type PassportProgress = { visited: number; total: number }
+
+export type PassportCheckpoint = {
+  code: string
+  qrToken: string
+  name: string
+  location: string | null
+  imageUrl: string | null
+  logoUrl: string | null
+  isActive: boolean
+  categoryId: number
+  category: Pick<CheckpointCategory, 'name' | 'color'>
+  /** Data do carimbo (ISO) ou null se ainda não visitou */
+  visitedAt: string | null
+}
+
+export type Passport = {
+  event: Pick<PassportEvent, 'name' | 'slug' | 'hashtag' | 'location' | 'startsOn' | 'endsOn'>
+  progress: PassportProgress
+  categories: Pick<CheckpointCategory, 'id' | 'name' | 'color'>[]
+  checkpoints: PassportCheckpoint[]
+}
+
+export type CheckinResult = {
+  alreadyCheckedIn: boolean
+  checkedInAt: string
+  nickname: string
+  progress: PassportProgress
+  event: { slug: string; name: string }
+}
