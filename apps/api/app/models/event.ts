@@ -49,12 +49,13 @@ export default class Event extends compose(EventSchema, SoftDeletes) {
    * Exclusão lógica do evento e dos pontos ativos dele, com o mesmo
    * deleted_at: para restaurar tudo junto, limpe os dois pelo mesmo horário.
    */
-  async softDelete() {
+  async softDelete(trx?: TransactionClientContract) {
     const deletedAt = DateTime.now()
-    await Checkpoint.query()
+    await Checkpoint.query(trx ? { client: trx } : undefined)
       .where('event_id', this.id)
       .whereNull('deleted_at')
       .update({ deleted_at: deletedAt.toSQL(), updated_at: deletedAt.toSQL() })
+    if (trx) this.useTransaction(trx)
     this.deletedAt = deletedAt
     await this.save()
   }

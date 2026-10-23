@@ -86,6 +86,18 @@ router
      */
     router
       .group(() => {
+        router.resource('administrators', controllers.Administrators).apiOnly()
+        router
+          .patch('administrators/:id/status', [controllers.Administrators, 'updateStatus'])
+          .as('administrators.status')
+
+        router.get('audit-logs', [controllers.AuditLogs, 'index']).as('audit.index')
+        router.get('audit-logs/options', [controllers.AuditLogs, 'options']).as('audit.options')
+        router.get('audit-logs/:id', [controllers.AuditLogs, 'show']).as('audit.show')
+
+        router.get('participants', [controllers.Participants, 'index']).as('participants.index')
+        router.get('participants/:id', [controllers.Participants, 'show']).as('participants.show')
+
         router.resource('events', controllers.Events).apiOnly()
 
         router

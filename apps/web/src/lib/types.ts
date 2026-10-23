@@ -3,6 +3,51 @@ export type Organizer = {
   fullName: string | null
   email: string
   initials: string
+  isActive: boolean
+  deletedAt: string | null
+  createdAt: string
+  updatedAt: string | null
+}
+
+export type Administrator = Organizer
+
+export type AuditAction = 'create' | 'update' | 'activate' | 'deactivate' | 'delete' | 'import'
+export type AuditResource = 'administrator' | 'event' | 'checkpoint' | 'category'
+export type AuditLog = {
+  id: number
+  actorUserId: number | null
+  actorName: string | null
+  actorEmail: string
+  action: AuditAction
+  resourceType: AuditResource
+  resourceId: string | null
+  resourceName: string | null
+  eventId: number | null
+  details: Record<string, string | number | boolean | null>
+  createdAt: string
+}
+
+export type AuditOptions = {
+  administrators: Administrator[]
+  events: { id: number; name: string }[]
+}
+
+export type ParticipantEvent = {
+  id: number
+  name: string
+  slug: string
+  visited: number
+  total: number
+  checkpoints?: { id: number; code: string; name: string; visitedAt: string }[]
+}
+
+export type Participant = {
+  id: number
+  nickname: string
+  totalCheckins: number
+  lastActivity: string | null
+  createdAt: string
+  events: ParticipantEvent[]
 }
 
 export type PassportEvent = {

@@ -9,6 +9,7 @@ import { PER_PAGE, pageValidator } from '#validators/pagination'
 import db from '@adonisjs/lucid/services/db'
 import type { HttpContext } from '@adonisjs/core/http'
 import type { ModelQueryBuilderContract } from '@adonisjs/lucid/types/model'
+import { audit } from '#services/audit'
 
 function withCount(query: ModelQueryBuilderContract<typeof CheckpointCategory>) {
   return query.withCount('checkpoints', (checkpoints) => checkpoints.whereNull('deleted_at'))
@@ -39,25 +40,41 @@ export default class CheckpointCategoriesController {
   /**
    * Cria a categoria; a cor é escolhida automaticamente (paleta da marca).
    */
-  async store({ params, request, response, serialize }: HttpContext) {
+  async store({ auth, params, request, response, serialize }: HttpContext) {
     const event = await Event.findOrFail(params.eventId)
     const { name } = await request.validateUsing(checkpointCategoryValidator, {
       meta: { eventId: event.id },
     })
 
     const category = await CheckpointCategory.createFor(event.id, name)
+    await audit(auth.getUserOrFail(), {
+      action: 'create',
+      resourceType: 'category',
+      resourceId: category.id,
+      resourceName: category.name,
+      eventId: event.id,
+      details: { name: category.name },
+    })
 
     response.status(201)
     return serialize(CheckpointCategoryTransformer.transform(category))
   }
 
-  async update({ params, request, serialize }: HttpContext) {
+  async update({ auth, params, request, serialize }: HttpContext) {
     const category = await CheckpointCategory.findOrFail(params.id)
     const { name } = await request.validateUsing(checkpointCategoryValidator, {
       meta: { eventId: category.eventId, categoryId: category.id },
     })
 
     await category.merge({ name }).save()
+    await audit(auth.getUserOrFail(), {
+      action: 'update',
+      resourceType: 'category',
+      resourceId: category.id,
+      resourceName: category.name,
+      eventId: category.eventId,
+      details: { name: category.name },
+    })
 
     const updated = await withCount(CheckpointCategory.query())
       .where('id', category.id)
@@ -70,7 +87,7 @@ export default class CheckpointCategoriesController {
    * outra categoria do mesmo evento (moveToCategoryId); sem isso, é bloqueada
    * para nenhum ponto ficar sem categoria.
    */
-  async destroy({ params, request, response }: HttpContext) {
+  async destroy({ auth, params, request, response }: HttpContext) {
     const category = await withCount(CheckpointCategory.query())
       .where('id', params.id)
       .firstOrFail()
@@ -103,6 +120,18 @@ export default class CheckpointCategoriesController {
       }
       category.useTransaction(trx)
       await category.softDelete()
+      await audit(
+        auth.getUserOrFail(),
+        {
+          action: 'delete',
+          resourceType: 'category',
+          resourceId: category.id,
+          resourceName: category.name,
+          eventId: category.eventId,
+          details: { movedToCategoryId: moveToCategoryId ?? null },
+        },
+        trx
+      )
     })
 
     return response.noContent()

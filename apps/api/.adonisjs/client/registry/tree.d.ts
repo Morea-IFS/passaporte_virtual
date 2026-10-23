@@ -44,6 +44,23 @@ export interface ApiDefinition {
     }
   }
   admin: {
+    administrators: {
+      index: typeof routes['admin.administrators.index']
+      store: typeof routes['admin.administrators.store']
+      show: typeof routes['admin.administrators.show']
+      update: typeof routes['admin.administrators.update']
+      destroy: typeof routes['admin.administrators.destroy']
+      status: typeof routes['admin.administrators.status']
+    }
+    audit: {
+      index: typeof routes['admin.audit.index']
+      options: typeof routes['admin.audit.options']
+      show: typeof routes['admin.audit.show']
+    }
+    participants: {
+      index: typeof routes['admin.participants.index']
+      show: typeof routes['admin.participants.show']
+    }
     events: {
       index: typeof routes['admin.events.index']
       store: typeof routes['admin.events.store']

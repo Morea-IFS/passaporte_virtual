@@ -5,11 +5,14 @@
 
 export const controllers = {
   AccessTokens: () => import('#controllers/access_tokens_controller'),
+  Administrators: () => import('#controllers/administrators_controller'),
+  AuditLogs: () => import('#controllers/audit_logs_controller'),
   Checkins: () => import('#controllers/checkins_controller'),
   CheckpointCategories: () => import('#controllers/checkpoint_categories_controller'),
   CheckpointImports: () => import('#controllers/checkpoint_imports_controller'),
   Checkpoints: () => import('#controllers/checkpoints_controller'),
   Events: () => import('#controllers/events_controller'),
+  Participants: () => import('#controllers/participants_controller'),
   Passports: () => import('#controllers/passports_controller'),
   Profile: () => import('#controllers/profile_controller'),
   PublicCheckpoints: () => import('#controllers/public_checkpoints_controller'),

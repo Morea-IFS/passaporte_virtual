@@ -62,6 +62,50 @@ export async function logout() {
   redirect('/admin/login')
 }
 
+/* ---------- Administradores ---------- */
+
+export async function saveAdministrator(
+  administratorId: number | null,
+  _: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const payload = {
+    fullName: text(formData, 'fullName'),
+    email: text(formData, 'email'),
+    ...(text(formData, 'password') ? { password: text(formData, 'password') } : {}),
+  }
+  try {
+    if (administratorId) await api.updateAdministrator(administratorId, payload)
+    else await api.createAdministrator(payload)
+  } catch (error) {
+    return toFormState(error, { fullName: payload.fullName, email: payload.email })
+  }
+  revalidatePath('/admin', 'layout')
+  redirect('/admin/administradores')
+}
+
+export async function setAdministratorStatus(id: number, isActive: boolean) {
+  try {
+    await api.setAdministratorStatus(id, isActive)
+  } catch (error) {
+    if (error instanceof ApiValidationError) return { error: error.message }
+    throw error
+  }
+  refresh()
+  return {}
+}
+
+export async function removeAdministrator(id: number) {
+  try {
+    await api.deleteAdministrator(id)
+  } catch (error) {
+    if (error instanceof ApiValidationError) return { error: error.message }
+    throw error
+  }
+  refresh()
+  return {}
+}
+
 /* ---------- Eventos ---------- */
 
 export async function saveEvent(

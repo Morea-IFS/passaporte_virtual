@@ -202,6 +202,149 @@ export interface Registry {
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['show']>>>
     }
   }
+  'admin.administrators.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/administrators'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/administrator').administratorFiltersValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['index']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['index']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.administrators.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/administrators'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/administrator').createAdministratorValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/administrator').createAdministratorValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.administrators.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/administrators/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['show']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['show']>>>
+    }
+  }
+  'admin.administrators.update': {
+    methods: ["PUT","PATCH"]
+    pattern: '/api/v1/admin/administrators/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/administrator').updateAdministratorValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/administrator').updateAdministratorValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.administrators.destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/v1/admin/administrators/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['destroy']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['destroy']>>>
+    }
+  }
+  'admin.administrators.status': {
+    methods: ["PATCH"]
+    pattern: '/api/v1/admin/administrators/:id/status'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/administrator').administratorStatusValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/administrator').administratorStatusValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['updateStatus']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['updateStatus']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/administrators_controller').default['updateStatus']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.audit.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/audit-logs'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/audit').auditFiltersValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/audit_logs_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/audit_logs_controller').default['index']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/audit_logs_controller').default['index']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.audit.options': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/audit-logs/options'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/audit_logs_controller').default['options']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/audit_logs_controller').default['options']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/audit_logs_controller').default['options']>>>
+    }
+  }
+  'admin.audit.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/audit-logs/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/audit_logs_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/audit_logs_controller').default['show']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/audit_logs_controller').default['show']>>>
+    }
+  }
+  'admin.participants.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/participants'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/audit').participantFiltersValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/participants_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/participants_controller').default['index']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/participants_controller').default['index']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.participants.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/participants/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/participants_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/participants_controller').default['show']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/participants_controller').default['show']>>>
+    }
+  }
   'admin.events.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/admin/events'

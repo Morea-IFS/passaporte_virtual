@@ -89,10 +89,10 @@ Status: ⬜ = pendente, ✅ = concluído.
 
 | ID   | Requisito                                                                                                                                                                                                                 | Prio | Status |
 | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ------ |
-| RF28 | O administrador deve poder listar, cadastrar, editar, ativar, desativar e remover outros administradores.                                                                                                                 | M    | ⬜     |
-| RF29 | O sistema deve registrar as ações administrativas, identificando autor, ação, recurso afetado, data e detalhes relevantes, sem armazenar segredos como senhas, tokens ou códigos de recuperação.                          | M    | ⬜     |
-| RF30 | O administrador deve ter uma tela de auditoria com pesquisa, filtros e visualização dos detalhes de cada ação registrada.                                                                                                 | S    | ⬜     |
-| RF31 | O administrador deve ter uma tela consolidada de participantes, exibindo apelido (username), eventos, quantidade de check-ins, progresso, última atividade e checkpoints visitados, com recursos de pesquisa e filtragem. | S    | ⬜     |
+| RF28 | O administrador deve poder listar, cadastrar, editar, ativar, desativar e remover outros administradores.                                                                                                                 | M    | ✅     |
+| RF29 | O sistema deve registrar as ações administrativas, identificando autor, ação, recurso afetado, data e detalhes relevantes, sem armazenar segredos como senhas, tokens ou códigos de recuperação.                          | M    | ✅     |
+| RF30 | O administrador deve ter uma tela de auditoria com pesquisa, filtros e visualização dos detalhes de cada ação registrada.                                                                                                 | S    | ✅     |
+| RF31 | O administrador deve ter uma tela consolidada de participantes, exibindo apelido (username), eventos, quantidade de check-ins, progresso, última atividade e checkpoints visitados, com recursos de pesquisa e filtragem. | S    | ✅     |
 
 ## 5. Requisitos não funcionais
 

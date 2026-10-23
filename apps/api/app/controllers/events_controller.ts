@@ -10,6 +10,7 @@ import { createEventValidator, updateEventValidator } from '#validators/event'
 import { PER_PAGE, pageValidator } from '#validators/pagination'
 import type { HttpContext } from '@adonisjs/core/http'
 import type { ModelQueryBuilderContract } from '@adonisjs/lucid/types/model'
+import { audit } from '#services/audit'
 
 function withCounts(query: ModelQueryBuilderContract<typeof Event>) {
   return query
@@ -52,13 +53,30 @@ export default class EventsController {
     return serialize(EventTransformer.transform(event))
   }
 
-  async store({ request, response, serialize }: HttpContext) {
+  async store({ auth, request, response, serialize }: HttpContext) {
+    const actor = auth.getUserOrFail()
     const payload = await request.validateUsing(createEventValidator)
     assertStartNotInPast(payload.startsOn)
     const event = await db.transaction(async (trx) => {
       const slug = await Event.uniqueSlug(payload.name, trx)
       const created = await Event.create({ ...payload, slug }, { client: trx })
       await CheckpointCategory.createDefaults(created.id, trx)
+      await audit(
+        actor,
+        {
+          action: 'create',
+          resourceType: 'event',
+          resourceId: created.id,
+          resourceName: created.name,
+          eventId: created.id,
+          details: {
+            startsOn: created.startsOn.toISODate(),
+            endsOn: created.endsOn.toISODate(),
+            location: created.location,
+          },
+        },
+        trx
+      )
       return created
     })
 
@@ -66,23 +84,63 @@ export default class EventsController {
     return serialize(EventTransformer.transform(event))
   }
 
-  async update({ params, request, serialize }: HttpContext) {
-    const event = await Event.findOrFail(params.id)
+  async update({ auth, params, request, serialize }: HttpContext) {
     const payload = await request.validateUsing(updateEventValidator)
-    assertStartNotInPast(payload.startsOn, event.startsOn)
+    const actor = auth.getUserOrFail()
+    const eventId = Number(params.id)
+    await db.transaction(async (trx) => {
+      const event = await Event.query({ client: trx })
+        .where('id', eventId)
+        .forUpdate()
+        .firstOrFail()
+      assertStartNotInPast(payload.startsOn, event.startsOn)
+      event.merge(payload)
+      await event.save()
+      await audit(
+        actor,
+        {
+          action: 'update',
+          resourceType: 'event',
+          resourceId: event.id,
+          resourceName: event.name,
+          eventId: event.id,
+          details: {
+            startsOn: event.startsOn.toISODate(),
+            endsOn: event.endsOn.toISODate(),
+            location: event.location,
+          },
+        },
+        trx
+      )
+    })
 
-    await event.merge(payload).save()
-
-    const updated = await withCounts(Event.query()).where('id', event.id).firstOrFail()
+    const updated = await withCounts(Event.query()).where('id', eventId).firstOrFail()
     return serialize(EventTransformer.transform(updated))
   }
 
   /**
    * Exclusão lógica do evento e dos pontos dele (imagens ficam no storage).
    */
-  async destroy({ params, response }: HttpContext) {
-    const event = await Event.findOrFail(params.id)
-    await event.softDelete()
+  async destroy({ auth, params, response }: HttpContext) {
+    const actor = auth.getUserOrFail()
+    await db.transaction(async (trx) => {
+      const event = await Event.query({ client: trx })
+        .where('id', params.id)
+        .forUpdate()
+        .firstOrFail()
+      await event.softDelete(trx)
+      await audit(
+        actor,
+        {
+          action: 'delete',
+          resourceType: 'event',
+          resourceId: event.id,
+          resourceName: event.name,
+          eventId: event.id,
+        },
+        trx
+      )
+    })
 
     return response.noContent()
   }

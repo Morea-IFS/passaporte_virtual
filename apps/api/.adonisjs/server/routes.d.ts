@@ -19,6 +19,17 @@ export type ScannedRoutes = {
     'visitor.checkins.store': { paramsTuple?: []; params?: {} }
     'visitor.passports.index': { paramsTuple?: []; params?: {} }
     'visitor.passports.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
+    'admin.administrators.index': { paramsTuple?: []; params?: {} }
+    'admin.administrators.store': { paramsTuple?: []; params?: {} }
+    'admin.administrators.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.administrators.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.administrators.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.administrators.status': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.audit.index': { paramsTuple?: []; params?: {} }
+    'admin.audit.options': { paramsTuple?: []; params?: {} }
+    'admin.audit.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.participants.index': { paramsTuple?: []; params?: {} }
+    'admin.participants.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.events.index': { paramsTuple?: []; params?: {} }
     'admin.events.store': { paramsTuple?: []; params?: {} }
     'admin.events.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -47,6 +58,13 @@ export type ScannedRoutes = {
     'visitor.me': { paramsTuple?: []; params?: {} }
     'visitor.passports.index': { paramsTuple?: []; params?: {} }
     'visitor.passports.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
+    'admin.administrators.index': { paramsTuple?: []; params?: {} }
+    'admin.administrators.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.audit.index': { paramsTuple?: []; params?: {} }
+    'admin.audit.options': { paramsTuple?: []; params?: {} }
+    'admin.audit.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.participants.index': { paramsTuple?: []; params?: {} }
+    'admin.participants.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.events.index': { paramsTuple?: []; params?: {} }
     'admin.events.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.events.checkpoints.index': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }
@@ -64,6 +82,13 @@ export type ScannedRoutes = {
     'visitor.me': { paramsTuple?: []; params?: {} }
     'visitor.passports.index': { paramsTuple?: []; params?: {} }
     'visitor.passports.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
+    'admin.administrators.index': { paramsTuple?: []; params?: {} }
+    'admin.administrators.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.audit.index': { paramsTuple?: []; params?: {} }
+    'admin.audit.options': { paramsTuple?: []; params?: {} }
+    'admin.audit.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.participants.index': { paramsTuple?: []; params?: {} }
+    'admin.participants.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.events.index': { paramsTuple?: []; params?: {} }
     'admin.events.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.events.checkpoints.index': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }
@@ -78,21 +103,26 @@ export type ScannedRoutes = {
     'visitor.recover': { paramsTuple?: []; params?: {} }
     'visitor.logout': { paramsTuple?: []; params?: {} }
     'visitor.checkins.store': { paramsTuple?: []; params?: {} }
+    'admin.administrators.store': { paramsTuple?: []; params?: {} }
     'admin.events.store': { paramsTuple?: []; params?: {} }
     'admin.events.checkpoints.store': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }
     'admin.events.checkpoints.import': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }
     'admin.events.categories.store': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }
   }
   PUT: {
+    'admin.administrators.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.events.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.categories.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.checkpoints.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PATCH: {
+    'admin.administrators.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.administrators.status': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.events.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.checkpoints.status': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   DELETE: {
+    'admin.administrators.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.events.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.categories.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.checkpoints.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

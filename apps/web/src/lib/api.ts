@@ -14,6 +14,10 @@ import type {
   PublicEvent,
   CheckinResult,
   VisitorAccount,
+  Administrator,
+  AuditLog,
+  AuditOptions,
+  Participant,
 } from '@/lib/types'
 
 /**
@@ -131,6 +135,30 @@ export const api = {
     }),
   logout: () => request<void>('/account/logout', { method: 'POST' }),
   profile: () => request<Organizer>('/account/profile'),
+
+  administrators: (filters: Record<string, string | number | undefined> = {}) =>
+    requestPage<Administrator>(hrefWith('/admin/administrators', filters)),
+  administrator: (id: number) => request<Administrator>(`/admin/administrators/${id}`),
+  createAdministrator: (payload: unknown) =>
+    request<Administrator>('/admin/administrators', { method: 'POST', json: payload }),
+  updateAdministrator: (id: number, payload: unknown) =>
+    request<Administrator>(`/admin/administrators/${id}`, { method: 'PUT', json: payload }),
+  setAdministratorStatus: (id: number, isActive: boolean) =>
+    request<Administrator>(`/admin/administrators/${id}/status`, {
+      method: 'PATCH',
+      json: { isActive },
+    }),
+  deleteAdministrator: (id: number) =>
+    request<void>(`/admin/administrators/${id}`, { method: 'DELETE' }),
+
+  auditLogs: (filters: Record<string, string | number | undefined> = {}) =>
+    requestPage<AuditLog>(hrefWith('/admin/audit-logs', filters)),
+  auditLog: (id: number) => request<AuditLog>(`/admin/audit-logs/${id}`),
+  auditOptions: () => request<AuditOptions>('/admin/audit-logs/options'),
+
+  participants: (filters: Record<string, string | number | undefined> = {}) =>
+    requestPage<Participant>(hrefWith('/admin/participants', filters)),
+  participant: (id: number) => request<Participant>(`/admin/participants/${id}`),
 
   events: (page = 1) => requestPage<PassportEvent>(hrefWith('/admin/events', { page })),
   event: (id: number) => request<PassportEvent>(`/admin/events/${id}`),

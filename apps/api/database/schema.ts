@@ -7,6 +7,33 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
+export class AuditLogSchema extends BaseModel {
+  static $columns = ['action', 'actorEmail', 'actorName', 'actorUserId', 'createdAt', 'details', 'eventId', 'id', 'resourceId', 'resourceName', 'resourceType'] as const
+  $columns = AuditLogSchema.$columns
+  @column()
+  declare action: string
+  @column()
+  declare actorEmail: string
+  @column()
+  declare actorName: string | null
+  @column()
+  declare actorUserId: number | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare details: any
+  @column()
+  declare eventId: number | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare resourceId: string | null
+  @column()
+  declare resourceName: string | null
+  @column()
+  declare resourceType: string
+}
+
 export class AuthAccessTokenSchema extends BaseModel {
   static $columns = ['abilities', 'createdAt', 'expiresAt', 'hash', 'id', 'lastUsedAt', 'name', 'tokenableId', 'type', 'updatedAt'] as const
   $columns = AuthAccessTokenSchema.$columns
@@ -133,16 +160,20 @@ export class EventSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
+  static $columns = ['createdAt', 'deletedAt', 'email', 'fullName', 'id', 'isActive', 'password', 'updatedAt'] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
   @column()
   declare email: string
   @column()
   declare fullName: string | null
   @column({ isPrimary: true })
   declare id: number
+  @column()
+  declare isActive: boolean
   @column({ serializeAs: null })
   declare password: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })

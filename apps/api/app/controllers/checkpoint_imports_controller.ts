@@ -8,6 +8,7 @@ import { parse } from 'csv-parse/sync'
 import { readFile } from 'node:fs/promises'
 import * as XLSX from 'xlsx'
 import type { HttpContext } from '@adonisjs/core/http'
+import { audit } from '#services/audit'
 
 const MAX_ROWS = 500
 
@@ -52,7 +53,7 @@ export default class CheckpointImportsController {
    * Tudo ou nada: se alguma linha tiver erro, nenhuma é salva.
    * Com dryRun=true, só valida e devolve a prévia.
    */
-  async store({ params, request, serialize }: HttpContext) {
+  async store({ auth, params, request, serialize }: HttpContext) {
     const event = await Event.findOrFail(params.eventId)
     const { file, dryRun } = await request.validateUsing(importCheckpointsValidator)
 
@@ -84,6 +85,17 @@ export default class CheckpointImportsController {
           isActive: true,
         })),
         { client: trx }
+      )
+      await audit(
+        auth.getUserOrFail(),
+        {
+          action: 'import',
+          resourceType: 'checkpoint',
+          resourceName: event.name,
+          eventId: event.id,
+          details: { created: rows.length },
+        },
+        trx
       )
     })
 
