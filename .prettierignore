@@ -1,0 +1,9 @@
+node_modules
+pnpm-lock.yaml
+.turbo
+**/.next
+**/build
+**/.adonisjs
+**/tmp
+**/next-env.d.ts
+apps/api/database/schema.ts
