@@ -40,6 +40,17 @@ export type Checkpoint = {
   imageUrl: string | null
   logoUrl: string | null
   isActive: boolean
+  /** Link do QR code */
+  checkinUrl: string
+}
+
+/** Ponto como aparece na página pública aberta pelo QR code */
+export type PublicCheckpoint = Pick<
+  Checkpoint,
+  'name' | 'code' | 'summary' | 'location' | 'imageUrl' | 'logoUrl' | 'isActive'
+> & {
+  category: Pick<CheckpointCategory, 'name' | 'color'>
+  event: Pick<PassportEvent, 'name' | 'slug' | 'hashtag' | 'startsOn' | 'endsOn' | 'location'>
 }
 
 export type ImportPreview = {

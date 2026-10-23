@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { deleteCheckpoint } from '@/app/admin/actions'
 import { CheckpointForm } from '@/components/admin/checkpoint-form'
+import { CheckpointQrPanel } from '@/components/admin/checkpoint-qr-panel'
 import { DangerZone } from '@/components/admin/danger-zone'
 import { Notice } from '@/components/ui/feedback'
 import { PageHeader } from '@/components/admin/page-header'
@@ -30,6 +31,8 @@ export default async function EditCheckpointPage({
       {checkpoint.isActive ? null : (
         <Notice tone="neutral">Este ponto está desativado: não aceita novos carimbos.</Notice>
       )}
+
+      <CheckpointQrPanel checkpoint={checkpoint} />
 
       <CheckpointForm eventId={event.id} categories={categories} checkpoint={checkpoint} />
 

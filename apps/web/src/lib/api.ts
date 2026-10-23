@@ -9,6 +9,7 @@ import type {
   Organizer,
   Page,
   PassportEvent,
+  PublicCheckpoint,
 } from '@/lib/types'
 
 /**
@@ -37,7 +38,8 @@ type RequestOptions = {
   anonymous?: boolean
 }
 
-async function send(path: string, options: RequestOptions = {}): Promise<unknown> {
+/** Faz a chamada e trata 401/404/validação; devolve a resposta crua */
+async function call(path: string, options: RequestOptions = {}): Promise<Response> {
   const headers: Record<string, string> = { Accept: 'application/json' }
 
   if (!options.anonymous) {
@@ -81,6 +83,11 @@ async function send(path: string, options: RequestOptions = {}): Promise<unknown
     throw new Error(`API respondeu ${response.status} em ${path}`)
   }
 
+  return response
+}
+
+async function send(path: string, options: RequestOptions = {}): Promise<unknown> {
+  const response = await call(path, options)
   if (response.status === 204) return undefined
   return response.json()
 }
@@ -139,6 +146,14 @@ export const api = {
     request<Checkpoint>(`/admin/events/${eventId}/checkpoints`, { method: 'POST', form }),
   updateCheckpoint: (id: number, form: FormData) =>
     request<Checkpoint>(`/admin/checkpoints/${id}`, { method: 'PUT', form }),
+  /** PDF dos QR codes (resposta crua, para repassar ao navegador) */
+  qrCodesPdf: (eventId: number, params: Record<string, string | undefined>) =>
+    call(hrefWith(`/admin/events/${eventId}/qrcodes`, params)),
+  publicCheckpoint: (token: string) =>
+    request<PublicCheckpoint>(`/public/checkpoints/${encodeURIComponent(token)}`, {
+      anonymous: true,
+    }),
+
   setCheckpointStatus: (id: number, isActive: boolean) =>
     request<Checkpoint>(`/admin/checkpoints/${id}/status`, {
       method: 'PATCH',

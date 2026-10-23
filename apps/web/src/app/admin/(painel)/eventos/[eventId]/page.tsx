@@ -8,6 +8,7 @@ import { PageHeader } from '@/components/admin/page-header'
 import { Pagination } from '@/components/admin/pagination'
 import { buttonClass } from '@/components/ui/button'
 import { EmptyState, Notice } from '@/components/ui/feedback'
+import { QrIcon } from '@/components/ui/icons'
 import { api } from '@/lib/api'
 import { formatEventPeriod, pluralize } from '@/lib/format'
 import { parseId, parsePage } from '@/lib/params'
@@ -94,6 +95,10 @@ export default async function EventPage({
             </Link>
             <Link href={`${listPath}/importar`} className={buttonClass('ghost')}>
               Importar planilha
+            </Link>
+            <Link href={`${listPath}/qrcodes`} className={buttonClass('ghost')}>
+              <QrIcon className="size-4" />
+              QR codes
             </Link>
           </div>
         </div>
