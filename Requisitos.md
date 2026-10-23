@@ -85,6 +85,15 @@ Status: ⬜ = pendente, ✅ = concluído.
 | RF26 | A aplicação deve oferecer um botão "Avaliar o evento" que leva a um sistema externo de avaliação (ex.: formulário online). Avaliação do evento como um todo, não por estande. | S    | ⬜     |
 | RF27 | Alternativa: avaliação integrada simples (ex.: 1 a 5 estrelas), armazenada pela aplicação. **[A CONFIRMAR] com Luan qual formato é exigido pelos financiadores**              | C    | ⬜     |
 
+### 4.7 Administração, auditoria e participantes
+
+| ID   | Requisito                                                                                                                                                                                                                 | Prio | Status |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ------ |
+| RF28 | O administrador deve poder listar, cadastrar, editar, ativar, desativar e remover outros administradores.                                                                                                                 | M    | ⬜     |
+| RF29 | O sistema deve registrar as ações administrativas, identificando autor, ação, recurso afetado, data e detalhes relevantes, sem armazenar segredos como senhas, tokens ou códigos de recuperação.                          | M    | ⬜     |
+| RF30 | O administrador deve ter uma tela de auditoria com pesquisa, filtros e visualização dos detalhes de cada ação registrada.                                                                                                 | S    | ⬜     |
+| RF31 | O administrador deve ter uma tela consolidada de participantes, exibindo apelido (username), eventos, quantidade de check-ins, progresso, última atividade e checkpoints visitados, com recursos de pesquisa e filtragem. | S    | ⬜     |
+
 ## 5. Requisitos não funcionais
 
 | ID    | Requisito                                                                                                                                                            | Status |
@@ -100,12 +109,16 @@ Status: ⬜ = pendente, ✅ = concluído.
 
 ## 6. Regras de negócio
 
-| ID   | Regra                                                                                      |
-| ---- | ------------------------------------------------------------------------------------------ |
-| RN01 | Um visitante tem no máximo um check-in por checkpoint.                                     |
-| RN02 | Um checkpoint pertence a exatamente um evento.                                             |
-| RN03 | Apelidos são únicos no sistema todo (sem diferenciar maiúsculas).                          |
-| RN04 | Checkpoints desativados não aceitam novos check-ins, mas os check-ins já feitos continuam. |
+| ID   | Regra                                                                                                                                             |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| RN01 | Um visitante tem no máximo um check-in por checkpoint.                                                                                            |
+| RN02 | Um checkpoint pertence a exatamente um evento.                                                                                                    |
+| RN03 | Apelidos são únicos no sistema todo (sem diferenciar maiúsculas).                                                                                 |
+| RN04 | Checkpoints desativados não aceitam novos check-ins, mas os check-ins já feitos continuam.                                                        |
+| RN05 | Somente administradores autorizados podem gerenciar outros administradores, consultar a auditoria e acessar a visão consolidada de participantes. |
+| RN06 | O sistema não permite desativar ou remover o último administrador ativo.                                                                          |
+| RN07 | Os registros de auditoria não podem ser editados nem removidos pela interface administrativa.                                                     |
+| RN08 | As funcionalidades administrativas e de auditoria não ampliam a coleta de dados pessoais dos visitantes.                                          |
 
 ## 7. Questões em aberto
 
