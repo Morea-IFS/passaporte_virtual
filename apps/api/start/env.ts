@@ -35,6 +35,9 @@ export default await Env.create(new URL('../', import.meta.url), {
   // CORS
   CORS_ORIGIN: Env.schema.string.optional(),
 
+  // Endereço público do site (links dos QR codes)
+  PUBLIC_WEB_URL: Env.schema.string({ format: 'url', tld: false }),
+
   // Drive (uploads)
   DRIVE_DISK: Env.schema.enum(['fs'] as const),
 })
