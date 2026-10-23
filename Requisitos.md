@@ -18,11 +18,10 @@ A solução complementa um passaporte físico, impresso, e serve também como vi
 
 ## 3. Atores
 
-| Ator                        | Descrição                                                                                              |
-| --------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Visitante (participante)    | Pessoa que circula pelo evento, escaneia QR codes e acompanha o próprio passaporte                     |
-| Organizador (administrador) | Equipe do evento: cadastra eventos e checkpoints, gera e imprime QR codes                              |
-| Responsável por atividade   | Ministrante de oficina ou apresentador; pode liberar o QR code ao final da atividade **[A CONFIRMAR]** |
+| Ator                        | Descrição                                                                          |
+| --------------------------- | ---------------------------------------------------------------------------------- |
+| Visitante (participante)    | Pessoa que circula pelo evento, escaneia QR codes e acompanha o próprio passaporte |
+| Organizador (administrador) | Equipe do evento: cadastra eventos e checkpoints, gera e imprime QR codes          |
 
 ## 4. Requisitos funcionais
 
@@ -32,14 +31,14 @@ Status: ⬜ = pendente, ✅ = concluído.
 
 ### 4.1 Gestão de eventos e checkpoints (organizador)
 
-| ID   | Requisito                                                                                                                                                                         | Prio | Status |
-| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ------ |
-| RF01 | O organizador deve poder cadastrar eventos (nome, datas, local, hashtag oficial, descrição).                                                                                      | M    | ✅     |
-| RF02 | O organizador deve poder cadastrar checkpoints em um evento, com nome, resumo breve, imagem e logomarca ou símbolo do projeto.                                                    | M    | ✅     |
-| RF03 | O organizador deve poder classificar cada checkpoint por categoria (ex.: estande de pesquisa, banner, oficina, curso, apresentação, cultural). **[A CONFIRMAR] quais categorias** | S    | ✅     |
-| RF04 | O organizador deve poder importar checkpoints em lote a partir de uma lista (ex.: planilha de projetos pré-cadastrados enviada pela Propex).                                      | S    | ✅     |
-| RF05 | O organizador deve poder editar, desativar e remover checkpoints.                                                                                                                 | M    | ✅     |
-| RF06 | O sistema deve manter os eventos separados: checkpoints e passaportes de um evento não se misturam com os de outro.                                                               | M    | ✅     |
+| ID   | Requisito                                                                                                                                                             | Prio | Status |
+| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ------ |
+| RF01 | O organizador deve poder cadastrar eventos (nome, datas, local, hashtag oficial, descrição).                                                                          | M    | ✅     |
+| RF02 | O organizador deve poder cadastrar checkpoints em um evento, com nome, resumo breve, imagem e logomarca ou símbolo do projeto.                                        | M    | ✅     |
+| RF03 | O organizador deve poder classificar cada checkpoint por categoria, com as categorias cadastradas por evento (ex.: pesquisa, oficina, apresentação, cultural, curso). | S    | ✅     |
+| RF04 | O organizador deve poder importar checkpoints em lote a partir de uma lista (ex.: planilha de projetos pré-cadastrados enviada pela Propex).                          | S    | ✅     |
+| RF05 | O organizador deve poder editar, desativar e remover checkpoints.                                                                                                     | M    | ✅     |
+| RF06 | O sistema deve manter os eventos separados: checkpoints e passaportes de um evento não se misturam com os de outro.                                                   | M    | ✅     |
 
 ### 4.2 QR codes
 
@@ -53,22 +52,22 @@ Status: ⬜ = pendente, ✅ = concluído.
 
 | ID   | Requisito                                                                                                                    | Prio | Status |
 | ---- | ---------------------------------------------------------------------------------------------------------------------------- | ---- | ------ |
-| RF11 | Ao escanear um QR code, o visitante deve ser levado à página do checkpoint e o check-in deve ser registrado automaticamente. | M    | ⬜     |
-| RF12 | A página do checkpoint deve exibir nome, imagem, logomarca e resumo do projeto ou atividade.                                 | M    | ⬜     |
-| RF13 | O visitante deve ver seu passaporte: checkpoints já visitados e checkpoints que ainda faltam.                                | M    | ⬜     |
-| RF14 | O visitante deve ver a lista completa de checkpoints do evento, filtrável por categoria.                                     | S    | ⬜     |
-| RF15 | Escanear o mesmo QR mais de uma vez não deve gerar check-in duplicado.                                                       | M    | ⬜     |
-| RF16 | O passaporte deve exibir o progresso do visitante (ex.: 7 de 20 visitados).                                                  | S    | ⬜     |
+| RF11 | Ao escanear um QR code, o visitante deve ser levado à página do checkpoint e o check-in deve ser registrado automaticamente. | M    | ✅     |
+| RF12 | A página do checkpoint deve exibir nome, imagem, logomarca e resumo do projeto ou atividade.                                 | M    | ✅     |
+| RF13 | O visitante deve ver seu passaporte: checkpoints já visitados e checkpoints que ainda faltam.                                | M    | ✅     |
+| RF14 | O visitante deve ver a lista completa de checkpoints do evento, filtrável por categoria.                                     | S    | ✅     |
+| RF15 | Escanear o mesmo QR mais de uma vez não deve gerar check-in duplicado.                                                       | M    | ✅     |
+| RF16 | O passaporte deve exibir o progresso do visitante (ex.: 7 de 20 visitados).                                                  | S    | ✅     |
 | RF17 | O sistema pode exibir um ranking ou contagem ao final do evento com base nos apelidos dos visitantes.                        | C    | ⬜     |
 
 ### 4.4 Identificação do participante
 
 | ID   | Requisito                                                                                                                                                                                                             | Prio | Status |
 | ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ------ |
-| RF18 | O acesso não deve exigir cadastro com e-mail e senha.                                                                                                                                                                 | M    | ⬜     |
-| RF19 | O visitante deve ser identificado de forma simples. Opções discutidas: apelido único (validado só quanto a repetição), e-mail, ou token gerado e guardado no dispositivo. **[A CONFIRMAR] durante o desenvolvimento** | M    | ⬜     |
-| RF20 | O passaporte deve persistir entre acessos no mesmo dispositivo sem novo login (ex.: token salvo em cookie ou localStorage).                                                                                           | M    | ⬜     |
-| RF21 | O visitante deve poder recuperar o passaporte em outro dispositivo ou após limpar os dados do navegador (ex.: via apelido + código, ou e-mail). **[A CONFIRMAR]**                                                     | C    | ⬜     |
+| RF18 | O acesso não deve exigir cadastro com e-mail e senha.                                                                                                                                                                 | M    | ✅     |
+| RF19 | O visitante é identificado por um apelido único global (vale para todos os eventos), escolhido no primeiro QR code lido; o sistema gera um token secreto guardado no dispositivo. Nenhum outro dado pessoal é pedido. | M    | ✅     |
+| RF20 | O passaporte persiste entre acessos no mesmo dispositivo sem novo login: o token fica num cookie protegido (httpOnly) de longa duração.                                                                               | M    | ✅     |
+| RF21 | O visitante pode recuperar o passaporte em outro dispositivo ou após limpar o navegador informando o apelido e o código de recuperação (ex.: K7Q2-MX9A), exibido no próprio passaporte.                               | C    | ✅     |
 
 ### 4.5 Redes sociais e cards compartilháveis
 
@@ -105,15 +104,14 @@ Status: ⬜ = pendente, ✅ = concluído.
 | ---- | ------------------------------------------------------------------------------------------ |
 | RN01 | Um visitante tem no máximo um check-in por checkpoint.                                     |
 | RN02 | Um checkpoint pertence a exatamente um evento.                                             |
-| RN03 | Apelidos, se adotados, são únicos dentro do evento.                                        |
+| RN03 | Apelidos são únicos no sistema todo (sem diferenciar maiúsculas).                          |
 | RN04 | Checkpoints desativados não aceitam novos check-ins, mas os check-ins já feitos continuam. |
 
 ## 7. Questões em aberto
 
 1. Quais tipos de atividade entram no passaporte: só estandes de pesquisa, ou também oficinas, cursos, banners, editais, culturais? Precisa de categorização? (Rubens)
-2. Mecanismo de identificação: apelido, e-mail ou token no dispositivo? (decidir no desenvolvimento)
-3. Histórico de visitas: banco de dados, só no dispositivo, ou os dois?
-4. Avaliação do evento: link externo ou avaliação integrada? Qual formato os financiadores exigem? (Rubens com Luan)
-5. Datas exatas dos eventos e inclusão do festival de curtas.
-6. Até quando a lista de projetos pré-cadastrados estará disponível? (Rubens)
-7. Integração com o WebEvents: importar dados de lá ou só usar a separação por evento?
+2. Histórico de visitas: banco de dados, só no dispositivo, ou os dois?
+3. Avaliação do evento: link externo ou avaliação integrada? Qual formato os financiadores exigem? (Rubens com Luan)
+4. Datas exatas dos eventos e inclusão do festival de curtas.
+5. Até quando a lista de projetos pré-cadastrados estará disponível? (Rubens)
+6. Integração com o WebEvents: importar dados de lá ou só usar a separação por evento?
