@@ -3,7 +3,8 @@ import Event from '#models/event'
 import User from '#models/user'
 import AuditLogTransformer from '#transformers/audit_log_transformer'
 import UserTransformer from '#transformers/user_transformer'
-import { auditFiltersValidator } from '#validators/audit'
+import { audit } from '#services/audit'
+import { auditFiltersValidator, auditTrackValidator } from '#validators/audit'
 import { PER_PAGE } from '#validators/pagination'
 import type { HttpContext } from '@adonisjs/core/http'
 
@@ -47,5 +48,16 @@ export default class AuditLogsController {
       administrators: UserTransformer.transform(administrators),
       events: events.map(({ id, name }) => ({ id, name })),
     })
+  }
+
+  /** Registra tela aberta ou arquivo baixado (o web avisa a cada navegação) */
+  async track({ auth, request, response }: HttpContext) {
+    const { action, path } = await auditTrackValidator.validate(request.all())
+    await audit(auth.getUserOrFail(), {
+      action,
+      resourceType: action === 'view' ? 'page' : 'file',
+      resourceName: path,
+    })
+    return response.noContent()
   }
 }

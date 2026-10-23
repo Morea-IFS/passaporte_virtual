@@ -306,6 +306,19 @@ export interface Registry {
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/audit_logs_controller').default['options']>>>
     }
   }
+  'admin.audit.track': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/audit-logs/track'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/audit').auditTrackValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/audit').auditTrackValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/audit_logs_controller').default['track']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/audit_logs_controller').default['track']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/audit_logs_controller').default['track']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.audit.show': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/admin/audit-logs/:id'
@@ -343,6 +356,19 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/participants_controller').default['show']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/participants_controller').default['show']>>>
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/participants_controller').default['show']>>>
+    }
+  }
+  'admin.participants.checkins': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/participants/:id/checkins'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/audit').participantFiltersValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/participants_controller').default['checkins']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/participants_controller').default['checkins']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/participants_controller').default['checkins']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'admin.events.index': {

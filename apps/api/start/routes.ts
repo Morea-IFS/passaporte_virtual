@@ -93,6 +93,7 @@ router
 
         router.get('audit-logs', [controllers.AuditLogs, 'index']).as('audit.index')
         router.get('audit-logs/options', [controllers.AuditLogs, 'options']).as('audit.options')
+        router.post('audit-logs/track', [controllers.AuditLogs, 'track']).as('audit.track')
         router.get('audit-logs/:id', [controllers.AuditLogs, 'show']).as('audit.show')
 
         router.get('participants', [controllers.Participants, 'index']).as('participants.index')

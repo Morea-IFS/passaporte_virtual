@@ -11,8 +11,20 @@ export type Organizer = {
 
 export type Administrator = Organizer
 
-export type AuditAction = 'create' | 'update' | 'activate' | 'deactivate' | 'delete' | 'import'
-export type AuditResource = 'administrator' | 'event' | 'checkpoint' | 'category'
+export type AuditAction =
+  | 'create'
+  | 'update'
+  | 'activate'
+  | 'deactivate'
+  | 'delete'
+  | 'import'
+  | 'login'
+  | 'login_failed'
+  | 'logout'
+  | 'view'
+  | 'download'
+export type AuditResource =
+  'administrator' | 'event' | 'checkpoint' | 'category' | 'session' | 'page' | 'file'
 export type AuditLog = {
   id: number
   actorUserId: number | null

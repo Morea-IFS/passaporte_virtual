@@ -1,6 +1,8 @@
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { logout } from '@/app/admin/actions'
+import { ActivityTracker } from '@/components/admin/activity-tracker'
 import { AdminNav } from '@/components/admin/admin-nav'
 import { BrandMark } from '@/components/brand-mark'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -32,6 +34,9 @@ export default function PainelLayout({ children }: LayoutProps<'/admin'>) {
         </div>
       </header>
       <AdminNav />
+      <Suspense fallback={null}>
+        <ActivityTracker />
+      </Suspense>
       <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 px-4 pt-6 pb-16">
         {children}
       </main>

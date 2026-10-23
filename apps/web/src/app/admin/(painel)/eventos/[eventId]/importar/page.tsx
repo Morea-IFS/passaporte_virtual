@@ -1,4 +1,5 @@
 import { PageHeader } from '@/components/admin/page-header'
+import { TrackedDownload } from '@/components/admin/activity-tracker'
 import { Panel } from '@/components/ui/card'
 import { api } from '@/lib/api'
 import { parseId } from '@/lib/params'
@@ -39,20 +40,8 @@ export default async function ImportPage({
           <li>Imagens e logomarcas são adicionadas depois, editando cada ponto.</li>
         </ul>
         <div className="flex flex-wrap gap-x-5">
-          <a
-            href="/modelo-pontos.xlsx"
-            download
-            className="inline-flex min-h-11 items-center font-display text-[14px] font-bold text-accent underline underline-offset-4"
-          >
-            Baixar modelo (.xlsx)
-          </a>
-          <a
-            href="/modelo-pontos.csv"
-            download
-            className="inline-flex min-h-11 items-center font-display text-[14px] font-bold text-accent underline underline-offset-4"
-          >
-            Baixar modelo (.csv)
-          </a>
+          <TrackedDownload href="/modelo-pontos.xlsx">Baixar modelo (.xlsx)</TrackedDownload>
+          <TrackedDownload href="/modelo-pontos.csv">Baixar modelo (.csv)</TrackedDownload>
         </div>
       </Panel>
 

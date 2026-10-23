@@ -55,11 +55,13 @@ export interface ApiDefinition {
     audit: {
       index: typeof routes['admin.audit.index']
       options: typeof routes['admin.audit.options']
+      track: typeof routes['admin.audit.track']
       show: typeof routes['admin.audit.show']
     }
     participants: {
       index: typeof routes['admin.participants.index']
       show: typeof routes['admin.participants.show']
+      checkins: typeof routes['admin.participants.checkins']
     }
     events: {
       index: typeof routes['admin.events.index']

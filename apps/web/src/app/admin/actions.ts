@@ -53,6 +53,11 @@ export async function login(_: FormState, formData: FormData): Promise<FormState
   redirect('/admin')
 }
 
+/** Auditoria de navegação: tela aberta ou arquivo baixado no painel */
+export async function trackActivity(action: 'view' | 'download', path: string) {
+  await api.trackActivity(action, path)
+}
+
 export async function logout() {
   try {
     await api.logout()

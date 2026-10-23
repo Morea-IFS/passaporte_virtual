@@ -156,6 +156,8 @@ export const api = {
     requestPage<AuditLog>(hrefWith('/admin/audit-logs', filters)),
   auditLog: (id: number) => request<AuditLog>(`/admin/audit-logs/${id}`),
   auditOptions: () => request<AuditOptions>('/admin/audit-logs/options'),
+  trackActivity: (action: 'view' | 'download', path: string) =>
+    send('/admin/audit-logs/track', { method: 'POST', json: { action, path } }),
 
   participants: (filters: Record<string, string | number | undefined> = {}) =>
     requestPage<Participant>(hrefWith('/admin/participants', filters)),

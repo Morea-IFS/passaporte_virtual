@@ -27,9 +27,11 @@ export type ScannedRoutes = {
     'admin.administrators.status': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.audit.index': { paramsTuple?: []; params?: {} }
     'admin.audit.options': { paramsTuple?: []; params?: {} }
+    'admin.audit.track': { paramsTuple?: []; params?: {} }
     'admin.audit.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.participants.index': { paramsTuple?: []; params?: {} }
     'admin.participants.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.participants.checkins': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.events.index': { paramsTuple?: []; params?: {} }
     'admin.events.store': { paramsTuple?: []; params?: {} }
     'admin.events.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -65,6 +67,7 @@ export type ScannedRoutes = {
     'admin.audit.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.participants.index': { paramsTuple?: []; params?: {} }
     'admin.participants.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.participants.checkins': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.events.index': { paramsTuple?: []; params?: {} }
     'admin.events.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.events.checkpoints.index': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }
@@ -89,6 +92,7 @@ export type ScannedRoutes = {
     'admin.audit.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.participants.index': { paramsTuple?: []; params?: {} }
     'admin.participants.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.participants.checkins': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.events.index': { paramsTuple?: []; params?: {} }
     'admin.events.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.events.checkpoints.index': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }
@@ -104,6 +108,7 @@ export type ScannedRoutes = {
     'visitor.logout': { paramsTuple?: []; params?: {} }
     'visitor.checkins.store': { paramsTuple?: []; params?: {} }
     'admin.administrators.store': { paramsTuple?: []; params?: {} }
+    'admin.audit.track': { paramsTuple?: []; params?: {} }
     'admin.events.store': { paramsTuple?: []; params?: {} }
     'admin.events.checkpoints.store': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }
     'admin.events.checkpoints.import': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }

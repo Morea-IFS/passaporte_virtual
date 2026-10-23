@@ -1,3 +1,4 @@
+import AuditLog from '#models/audit_log'
 import Checkin from '#models/checkin'
 import Checkpoint from '#models/checkpoint'
 import CheckpointCategory from '#models/checkpoint_category'
@@ -153,5 +154,45 @@ test.group('Administração, auditoria e participantes', (group) => {
       data: [{ code: 'CP-001', name: 'Visitado', eventName: event.name }],
       metadata: { perPage: 20, total: 1 },
     })
+  })
+
+  test('audita login, login recusado, telas abertas e logout', async ({ client, assert }) => {
+    const { user } = await admin()
+    const actions = async () => {
+      const logs = await AuditLog.query().where('actor_email', user.email).orderBy('id', 'asc')
+      return logs.map((log) => `${log.action}:${log.resourceType}:${log.resourceName ?? ''}`)
+    }
+
+    const failed = await client
+      .post('/api/v1/auth/login')
+      .json({ email: user.email, password: 'senha-errada' })
+    failed.assertStatus(400)
+
+    const login = await client
+      .post('/api/v1/auth/login')
+      .json({ email: user.email, password: 'senha-segura' })
+    login.assertStatus(200)
+    const authorization = `Bearer ${login.body().data.token}`
+
+    const view = await client
+      .post('/api/v1/admin/audit-logs/track')
+      .header('Authorization', authorization)
+      .json({ action: 'view', path: '/admin/participantes?pagina=2' })
+    view.assertStatus(204)
+
+    const logout = await client
+      .post('/api/v1/account/logout')
+      .header('Authorization', authorization)
+    logout.assertStatus(200)
+
+    assert.deepEqual(await actions(), [
+      'login_failed:session:',
+      'login:session:',
+      'view:page:/admin/participantes?pagina=2',
+      'logout:session:',
+    ])
+    const logs = await AuditLog.query().where('actor_email', user.email)
+    assert.notInclude(JSON.stringify(logs), 'senha-segura')
+    assert.notInclude(JSON.stringify(logs), 'senha-errada')
   })
 })

@@ -7,6 +7,11 @@ export const AUDIT_ACTIONS: Record<AuditAction, string> = {
   deactivate: 'Desativação',
   delete: 'Remoção',
   import: 'Importação',
+  login: 'Entrada no painel',
+  login_failed: 'Login recusado',
+  logout: 'Saída do painel',
+  view: 'Tela aberta',
+  download: 'Download',
 }
 
 export const AUDIT_RESOURCES: Record<AuditResource, string> = {
@@ -14,6 +19,9 @@ export const AUDIT_RESOURCES: Record<AuditResource, string> = {
   event: 'Evento',
   checkpoint: 'Ponto',
   category: 'Categoria',
+  session: 'Sessão',
+  page: 'Tela',
+  file: 'Arquivo',
 }
 
 /** Opções dos filtros (SelectField) */

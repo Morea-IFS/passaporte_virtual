@@ -144,6 +144,12 @@ const routes = {
     tokens: [[0,"api"],[0,"v1"],[0,"admin"],[0,"audit-logs"],[0,"options"]],
     types: placeholder as Registry['admin.audit.options']['types'],
   },
+  'admin.audit.track': {
+    methods: ["POST"],
+    pattern: '/api/v1/admin/audit-logs/track',
+    tokens: [[0,"api"],[0,"v1"],[0,"admin"],[0,"audit-logs"],[0,"track"]],
+    types: placeholder as Registry['admin.audit.track']['types'],
+  },
   'admin.audit.show': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/admin/audit-logs/:id',
@@ -161,6 +167,12 @@ const routes = {
     pattern: '/api/v1/admin/participants/:id',
     tokens: [[0,"api"],[0,"v1"],[0,"admin"],[0,"participants"],[1,"id"]],
     types: placeholder as Registry['admin.participants.show']['types'],
+  },
+  'admin.participants.checkins': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/admin/participants/:id/checkins',
+    tokens: [[0,"api"],[0,"v1"],[0,"admin"],[0,"participants"],[1,"id"],[0,"checkins"]],
+    types: placeholder as Registry['admin.participants.checkins']['types'],
   },
   'admin.events.index': {
     methods: ["GET","HEAD"],
