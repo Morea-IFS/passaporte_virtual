@@ -1,0 +1,1714 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Passaporte Ciência Delas</title>
+    <meta name="claude:viewport-fit-sides" content="cover" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800;900&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&family=Space+Mono:wght@400;700&display=swap"
+    />
+    <style>
+      /* Layout: guia de marca em coluna única (mobile first), telas de exemplo em molduras de celular que se alinham lado a lado em telas largas */
+      :root {
+        /* Cores da marca (iguais nos dois temas) */
+        --violeta: #3b2492;
+        --violeta-noite: #1d1147;
+        --amarelo: #f6c21c;
+        --verde: #2e9e4f;
+        --magenta: #d9327e;
+        --laranja: #f28322;
+        --azul: #2563c9;
+        --turquesa: #169c93;
+        --creme: #f7f2e9;
+
+        /* Tokens de interface (tema claro) */
+        --bg: #f7f2e9;
+        --surface: #fffdf8;
+        --surface-2: #efe8da;
+        --fg: #22164d;
+        --muted: #5f5480;
+        --line: #e2d9c6;
+        --accent: #3b2492;
+        --on-accent: #fffdf8;
+        --frame: #22164d;
+
+        /* Tipografia */
+        --display: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+        --body: 'Nunito Sans', 'Segoe UI', Roboto, sans-serif;
+        --mono: 'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+        --radius-s: 6px;
+        --radius-m: 14px;
+        --radius-pill: 999px;
+        color-scheme: light;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --bg: #140c2e;
+          --surface: #1f1645;
+          --surface-2: #2a1f58;
+          --fg: #f4eeff;
+          --muted: #b5a9d6;
+          --line: #3a2e6c;
+          --accent: #b9a6ff;
+          --on-accent: #1d1147;
+          --frame: #050210;
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme='dark'] {
+        --bg: #140c2e;
+        --surface: #1f1645;
+        --surface-2: #2a1f58;
+        --fg: #f4eeff;
+        --muted: #b5a9d6;
+        --line: #3a2e6c;
+        --accent: #b9a6ff;
+        --on-accent: #1d1147;
+        --frame: #050210;
+        color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--body);
+        font-size: 16px;
+        line-height: 1.55;
+        padding-left: max(16px, env(safe-area-inset-left, 0px));
+        padding-right: max(16px, env(safe-area-inset-right, 0px));
+        padding-block: 24px 64px;
+      }
+      img {
+        max-width: 100%;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: var(--display);
+        line-height: 1.1;
+        text-wrap: balance;
+        margin: 0;
+      }
+      p {
+        margin: 0;
+      }
+      .wrap {
+        max-width: 1120px;
+        margin-inline: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 72px;
+      }
+      .eyebrow {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      section {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .section-head {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-width: 62ch;
+      }
+      .section-head h2 {
+        font-size: clamp(26px, 6vw, 36px);
+        font-weight: 900;
+        color: var(--accent);
+      }
+      .section-head p {
+        color: var(--muted);
+      }
+      :focus-visible {
+        outline: 3px solid var(--amarelo);
+        outline-offset: 2px;
+      }
+
+      /* ---------- Lockup da marca ---------- */
+      .hero {
+        display: grid;
+        gap: 32px;
+        align-items: center;
+      }
+      @media (min-width: 820px) {
+        .hero {
+          grid-template-columns: 1.1fr 1fr;
+        }
+      }
+      .lockup {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .lockup-top {
+        display: flex;
+        align-items: flex-end;
+        gap: 10px;
+        color: var(--accent);
+      }
+      .edicao {
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 22px;
+        line-height: 1;
+      }
+      .edicao sup {
+        font-size: 0.55em;
+      }
+      .snct {
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 44px;
+        line-height: 0.86;
+        letter-spacing: -0.02em;
+      }
+      .ciencia {
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: clamp(48px, 13vw, 76px);
+        line-height: 0.9;
+        color: var(--accent);
+        letter-spacing: -0.01em;
+      }
+      .delas {
+        display: flex;
+        gap: 0;
+      }
+      .delas span {
+        font-family: var(--display);
+        font-weight: 900;
+        color: #fffdf8;
+        font-size: clamp(40px, 11vw, 64px);
+        line-height: 1;
+        width: 1.05em;
+        height: 1.15em;
+        display: grid;
+        place-items: center;
+      }
+      .delas span:nth-child(1) {
+        background: var(--amarelo);
+        color: var(--violeta-noite);
+      }
+      .delas span:nth-child(2) {
+        background: var(--verde);
+      }
+      .delas span:nth-child(3) {
+        background: var(--magenta);
+      }
+      .delas span:nth-child(4) {
+        background: var(--laranja);
+      }
+      .delas span:nth-child(5) {
+        background: var(--azul);
+      }
+      .semana {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 13px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--accent);
+        line-height: 1.4;
+      }
+      .produto {
+        margin-top: 8px;
+        display: inline-flex;
+        align-self: flex-start;
+        align-items: center;
+        gap: 10px;
+        background: var(--violeta);
+        color: #fffdf8;
+        border-radius: var(--radius-pill);
+        padding: 8px 18px 8px 8px;
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 15px;
+      }
+      .produto i {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--amarelo);
+        display: grid;
+        place-items: center;
+        font-style: normal;
+        color: var(--violeta-noite);
+        font-size: 13px;
+      }
+      .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 20px;
+        font-family: var(--display);
+        color: var(--accent);
+      }
+      .hero-meta strong {
+        font-weight: 900;
+        font-size: 30px;
+      }
+      .hero-meta span {
+        font-weight: 400;
+        font-size: 18px;
+        letter-spacing: 0.04em;
+        align-self: flex-end;
+        padding-bottom: 4px;
+      }
+
+      /* ---------- Mosaico (grafismo da colagem) ---------- */
+      .mosaic {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        width: 100%;
+        max-width: 440px;
+        aspect-ratio: 1;
+        justify-self: center;
+      }
+      .m {
+        position: relative;
+        overflow: hidden;
+      }
+      .m::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+      .m.q1::after {
+        border-bottom-right-radius: 100%;
+        top: 0;
+        left: 0;
+      }
+      .m.q2::after {
+        border-bottom-left-radius: 100%;
+        top: 0;
+        right: 0;
+      }
+      .m.q3::after {
+        border-top-left-radius: 100%;
+        bottom: 0;
+        right: 0;
+      }
+      .m.q4::after {
+        border-top-right-radius: 100%;
+        bottom: 0;
+        left: 0;
+      }
+      .m.half::after {
+        border-radius: 100% 100% 0 0;
+        height: 50%;
+        bottom: 0;
+      }
+      .m.dot::after {
+        width: 56%;
+        height: 56%;
+        border-radius: 50%;
+        inset: 22%;
+      }
+      .bg-am {
+        background: var(--amarelo);
+      }
+      .af-am::after {
+        background: var(--amarelo);
+      }
+      .bg-vd {
+        background: var(--verde);
+      }
+      .af-vd::after {
+        background: var(--verde);
+      }
+      .bg-mg {
+        background: var(--magenta);
+      }
+      .af-mg::after {
+        background: var(--magenta);
+      }
+      .bg-lj {
+        background: var(--laranja);
+      }
+      .af-lj::after {
+        background: var(--laranja);
+      }
+      .bg-az {
+        background: var(--azul);
+      }
+      .af-az::after {
+        background: var(--azul);
+      }
+      .bg-tq {
+        background: var(--turquesa);
+      }
+      .af-tq::after {
+        background: var(--turquesa);
+      }
+      .bg-vi {
+        background: var(--violeta);
+      }
+      .af-vi::after {
+        background: var(--violeta);
+      }
+      .bg-cr {
+        background: var(--creme);
+      }
+      .af-cr::after {
+        background: var(--creme);
+      }
+      .mosaic-wrap {
+        position: relative;
+        justify-self: center;
+        width: 100%;
+        max-width: 440px;
+      }
+      .mosaic-wrap svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      /* ---------- Cores ---------- */
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 12px;
+      }
+      .swatch {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-m);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .swatch .chip-color {
+        height: 76px;
+      }
+      .swatch div:last-child {
+        padding: 10px 12px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+      }
+      .swatch b {
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 14px;
+      }
+      .swatch code {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .swatch small {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.35;
+      }
+      .cat-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 15px;
+      }
+      .table-scroll {
+        overflow-x: auto;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-m);
+      }
+      .cat-table th,
+      .cat-table td {
+        text-align: left;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: middle;
+      }
+      .cat-table tr:last-child td {
+        border-bottom: 0;
+      }
+      .cat-table th {
+        font-family: var(--display);
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 700;
+      }
+
+      /* ---------- Tipografia ---------- */
+      .type-list {
+        display: flex;
+        flex-direction: column;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-m);
+      }
+      .type-row {
+        display: grid;
+        gap: 6px 24px;
+        padding: 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      .type-row:last-child {
+        border-bottom: 0;
+      }
+      @media (min-width: 720px) {
+        .type-row {
+          grid-template-columns: 200px 1fr;
+          align-items: baseline;
+        }
+      }
+      .type-row .spec {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .t-d1 {
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 40px;
+        line-height: 1;
+        color: var(--accent);
+      }
+      .t-h1 {
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 28px;
+        line-height: 1.15;
+      }
+      .t-h2 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 1.2;
+      }
+      .t-label {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .t-body {
+        font-family: var(--body);
+        font-size: 16px;
+        line-height: 1.55;
+        max-width: 60ch;
+      }
+      .t-mono {
+        font-family: var(--mono);
+        font-size: 13px;
+        letter-spacing: 0.06em;
+      }
+
+      /* ---------- Componentes ---------- */
+      .comp-grid {
+        display: grid;
+        gap: 16px;
+      }
+      @media (min-width: 720px) {
+        .comp-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      .comp {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-m);
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        min-width: 0;
+      }
+      .comp h3 {
+        font-size: 15px;
+        font-weight: 800;
+      }
+      .comp .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+      .comp .note {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .btn {
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 15px;
+        min-height: 48px;
+        padding: 0 22px;
+        border-radius: var(--radius-pill);
+        border: 2px solid transparent;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .btn-primary {
+        background: var(--violeta);
+        color: #fffdf8;
+        box-shadow: 0 4px 0 var(--violeta-noite);
+      }
+      .btn-primary:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 var(--violeta-noite);
+      }
+      .btn-sun {
+        background: var(--amarelo);
+        color: var(--violeta-noite);
+        box-shadow: 0 4px 0 #c39500;
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--accent);
+        border-color: currentColor;
+      }
+      .btn-block {
+        width: 100%;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 30px;
+        padding: 0 12px;
+        border-radius: var(--radius-pill);
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #fffdf8;
+      }
+      .chip::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: currentColor;
+        opacity: 0.7;
+      }
+      .chip.pesquisa {
+        background: var(--azul);
+      }
+      .chip.oficina {
+        background: var(--laranja);
+        color: var(--violeta-noite);
+      }
+      .chip.apresentacao {
+        background: var(--magenta);
+      }
+      .chip.cultural {
+        background: var(--verde);
+      }
+      .chip.curso {
+        background: var(--turquesa);
+      }
+      .chip.off {
+        background: transparent;
+        color: var(--muted);
+        border: 1.5px solid var(--line);
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .field label {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 13px;
+      }
+      .field input {
+        font: inherit;
+        font-size: 17px;
+        min-height: 52px;
+        padding: 0 16px;
+        border-radius: var(--radius-m);
+        border: 2px solid var(--line);
+        background: var(--bg);
+        color: var(--fg);
+      }
+      .field input:focus {
+        border-color: var(--accent);
+        outline: none;
+      }
+      .field small {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .progress {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .progress-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 12px;
+      }
+      .progress-top strong {
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 26px;
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
+      }
+      .progress-top span {
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .bar {
+        display: grid;
+        grid-template-columns: repeat(20, 1fr);
+        gap: 3px;
+      }
+      .bar i {
+        height: 12px;
+        background: var(--surface-2);
+        border-radius: 2px;
+      }
+      .bar i.on:nth-child(5n + 1) {
+        background: var(--amarelo);
+      }
+      .bar i.on:nth-child(5n + 2) {
+        background: var(--verde);
+      }
+      .bar i.on:nth-child(5n + 3) {
+        background: var(--magenta);
+      }
+      .bar i.on:nth-child(5n + 4) {
+        background: var(--laranja);
+      }
+      .bar i.on:nth-child(5n + 5) {
+        background: var(--azul);
+      }
+
+      /* Carimbo */
+      .stamp {
+        width: 96px;
+        aspect-ratio: 1;
+        display: block;
+      }
+      .stamp-slot {
+        width: 96px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border: 2px dashed var(--line);
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 12px;
+        text-align: center;
+        line-height: 1.2;
+        white-space: pre-line;
+      }
+      .stamps-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        align-items: center;
+      }
+
+      /* MRZ */
+      .mrz {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        line-height: 1.6;
+        color: var(--muted);
+        background: var(--surface-2);
+        border-radius: var(--radius-s);
+        padding: 10px 12px;
+        overflow-x: auto;
+        white-space: pre;
+      }
+
+      /* ---------- Telas (molduras de celular) ---------- */
+      .screens {
+        display: grid;
+        gap: 28px;
+        justify-items: center;
+      }
+      @media (min-width: 820px) {
+        .screens {
+          grid-template-columns: repeat(2, minmax(0, 360px));
+          justify-content: center;
+        }
+      }
+      .screen-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        max-width: 360px;
+      }
+      .screen-wrap > p {
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .screen-wrap > p b {
+        color: var(--fg);
+        font-family: var(--display);
+      }
+      .phone {
+        width: 100%;
+        aspect-ratio: 9 / 19;
+        border: 8px solid var(--frame);
+        border-radius: 34px;
+        background: var(--bg);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        box-shadow: 0 18px 40px -24px rgba(29, 17, 71, 0.55);
+      }
+      .phone .scroll {
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding: 14px;
+        font-size: 14px;
+      }
+      .app-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .mini-lockup {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--display);
+        font-weight: 900;
+        color: var(--accent);
+        font-size: 15px;
+      }
+      .mini-delas {
+        display: flex;
+      }
+      .mini-delas i {
+        width: 8px;
+        height: 14px;
+      }
+      .avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--amarelo);
+        color: var(--violeta-noite);
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 13px;
+        display: grid;
+        place-items: center;
+        flex: none;
+      }
+      .tabbar {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-top: 1px solid var(--line);
+        background: var(--surface);
+      }
+      .tabbar span {
+        min-height: 52px;
+        display: grid;
+        place-items: center;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .tabbar span.on {
+        color: var(--accent);
+        box-shadow: inset 0 3px 0 var(--accent);
+      }
+
+      .cover {
+        position: relative;
+        border-radius: var(--radius-m);
+        overflow: hidden;
+        aspect-ratio: 16/10;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        flex: none;
+      }
+      .ok-banner {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-m);
+        padding: 10px 12px;
+      }
+      .ok-banner .stamp {
+        width: 64px;
+        flex: none;
+      }
+      .ok-banner b {
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 16px;
+        color: var(--accent);
+        display: block;
+      }
+      .ok-banner span {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .cp-title {
+        font-size: 20px;
+        font-weight: 900;
+      }
+      .cp-meta {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+        letter-spacing: 0.04em;
+      }
+      .stamp-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        justify-items: center;
+      }
+      .stamp-grid .stamp,
+      .stamp-grid .stamp-slot {
+        width: 100%;
+        max-width: 84px;
+      }
+      .filter-row {
+        display: flex;
+        gap: 6px;
+        overflow: hidden;
+      }
+      .filter-row .chip {
+        flex: none;
+        min-height: 28px;
+        font-size: 10px;
+        padding: 0 10px;
+      }
+
+      .entry-hero {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .entry-hero .ciencia {
+        font-size: 40px;
+      }
+      .entry-hero .delas span {
+        font-size: 34px;
+      }
+
+      /* Card Stories 9:16 */
+      .story {
+        width: 100%;
+        aspect-ratio: 9/16;
+        border-radius: 22px;
+        overflow: hidden;
+        position: relative;
+        background: var(--violeta-noite);
+        color: #fffdf8;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 18px 40px -24px rgba(29, 17, 71, 0.55);
+      }
+      .story-mosaic {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        height: 34%;
+        flex: none;
+      }
+      .story-body {
+        flex: 1;
+        padding: 18px 18px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        position: relative;
+      }
+      .story-photo {
+        position: absolute;
+        top: -44px;
+        right: 18px;
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        border: 4px solid var(--amarelo);
+        background: var(--turquesa);
+        display: grid;
+        place-items: center;
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 26px;
+        overflow: hidden;
+      }
+      .story-photo::after {
+        content: '';
+        position: absolute;
+        width: 60%;
+        height: 60%;
+        right: -10%;
+        bottom: -10%;
+        background: var(--laranja);
+        border-top-left-radius: 100%;
+      }
+      .story-photo span {
+        position: relative;
+        z-index: 1;
+      }
+      .story .k {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--amarelo);
+        margin-top: 26px;
+      }
+      .story h4 {
+        font-size: 26px;
+        font-weight: 900;
+        line-height: 1.02;
+      }
+      .story p {
+        font-size: 13px;
+        color: #d9d0f5;
+      }
+      .story .tags {
+        margin-top: auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .story .tags span {
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 13px;
+        background: #fffdf8;
+        color: var(--violeta);
+        padding: 4px 10px;
+        border-radius: var(--radius-pill);
+      }
+      .story .foot {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 8px;
+        border-top: 1px solid rgba(255, 253, 248, 0.25);
+        padding-top: 10px;
+        font-family: var(--display);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .story .foot .mini-delas i {
+        width: 7px;
+        height: 12px;
+      }
+
+      /* ---------- Regras ---------- */
+      .rules {
+        display: grid;
+        gap: 16px;
+      }
+      @media (min-width: 720px) {
+        .rules {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .rule {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-m);
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .rule h3 {
+        font-size: 16px;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .rule h3::before {
+        content: '';
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        flex: none;
+      }
+      .rule.sim h3::before {
+        background: var(--verde);
+      }
+      .rule.nao h3::before {
+        background: var(--magenta);
+        border-radius: 2px;
+      }
+      .rule ul {
+        margin: 0;
+        padding-left: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .disclaimer {
+        font-size: 13px;
+        color: var(--muted);
+        max-width: 70ch;
+        border-top: 1px solid var(--line);
+        padding-top: 16px;
+      }
+
+      /* ---------- Seletor de tema ---------- */
+      .theme-switch {
+        position: sticky;
+        top: env(safe-area-inset-top, 0px);
+        z-index: 20;
+        align-self: flex-end;
+        display: inline-flex;
+        gap: 2px;
+        padding: 4px;
+        border-radius: var(--radius-pill);
+        background: var(--surface);
+        border: 1px solid var(--line);
+        box-shadow: 0 6px 18px -12px rgba(29, 17, 71, 0.5);
+      }
+      .theme-switch button {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 13px;
+        min-height: 36px;
+        padding: 0 14px;
+        border: 0;
+        border-radius: var(--radius-pill);
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .theme-switch button[aria-pressed='true'] {
+        background: var(--violeta);
+        color: #fffdf8;
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .ok-banner .stamp {
+          animation: carimbar 0.6s cubic-bezier(0.2, 1.6, 0.4, 1) both 0.3s;
+        }
+        @keyframes carimbar {
+          from {
+            transform: scale(1.8) rotate(-30deg);
+            opacity: 0;
+          }
+          to {
+            transform: scale(1) rotate(-8deg);
+            opacity: 1;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="theme-switch" role="group" aria-label="Tema da página">
+        <button type="button" data-theme-choice="light">Claro</button>
+        <button type="button" data-theme-choice="dark">Escuro</button>
+        <button type="button" data-theme-choice="system">Sistema</button>
+      </div>
+
+      <!-- Marca -->
+      <header class="hero">
+        <div class="lockup">
+          <div class="lockup-top">
+            <span class="edicao">23<sup>a</sup></span>
+            <span class="snct">SNCT</span>
+          </div>
+          <span class="ciencia">CIÊNCIA</span>
+          <div class="delas" aria-label="Delas">
+            <span>D</span><span>E</span><span>L</span><span>A</span><span>S</span>
+          </div>
+          <span class="semana">Semana Nacional de<br />Ciência e Tecnologia</span>
+          <span class="produto"><i>✓</i>Passaporte Virtual</span>
+          <div class="hero-meta">
+            <strong>3 e 4</strong><span>DEZEMBRO</span>
+            <span style="flex-basis: 100%; padding: 0; font-weight: 700; font-size: 15px"
+              >Aracaju Parque Shopping</span
+            >
+          </div>
+        </div>
+        <div class="mosaic-wrap" aria-hidden="true">
+          <div class="mosaic">
+            <div class="m q1 bg-vi af-lj"></div>
+            <div class="m bg-am"></div>
+            <div class="m q2 bg-az af-vi"></div>
+            <div class="m dot bg-lj af-cr"></div>
+            <div class="m half bg-tq af-vi"></div>
+            <div class="m q3 bg-mg af-am"></div>
+            <div class="m bg-vi"></div>
+            <div class="m q4 bg-vd af-az"></div>
+            <div class="m bg-lj"></div>
+            <div class="m q4 bg-az af-tq"></div>
+            <div class="m dot bg-am af-mg"></div>
+            <div class="m q1 bg-lj af-vi"></div>
+            <div class="m q2 bg-vd af-am"></div>
+            <div class="m bg-mg"></div>
+            <div class="m q3 bg-vi af-lj"></div>
+            <div class="m half bg-az af-vd"></div>
+          </div>
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fffdf8" stroke-width=".5">
+            <path
+              d="M14 20 L38 12 L62 26 L86 14 M38 12 L44 44 L62 26 L80 52 M44 44 L20 60 L46 78 L80 52 L86 86"
+            />
+            <g fill="#fffdf8" stroke="none">
+              <circle cx="14" cy="20" r="1.6" />
+              <circle cx="38" cy="12" r="2.2" />
+              <circle cx="62" cy="26" r="1.6" />
+              <circle cx="86" cy="14" r="2.6" />
+              <circle cx="44" cy="44" r="2.6" />
+              <circle cx="80" cy="52" r="1.6" />
+              <circle cx="20" cy="60" r="2.2" />
+              <circle cx="46" cy="78" r="1.6" />
+              <circle cx="86" cy="86" r="2.2" />
+            </g>
+          </svg>
+        </div>
+      </header>
+
+      <!-- Cores -->
+      <section>
+        <div class="section-head">
+          <span class="eyebrow">Cores</span>
+          <h2>Violeta conduz, o mosaico celebra</h2>
+          <p>
+            O violeta é a cor da voz: títulos, botões e navegação. As cinco cores de DELAS aparecem
+            como blocos sólidos, nunca em degradê, e cada uma marca uma categoria de atividade.
+          </p>
+        </div>
+        <div class="swatches">
+          <div class="swatch">
+            <div class="chip-color bg-vi"></div>
+            <div>
+              <b>Violeta</b><code>#3B2492</code><small>Títulos, botão principal, navegação</small>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="chip-color" style="background: var(--violeta-noite)"></div>
+            <div>
+              <b>Violeta noite</b><code>#1D1147</code
+              ><small>Fundo do card de Stories, sombra de botão</small>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="chip-color bg-cr" style="border-bottom: 1px solid var(--line)"></div>
+            <div><b>Creme</b><code>#F7F2E9</code><small>Fundo do app no tema claro</small></div>
+          </div>
+          <div class="swatch">
+            <div class="chip-color bg-am"></div>
+            <div><b>Amarelo D</b><code>#F6C21C</code><small>Conquistas, destaque, foco</small></div>
+          </div>
+          <div class="swatch">
+            <div class="chip-color bg-vd"></div>
+            <div><b>Verde E</b><code>#2E9E4F</code><small>Cultural, sucesso</small></div>
+          </div>
+          <div class="swatch">
+            <div class="chip-color bg-mg"></div>
+            <div><b>Magenta L</b><code>#D9327E</code><small>Apresentações</small></div>
+          </div>
+          <div class="swatch">
+            <div class="chip-color bg-lj"></div>
+            <div><b>Laranja A</b><code>#F28322</code><small>Oficinas</small></div>
+          </div>
+          <div class="swatch">
+            <div class="chip-color bg-az"></div>
+            <div><b>Azul S</b><code>#2563C9</code><small>Estandes de pesquisa</small></div>
+          </div>
+          <div class="swatch">
+            <div class="chip-color bg-tq"></div>
+            <div><b>Turquesa</b><code>#169C93</code><small>Cursos, apoio da colagem</small></div>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table class="cat-table">
+            <thead>
+              <tr>
+                <th>Categoria</th>
+                <th>Cor</th>
+                <th>Quando o carimbo libera</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="chip pesquisa">Pesquisa</span></td>
+                <td>Azul S</td>
+                <td>Ao escanear o QR do estande</td>
+              </tr>
+              <tr>
+                <td><span class="chip oficina">Oficina</span></td>
+                <td>Laranja A</td>
+                <td>QR mostrado pelo ministrante no fim</td>
+              </tr>
+              <tr>
+                <td><span class="chip apresentacao">Apresentação</span></td>
+                <td>Magenta L</td>
+                <td>Ao escanear o QR da sala</td>
+              </tr>
+              <tr>
+                <td><span class="chip cultural">Cultural</span></td>
+                <td>Verde E</td>
+                <td>Ao escanear o QR da sessão</td>
+              </tr>
+              <tr>
+                <td><span class="chip curso">Curso</span></td>
+                <td>Turquesa</td>
+                <td>QR mostrado pelo ministrante no fim</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Tipografia -->
+      <section>
+        <div class="section-head">
+          <span class="eyebrow">Tipografia</span>
+          <h2>Pesada nos títulos, leve no texto</h2>
+          <p>
+            Montserrat em peso 900 repete o tom do cartaz. Nunito Sans deixa a leitura confortável
+            no celular. Space Mono aparece só em códigos e datas de carimbo, como num passaporte de
+            verdade.
+          </p>
+        </div>
+        <div class="type-list">
+          <div class="type-row">
+            <span class="spec">Display · Montserrat 900 · 40</span
+            ><span class="t-d1">CIÊNCIA DELAS</span>
+          </div>
+          <div class="type-row">
+            <span class="spec">Título · Montserrat 800 · 28</span
+            ><span class="t-h1">Microscopia: o que cabe numa gota</span>
+          </div>
+          <div class="type-row">
+            <span class="spec">Subtítulo · Montserrat 700 · 20</span
+            ><span class="t-h2">Faltam 13 carimbos</span>
+          </div>
+          <div class="type-row">
+            <span class="spec">Rótulo · Montserrat 700 · 12 · +14%</span
+            ><span class="t-label">Estande 14 · Piso L1</span>
+          </div>
+          <div class="type-row">
+            <span class="spec">Texto · Nunito Sans 400 · 16</span
+            ><span class="t-body"
+              >Pesquisadoras do campus mostram como uma gota de água do rio Sergipe revela algas,
+              protozoários e microplásticos.</span
+            >
+          </div>
+          <div class="type-row">
+            <span class="spec">Código · Space Mono 400 · 13</span
+            ><span class="t-mono">SNCT26 · 03 DEZ · 14:32 · CP-014</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Componentes -->
+      <section>
+        <div class="section-head">
+          <span class="eyebrow">Componentes</span>
+          <h2>Peças do passaporte</h2>
+          <p>
+            O carimbo é o elemento-assinatura: cada check-in vira um carimbo redondo, na cor da
+            categoria, levemente torto, com data e hora.
+          </p>
+        </div>
+        <div class="comp-grid">
+          <div class="comp">
+            <h3>Carimbos</h3>
+            <div class="stamps-row" id="stamp-demo"></div>
+            <p class="note">
+              Rotação aleatória entre -12° e 12°. Espaço vazio tracejado mostra o que falta.
+            </p>
+          </div>
+          <div class="comp">
+            <h3>Botões</h3>
+            <div class="row">
+              <button class="btn btn-primary" type="button">Ver meu passaporte</button>
+              <button class="btn btn-sun" type="button">Compartilhar</button>
+              <button class="btn btn-ghost" type="button">Avaliar o evento</button>
+            </div>
+            <p class="note">Altura mínima de 48px. Um único botão principal por tela.</p>
+          </div>
+          <div class="comp">
+            <h3>Categorias</h3>
+            <div class="row">
+              <span class="chip pesquisa">Pesquisa</span><span class="chip oficina">Oficina</span
+              ><span class="chip apresentacao">Apresentação</span
+              ><span class="chip cultural">Cultural</span><span class="chip curso">Curso</span
+              ><span class="chip off">Todas</span>
+            </div>
+          </div>
+          <div class="comp">
+            <h3>Progresso</h3>
+            <div class="progress">
+              <div class="progress-top"><strong>7/20</strong><span>carimbos coletados</span></div>
+              <div class="bar" aria-hidden="true">
+                <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i
+                ><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i
+                ><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+            </div>
+          </div>
+          <div class="comp">
+            <h3>Campo de apelido</h3>
+            <div class="field">
+              <label for="nick-demo">Seu apelido</label>
+              <input id="nick-demo" value="anaestrela" autocomplete="off" />
+              <small>Só o apelido. Sem e-mail, sem senha.</small>
+            </div>
+          </div>
+          <div class="comp">
+            <h3>Faixa de leitura mecânica</h3>
+            <div class="mrz">
+              P&lt;BRASNCT26&lt;&lt;CIENCIA&lt;DELAS&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+              ANAESTRELA&lt;&lt;&lt;&lt;07&lt;20&lt;&lt;0312&lt;&lt;ARACAJU&lt;&lt;&lt;
+            </div>
+            <p class="note">
+              Rodapé do passaporte, com apelido e progresso. Detalhe decorativo, não é dado
+              sensível.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Telas -->
+      <section>
+        <div class="section-head">
+          <span class="eyebrow">Telas de exemplo</span>
+          <h2>Do QR code ao Stories</h2>
+          <p>
+            Telas desenhadas a 360px de largura. Projetos, apelidos e horários abaixo são exemplos.
+          </p>
+        </div>
+        <div class="screens">
+          <div class="screen-wrap">
+            <div class="phone">
+              <div class="scroll">
+                <div class="entry-hero">
+                  <div class="lockup-top">
+                    <span class="edicao" style="font-size: 16px">23<sup>a</sup></span
+                    ><span class="snct" style="font-size: 30px">SNCT</span>
+                  </div>
+                  <span class="ciencia">CIÊNCIA</span>
+                  <div class="delas">
+                    <span>D</span><span>E</span><span>L</span><span>A</span><span>S</span>
+                  </div>
+                </div>
+                <h3 class="t-h2" style="margin-top: 6px">Seu passaporte do evento</h3>
+                <p style="color: var(--muted)">
+                  Visite estandes, oficinas e apresentações. Cada QR code vira um carimbo.
+                </p>
+                <div class="field">
+                  <label for="nick-1">Escolha um apelido</label>
+                  <input id="nick-1" value="anaestrela" autocomplete="off" />
+                  <small>Disponível ✓</small>
+                </div>
+                <button class="btn btn-primary btn-block" type="button" style="margin-top: auto">
+                  Abrir meu passaporte
+                </button>
+              </div>
+            </div>
+            <p><b>1. Entrada.</b> Primeiro acesso, só apelido.</p>
+          </div>
+
+          <div class="screen-wrap">
+            <div class="phone">
+              <div class="scroll">
+                <div class="app-bar">
+                  <span class="mini-lockup"
+                    >SNCT<span class="mini-delas"
+                      ><i class="bg-am"></i><i class="bg-vd"></i><i class="bg-mg"></i
+                      ><i class="bg-lj"></i><i class="bg-az"></i></span></span
+                  ><span class="avatar">A</span>
+                </div>
+                <div class="ok-banner">
+                  <svg
+                    class="stamp"
+                    data-stamp="oficina"
+                    data-label="OFICINA"
+                    data-code="CP-014"
+                    data-time="14:32"
+                    viewBox="0 0 100 100"
+                  ></svg>
+                  <div><b>Carimbado!</b><span>8 de 20 no seu passaporte</span></div>
+                </div>
+                <div class="cover" aria-hidden="true">
+                  <div class="m q1 bg-lj af-vi"></div>
+                  <div class="m bg-am"></div>
+                  <div class="m dot bg-vi af-lj"></div>
+                  <div class="m q2 bg-tq af-am"></div>
+                  <div class="m bg-lj"></div>
+                  <div class="m bg-vi"></div>
+                  <div class="m q3 bg-lj af-mg"></div>
+                  <div class="m bg-am"></div>
+                  <div class="m half bg-vi af-lj"></div>
+                  <div class="m q4 bg-mg af-am"></div>
+                  <div class="m q4 bg-am af-lj"></div>
+                  <div class="m bg-mg"></div>
+                  <div class="m q1 bg-vi af-tq"></div>
+                  <div class="m bg-lj"></div>
+                  <div class="m dot bg-tq af-am"></div>
+                </div>
+                <span class="chip oficina" style="align-self: flex-start">Oficina</span>
+                <h3 class="cp-title">Microscopia: o que cabe numa gota</h3>
+                <span class="cp-meta">ESTANDE 14 · PISO L1 · 14H–15H</span>
+                <button class="btn btn-sun btn-block" type="button" style="margin-top: auto">
+                  Compartilhar nos Stories
+                </button>
+              </div>
+              <div class="tabbar">
+                <span class="on">Passaporte</span><span>Explorar</span><span>Avaliar</span>
+              </div>
+            </div>
+            <p><b>2. Check-in.</b> Abre ao ler o QR do ponto.</p>
+          </div>
+
+          <div class="screen-wrap">
+            <div class="phone">
+              <div class="scroll">
+                <div class="app-bar">
+                  <span class="mini-lockup">Meu passaporte</span><span class="avatar">A</span>
+                </div>
+                <div class="progress">
+                  <div class="progress-top"><strong>8/20</strong><span>anaestrela</span></div>
+                  <div class="bar" aria-hidden="true">
+                    <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i
+                    ><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i
+                    ><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                  </div>
+                </div>
+                <div class="filter-row">
+                  <span
+                    class="chip off"
+                    style="background: var(--violeta); color: #fffdf8; border: 0"
+                    >Todas</span
+                  ><span class="chip pesquisa">Pesquisa</span
+                  ><span class="chip oficina">Oficina</span
+                  ><span class="chip cultural">Cultural</span>
+                </div>
+                <div class="stamp-grid" id="stamp-grid"></div>
+                <div class="mrz" style="font-size: 9px; margin-top: auto">
+                  P&lt;BRASNCT26&lt;&lt;CIENCIA&lt;DELAS&lt;&lt;&lt;
+                  ANAESTRELA&lt;&lt;08&lt;20&lt;&lt;0312&lt;&lt;
+                </div>
+              </div>
+              <div class="tabbar">
+                <span class="on">Passaporte</span><span>Explorar</span><span>Avaliar</span>
+              </div>
+            </div>
+            <p><b>3. Passaporte.</b> Carimbos e o que falta.</p>
+          </div>
+
+          <div class="screen-wrap">
+            <div class="story">
+              <div class="story-mosaic" aria-hidden="true">
+                <div class="m q1 bg-lj af-am"></div>
+                <div class="m bg-vi"></div>
+                <div class="m half bg-az af-mg"></div>
+                <div class="m q2 bg-am af-vd"></div>
+                <div class="m bg-tq"></div>
+                <div class="m q3 bg-mg af-lj"></div>
+                <div class="m dot bg-vd af-am"></div>
+                <div class="m q4 bg-lj af-vi"></div>
+              </div>
+              <div class="story-body">
+                <div class="story-photo"><span>A</span></div>
+                <span class="k">Eu fui na oficina</span>
+                <h4>Microscopia: o que cabe numa gota</h4>
+                <p>8 carimbos no meu passaporte da 23ª SNCT.</p>
+                <div class="tags"><span>#SNCT2026</span><span>#CiênciaDelas</span></div>
+                <div class="foot">
+                  <span>3 e 4 dez<br />Aracaju</span
+                  ><span class="mini-lockup" style="color: #fffdf8"
+                    >SNCT<span class="mini-delas"
+                      ><i class="bg-am"></i><i class="bg-vd"></i><i class="bg-mg"></i
+                      ><i class="bg-lj"></i><i class="bg-az"></i></span
+                  ></span>
+                </div>
+              </div>
+            </div>
+            <p><b>4. Card de Stories.</b> 1080×1920, foto opcional no círculo.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Regras -->
+      <section>
+        <div class="section-head">
+          <span class="eyebrow">Como usar</span>
+          <h2>Regras rápidas</h2>
+        </div>
+        <div class="rules">
+          <div class="rule sim">
+            <h3>Faça</h3>
+            <ul>
+              <li>Desenhe primeiro em 360px de largura.</li>
+              <li>Use cores sólidas e formas geométricas: quadrados, quartos e meios círculos.</li>
+              <li>Mantenha a cor da categoria igual no chip, no carimbo e na capa do ponto.</li>
+              <li>
+                Escreva DELAS sempre com as cinco cores na ordem amarelo, verde, magenta, laranja,
+                azul.
+              </li>
+              <li>Deixe o violeta para o que é ação ou título.</li>
+            </ul>
+          </div>
+          <div class="rule nao">
+            <h3>Evite</h3>
+            <ul>
+              <li>Degradês, sombras difusas e brilho.</li>
+              <li>Mais de um botão principal por tela.</li>
+              <li>Texto branco sobre amarelo ou laranja (sem contraste).</li>
+              <li>Recriar logos de instituições: use os arquivos oficiais quando existirem.</li>
+              <li>Pedir dado pessoal além do apelido.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="disclaimer">
+          Guia de referência do Passaporte Virtual, derivado do cartaz oficial da 23ª SNCT – Ciência
+          Delas. Cores aproximadas a partir do cartaz; confirme com a arte final da organização.
+          Projetos, apelidos e horários nas telas são exemplos.
+        </p>
+      </section>
+    </div>
+
+    <script>
+      const CATS = {
+        pesquisa: { color: 'var(--azul)', label: 'PESQUISA' },
+        oficina: { color: 'var(--laranja)', label: 'OFICINA' },
+        apresentacao: { color: 'var(--magenta)', label: 'APRESENTAÇÃO' },
+        cultural: { color: 'var(--verde)', label: 'CULTURAL' },
+        curso: { color: 'var(--turquesa)', label: 'CURSO' },
+      }
+      let uid = 0
+      function stampSVG(svg, cat, code, time, rot) {
+        const c = CATS[cat]
+        const id = 'arc' + uid++
+        svg.setAttribute('viewBox', '0 0 100 100')
+        svg.setAttribute('role', 'img')
+        svg.setAttribute('aria-label', 'Carimbo ' + c.label.toLowerCase() + ' ' + code)
+        svg.style.transform = 'rotate(' + rot + 'deg)'
+        svg.style.color = c.color
+        svg.innerHTML =
+          '<defs><path id="' +
+          id +
+          '" d="M50 50 m-35 0 a35 35 0 1 1 70 0 a35 35 0 1 1 -70 0"/></defs>' +
+          '<circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="3.5"/>' +
+          '<circle cx="50" cy="50" r="27" fill="none" stroke="currentColor" stroke-width="1.5"/>' +
+          '<text fill="currentColor" font-family="Montserrat, Arial, sans-serif" font-weight="800" font-size="9.5" letter-spacing="1.5">' +
+          '<textPath href="#' +
+          id +
+          '">' +
+          c.label +
+          ' · SNCT 2026 · ' +
+          c.label +
+          ' ·</textPath></text>' +
+          '<text x="50" y="47" text-anchor="middle" fill="currentColor" font-family="Space Mono, monospace" font-weight="700" font-size="10">03 DEZ</text>' +
+          '<text x="50" y="60" text-anchor="middle" fill="currentColor" font-family="Space Mono, monospace" font-size="8.5">' +
+          time +
+          '</text>'
+      }
+      function makeStamp(cat, code, time, rot) {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+        svg.classList.add('stamp')
+        stampSVG(svg, cat, code, time, rot)
+        return svg
+      }
+      function slot(text) {
+        const d = document.createElement('div')
+        d.className = 'stamp-slot'
+        d.textContent = text
+        return d
+      }
+      const demo = document.getElementById('stamp-demo')
+      demo.append(
+        makeStamp('pesquisa', 'CP-003', '10:05', -9),
+        makeStamp('oficina', 'CP-014', '14:32', 6),
+        makeStamp('cultural', 'CP-020', '19:00', -3),
+        slot('CP-021\nfalta')
+      )
+
+      const grid = document.getElementById('stamp-grid')
+      const done = [
+        ['pesquisa', '09:41', -7],
+        ['pesquisa', '10:05', 5],
+        ['apresentacao', '10:50', -11],
+        ['oficina', '14:32', 8],
+        ['pesquisa', '15:10', -4],
+        ['curso', '16:00', 10],
+        ['cultural', '17:25', -6],
+        ['apresentacao', '18:02', 3],
+      ]
+      done.forEach(([cat, t, r], i) => grid.append(makeStamp(cat, 'CP-' + i, t, r)))
+      grid.append(slot('?'))
+
+      document
+        .querySelectorAll('svg[data-stamp]')
+        .forEach((svg) => stampSVG(svg, svg.dataset.stamp, svg.dataset.code, svg.dataset.time, -8))
+      const root = document.documentElement
+      function applyTheme(choice) {
+        if (choice === 'system') root.removeAttribute('data-theme')
+        else root.setAttribute('data-theme', choice)
+        document
+          .querySelectorAll('[data-theme-choice]')
+          .forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themeChoice === choice)))
+        try {
+          localStorage.setItem('pv-theme', choice)
+        } catch {}
+      }
+      let saved = 'light'
+      try {
+        saved = localStorage.getItem('pv-theme') || 'light'
+      } catch {}
+      applyTheme(saved)
+      document
+        .querySelectorAll('[data-theme-choice]')
+        .forEach((b) => b.addEventListener('click', () => applyTheme(b.dataset.themeChoice)))
+    </script>
+  </body>
+</html>

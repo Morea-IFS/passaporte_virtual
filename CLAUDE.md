@@ -6,6 +6,23 @@ Monorepo pnpm workspaces + Turborepo.
 - `apps/api`: AdonisJS 7, Lucid ORM, PostgreSQL. Imports via subpath (`#models/*`, `#controllers/*`, etc.).
 - `packages/`: código compartilhado (vazio por enquanto).
 
+## Interface
+
+- **Sempre mobile first.** Toda tela é desenhada e implementada primeiro para celular (largura ~360px); telas maiores são adaptação via breakpoints do Tailwind (`sm:`, `md:`, `lg:`), nunca o contrário.
+- Alvos de toque com no mínimo 44px, sem rolagem horizontal, conteúdo principal ao alcance do polegar.
+- Identidade visual (23ª SNCT – Ciência Delas): referência em `docs/identidade-visual/index.html`. Tokens em `apps/web/src/app/globals.css`; usar só eles, nunca cor literal nem cores padrão do Tailwind (`zinc`, `gray`...).
+  - Interface (mudam com o tema claro/escuro): `bg`, `surface`, `surface-2`, `fg`, `muted`, `line`, `accent`, `on-accent`.
+  - Marca (fixas): `violeta`, `violeta-noite`, `creme`, `amarelo`, `verde`, `magenta`, `laranja`, `azul`, `turquesa`.
+  - Categorias: `pesquisa`, `oficina`, `apresentacao`, `cultural`, `curso`. A mesma cor no chip, no carimbo e na capa do ponto.
+  - Fontes: `font-display` (Montserrat, títulos), `font-sans` (Nunito Sans, texto), `font-mono` (Space Mono, códigos e datas).
+- Se uma mudança no `globals.css` não aparecer no navegador, o cache do Turbopack está velho: `docker compose stop web && rm -rf apps/web/.next && docker compose start web`.
+
+## Requisitos
+
+- `Requisitos.md` (raiz) lista os requisitos funcionais (RF) e não funcionais (RNF) do produto, com coluna **Status** (⬜ pendente, ✅ concluído).
+- Antes de implementar uma funcionalidade, consulte o requisito correspondente.
+- **Sempre que concluir um requisito, marque-o como ✅ no `Requisitos.md`** no mesmo commit da implementação. Requisito parcialmente feito continua ⬜.
+
 ## Git
 
 - **Todo commit é sem coautor.** Nunca adicionar `Co-Authored-By: Claude ...` nem qualquer atribuição ao Claude em commits ou PRs.
