@@ -8,6 +8,7 @@ export type ScannedRoutes = {
     'auth.access_tokens.store': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
     'profile.access_tokens.destroy': { paramsTuple?: []; params?: {} }
+    'public.checkpoints.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'admin.events.index': { paramsTuple?: []; params?: {} }
     'admin.events.store': { paramsTuple?: []; params?: {} }
     'admin.events.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -23,25 +24,30 @@ export type ScannedRoutes = {
     'admin.checkpoints.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.checkpoints.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.checkpoints.status': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.events.qrcodes': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }
     'admin.checkpoints.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   GET: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
+    'public.checkpoints.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'admin.events.index': { paramsTuple?: []; params?: {} }
     'admin.events.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.events.checkpoints.index': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }
     'admin.events.categories.index': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }
     'admin.checkpoints.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.events.qrcodes': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }
   }
   HEAD: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
+    'public.checkpoints.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'admin.events.index': { paramsTuple?: []; params?: {} }
     'admin.events.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.events.checkpoints.index': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }
     'admin.events.categories.index': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }
     'admin.checkpoints.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.events.qrcodes': { paramsTuple: [ParamValue]; params: {'eventId': ParamValue} }
   }
   POST: {
     'auth.access_tokens.store': { paramsTuple?: []; params?: {} }

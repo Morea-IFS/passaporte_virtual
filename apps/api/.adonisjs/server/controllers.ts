@@ -10,4 +10,6 @@ export const controllers = {
   Checkpoints: () => import('#controllers/checkpoints_controller'),
   Events: () => import('#controllers/events_controller'),
   Profile: () => import('#controllers/profile_controller'),
+  PublicCheckpoints: () => import('#controllers/public_checkpoints_controller'),
+  QrCodes: () => import('#controllers/qr_codes_controller'),
 }

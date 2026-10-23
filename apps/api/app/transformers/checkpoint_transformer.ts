@@ -17,6 +17,7 @@ export default class CheckpointTransformer extends BaseTransformer<Checkpoint> {
         'imageUrl',
         'logoUrl',
         'isActive',
+        'checkinUrl',
         'createdAt',
         'updatedAt',
       ]),

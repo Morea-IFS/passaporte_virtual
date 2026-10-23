@@ -51,6 +51,15 @@ export const checkpointStatusValidator = vine.create({
   isActive: vine.boolean(),
 })
 
+export const qrCodesExportValidator = vine.create({
+  layout: vine.enum(['cartaz', 'etiquetas']),
+  ids: vine
+    .string()
+    .regex(/^\d+(,\d+)*$/)
+    .optional(),
+  includeInactive: vine.boolean().optional(),
+})
+
 export const checkpointFiltersValidator = vine.create({
   categoryId: vine.number().withoutDecimals().optional(),
   status: vine.enum(['active', 'inactive']).optional(),

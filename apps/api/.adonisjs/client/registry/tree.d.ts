@@ -20,6 +20,11 @@ export interface ApiDefinition {
       destroy: typeof routes['profile.access_tokens.destroy']
     }
   }
+  public: {
+    checkpoints: {
+      show: typeof routes['public.checkpoints.show']
+    }
+  }
   admin: {
     events: {
       index: typeof routes['admin.events.index']
@@ -36,6 +41,7 @@ export interface ApiDefinition {
         index: typeof routes['admin.events.categories.index']
         store: typeof routes['admin.events.categories.store']
       }
+      qrcodes: typeof routes['admin.events.qrcodes']
     }
     categories: {
       update: typeof routes['admin.categories.update']

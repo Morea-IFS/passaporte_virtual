@@ -17,6 +17,11 @@ export default class Checkpoint extends compose(CheckpointSchema, SoftDeletes) {
   @belongsTo(() => CheckpointCategory, { foreignKey: 'categoryId' })
   declare category: BelongsTo<typeof CheckpointCategory>
 
+  /** Link aberto pelo QR code (página pública do ponto) */
+  get checkinUrl() {
+    return `${env.get('PUBLIC_WEB_URL').replace(/\/$/, '')}/c/${this.qrToken}`
+  }
+
   get imageUrl() {
     return Checkpoint.publicUrl(this.imagePath)
   }

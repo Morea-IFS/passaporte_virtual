@@ -30,6 +30,12 @@ const routes = {
     tokens: [[0,"api"],[0,"v1"],[0,"account"],[0,"logout"]],
     types: placeholder as Registry['profile.access_tokens.destroy']['types'],
   },
+  'public.checkpoints.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/public/checkpoints/:token',
+    tokens: [[0,"api"],[0,"v1"],[0,"public"],[0,"checkpoints"],[1,"token"]],
+    types: placeholder as Registry['public.checkpoints.show']['types'],
+  },
   'admin.events.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/admin/events',
@@ -119,6 +125,12 @@ const routes = {
     pattern: '/api/v1/admin/checkpoints/:id/status',
     tokens: [[0,"api"],[0,"v1"],[0,"admin"],[0,"checkpoints"],[1,"id"],[0,"status"]],
     types: placeholder as Registry['admin.checkpoints.status']['types'],
+  },
+  'admin.events.qrcodes': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/admin/events/:eventId/qrcodes',
+    tokens: [[0,"api"],[0,"v1"],[0,"admin"],[0,"events"],[1,"eventId"],[0,"qrcodes"]],
+    types: placeholder as Registry['admin.events.qrcodes']['types'],
   },
   'admin.checkpoints.destroy': {
     methods: ["DELETE"],

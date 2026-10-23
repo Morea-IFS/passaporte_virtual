@@ -59,6 +59,19 @@ export interface Registry {
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/access_tokens_controller').default['destroy']>>>
     }
   }
+  'public.checkpoints.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/public/checkpoints/:token'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { token: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/public_checkpoints_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/public_checkpoints_controller').default['show']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/public_checkpoints_controller').default['show']>>>
+    }
+  }
   'admin.events.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/admin/events'
@@ -252,6 +265,19 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/checkpoints_controller').default['updateStatus']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/checkpoints_controller').default['updateStatus']>>> | { status: 422; response: { errors: SimpleError[] } }
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/checkpoints_controller').default['updateStatus']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.events.qrcodes': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/events/:eventId/qrcodes'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { eventId: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/checkpoint').qrCodesExportValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/qr_codes_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/qr_codes_controller').default['show']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/qr_codes_controller').default['show']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'admin.checkpoints.destroy': {

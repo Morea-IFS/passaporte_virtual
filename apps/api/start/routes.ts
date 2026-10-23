@@ -48,6 +48,13 @@ router
       .use(middleware.auth())
 
     /**
+     * Pública: página do ponto aberta pelo QR code.
+     */
+    router
+      .get('public/checkpoints/:token', [controllers.PublicCheckpoints, 'show'])
+      .as('public.checkpoints.show')
+
+    /**
      * Área do organizador: gestão de eventos e checkpoints.
      */
     router
@@ -82,6 +89,7 @@ router
         router
           .patch('checkpoints/:id/status', [controllers.Checkpoints, 'updateStatus'])
           .as('checkpoints.status')
+        router.get('events/:eventId/qrcodes', [controllers.QrCodes, 'show']).as('events.qrcodes')
         router
           .delete('checkpoints/:id', [controllers.Checkpoints, 'destroy'])
           .as('checkpoints.destroy')
