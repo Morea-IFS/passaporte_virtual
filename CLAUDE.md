@@ -29,7 +29,7 @@ Monorepo pnpm workspaces + Turborepo.
   - Explicação longa de campo: prop `info` do `Field` (ícone ⓘ que abre modal, `InfoButton`). A dica abaixo do campo fica curta.
 - Passaporte (visitante): `VisitorShell`, `Stamp`/`StampSlot`, `ProgressBar`, `CheckinFlow`, `NicknameForm`, `RecoveryCode`, `EventChoiceCard` em `apps/web/src/components/passport/`.
 - Marca: `BrandLockup`, `BrandMark` e `BrandMosaic` (mosaico + constelação, fundo de impacto) em `apps/web/src/components/`.
-- Web — componentes de domínio em `apps/web/src/components/admin/` (ex.: `ImageInput`, `CategoryPicker`, `DangerZone`, `CheckpointCard`, `EventCard`, `CheckpointFilters`, `Pagination`, `PageHeader`).
+- Web — componentes de domínio em `apps/web/src/components/admin/` (ex.: `AdminNav`, `ImageInput`, `CategoryPicker`, `DangerZone`, `CheckpointCard`, `EventCard`, `CheckpointFilters`, `Pagination`, `PageHeader`).
 - Helpers em `apps/web/src/lib/` (`hrefWith`, `firstParam`, `parseId`, `parsePage`, `pluralize`, `formatEventPeriod`, `colorStyles`, `IMAGE_SPECS`/`cropToFile`).
 - Imagens enviadas saem no tamanho do formato (`IMAGE_SPECS` em `lib/image.ts`: capa 1200 × 675 JPG, logomarca 512 × 512 PNG); proporção diferente abre o enquadramento antes do envio.
 - API: comportamento comum de models vira mixin (`app/models/mixins/`); regras de validação reaproveitadas ficam nos validators; lógica de arquivos em `app/services/`.
