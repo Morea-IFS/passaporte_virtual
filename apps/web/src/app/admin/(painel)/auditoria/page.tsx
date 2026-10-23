@@ -5,8 +5,14 @@ import { Card, Panel } from '@/components/ui/card'
 import { buttonClass } from '@/components/ui/button'
 import { EmptyState } from '@/components/ui/feedback'
 import { inputClass } from '@/components/ui/field'
+import { SelectField } from '@/components/ui/select-field'
 import { api } from '@/lib/api'
-import { AUDIT_ACTIONS as actions, AUDIT_RESOURCES as resources } from '@/lib/audit'
+import {
+  AUDIT_ACTION_OPTIONS,
+  AUDIT_ACTIONS as actions,
+  AUDIT_RESOURCE_OPTIONS,
+  AUDIT_RESOURCES as resources,
+} from '@/lib/audit'
 import { formatDateTime } from '@/lib/format'
 import { parsePage } from '@/lib/params'
 import { firstParam, hrefWith } from '@/lib/url'
@@ -42,58 +48,43 @@ export default async function AuditPage({ searchParams }: PageProps<'/admin/audi
             placeholder="Autor ou recurso"
             aria-label="Buscar"
           />
-          <select
+          <SelectField
             name="actorId"
-            defaultValue={filters.actorId ?? ''}
-            className={inputClass('sm')}
-            aria-label="Administrador"
-          >
-            <option value="">Todos os administradores</option>
-            {options.administrators.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.fullName ?? item.email}
-              </option>
-            ))}
-          </select>
-          <select
+            label="Administrador"
+            size="sm"
+            defaultValue={filters.actorId}
+            options={[
+              { value: '', label: 'Todos os administradores' },
+              ...options.administrators.map((item) => ({
+                value: String(item.id),
+                label: item.fullName ?? item.email,
+              })),
+            ]}
+          />
+          <SelectField
             name="action"
-            defaultValue={filters.action ?? ''}
-            className={inputClass('sm')}
-            aria-label="Ação"
-          >
-            <option value="">Todas as ações</option>
-            {Object.entries(actions).map(([value, label]) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-          <select
+            label="Ação"
+            size="sm"
+            defaultValue={filters.action}
+            options={[{ value: '', label: 'Todas as ações' }, ...AUDIT_ACTION_OPTIONS]}
+          />
+          <SelectField
             name="resourceType"
-            defaultValue={filters.resourceType ?? ''}
-            className={inputClass('sm')}
-            aria-label="Recurso"
-          >
-            <option value="">Todos os recursos</option>
-            {Object.entries(resources).map(([value, label]) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-          <select
+            label="Recurso"
+            size="sm"
+            defaultValue={filters.resourceType}
+            options={[{ value: '', label: 'Todos os recursos' }, ...AUDIT_RESOURCE_OPTIONS]}
+          />
+          <SelectField
             name="eventId"
-            defaultValue={filters.eventId ?? ''}
-            className={inputClass('sm')}
-            aria-label="Evento"
-          >
-            <option value="">Todos os eventos</option>
-            {options.events.map((event) => (
-              <option key={event.id} value={event.id}>
-                {event.name}
-              </option>
-            ))}
-          </select>
+            label="Evento"
+            size="sm"
+            defaultValue={filters.eventId}
+            options={[
+              { value: '', label: 'Todos os eventos' },
+              ...options.events.map((event) => ({ value: String(event.id), label: event.name })),
+            ]}
+          />
           <input
             type="date"
             name="from"

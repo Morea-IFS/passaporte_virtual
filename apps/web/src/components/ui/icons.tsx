@@ -113,3 +113,11 @@ export function ChevronDownIcon(props: SVGProps<SVGSVGElement>) {
     </Icon>
   )
 }
+
+export function CheckIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Icon {...props}>
+      <path d="M20 6 9 17l-5-5" />
+    </Icon>
+  )
+}

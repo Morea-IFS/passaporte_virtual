@@ -23,7 +23,7 @@ Monorepo pnpm workspaces + Turborepo.
 - **Nada de código repetido.** Antes de escrever marcação ou lógica, procure um componente ou helper que já faça isso; se algo vai aparecer em dois lugares, extraia na hora (componente, função ou classe utilitária) em vez de copiar.
 - Web — peças base em `apps/web/src/components/ui/` (genéricas, sem regra de negócio):
   - Botões: `buttonClass(variant, { size, block, blockOnMobile })`, `quietButtonClass`, `iconButtonClass` (`button.ts`); `SubmitButton`.
-  - Campos: `Field` (casca com rótulo e mensagem; `as="group"` para fieldset), `TextField`, `TextAreaField`, `InlineField` (campo + botão), `DateField`, `Switch`, `inputClass`, `FieldMessage`.
+  - Campos: `Field` (casca com rótulo e mensagem; `as="group"` para fieldset), `TextField`, `TextAreaField`, `InlineField` (campo + botão), `DateField`, `SelectField` (lista em modal, nunca `<select>` nativo), `Switch`, `inputClass`, `FieldMessage`.
   - Estrutura: `Card` + `CardFooter`, `Panel`, `Disclosure` (seção que abre e fecha), `Actions` (botões de formulário/modal), `Modal`, `ConfirmDialog`, `ImageCropDialog`, `FilterChip`, `CategoryChip`, `OptionCard` (rádio em cartão), `QrCode`, `CopyButton`, ícones em `icons.tsx`.
   - Feedback: `Notice` (erro/sucesso/neutro), `InlineError`, `EmptyState`.
   - Explicação longa de campo: prop `info` do `Field` (ícone ⓘ que abre modal, `InfoButton`). A dica abaixo do campo fica curta.

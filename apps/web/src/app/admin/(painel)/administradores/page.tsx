@@ -6,6 +6,7 @@ import { Card, CardFooter, Panel } from '@/components/ui/card'
 import { buttonClass } from '@/components/ui/button'
 import { EmptyState } from '@/components/ui/feedback'
 import { inputClass } from '@/components/ui/field'
+import { SelectField } from '@/components/ui/select-field'
 import { api } from '@/lib/api'
 import { parsePage } from '@/lib/params'
 import { firstParam, hrefWith } from '@/lib/url'
@@ -47,16 +48,17 @@ export default async function AdministratorsPage({
             placeholder="Nome ou e-mail"
             aria-label="Buscar"
           />
-          <select
+          <SelectField
             name="status"
-            defaultValue={status ?? ''}
-            className={inputClass('sm')}
-            aria-label="Situação"
-          >
-            <option value="">Todas as situações</option>
-            <option value="active">Ativos</option>
-            <option value="inactive">Desativados</option>
-          </select>
+            label="Situação"
+            size="sm"
+            defaultValue={status}
+            options={[
+              { value: '', label: 'Todas as situações' },
+              { value: 'active', label: 'Ativos' },
+              { value: 'inactive', label: 'Desativados' },
+            ]}
+          />
           <button className={buttonClass('ghost', { size: 'sm' })}>Filtrar</button>
         </form>
       </Panel>

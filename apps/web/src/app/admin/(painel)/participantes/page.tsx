@@ -5,6 +5,7 @@ import { Card, Panel } from '@/components/ui/card'
 import { buttonClass } from '@/components/ui/button'
 import { EmptyState } from '@/components/ui/feedback'
 import { inputClass } from '@/components/ui/field'
+import { SelectField } from '@/components/ui/select-field'
 import { api } from '@/lib/api'
 import { formatDateTime, pluralize } from '@/lib/format'
 import { parsePage } from '@/lib/params'
@@ -36,19 +37,16 @@ export default async function ParticipantsPage({
             placeholder="Buscar apelido"
             aria-label="Apelido"
           />
-          <select
+          <SelectField
             name="eventId"
-            defaultValue={eventId ?? ''}
-            className={inputClass('sm')}
-            aria-label="Evento"
-          >
-            <option value="">Todos os eventos</option>
-            {options.events.map((event) => (
-              <option key={event.id} value={event.id}>
-                {event.name}
-              </option>
-            ))}
-          </select>
+            label="Evento"
+            size="sm"
+            defaultValue={eventId}
+            options={[
+              { value: '', label: 'Todos os eventos' },
+              ...options.events.map((event) => ({ value: String(event.id), label: event.name })),
+            ]}
+          />
           <button className={buttonClass('ghost', { size: 'sm' })}>Filtrar</button>
         </form>
       </Panel>
