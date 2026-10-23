@@ -12,7 +12,7 @@
 */
 
 import { DateTime } from 'luxon'
-import { VineDate } from '@vinejs/vine'
+import vine, { SimpleMessagesProvider, VineDate } from '@vinejs/vine'
 
 declare module '@vinejs/vine/types' {
   interface VineGlobalTransforms {
@@ -21,3 +21,45 @@ declare module '@vinejs/vine/types' {
 }
 
 VineDate.transform((value) => DateTime.fromJSDate(value))
+
+/**
+ * Mensagens de validação em português, exibidas direto na interface.
+ */
+vine.messagesProvider = new SimpleMessagesProvider(
+  {
+    'required': 'Campo obrigatório.',
+    'string': '{{ field }} precisa ser um texto.',
+    'boolean': '{{ field }} precisa ser sim ou não.',
+    'email': 'Informe um e-mail válido.',
+    'minLength': '{{ field }}: use pelo menos {{ min }} caracteres.',
+    'maxLength': '{{ field }}: use no máximo {{ max }} caracteres.',
+    'regex': '{{ field }} está em um formato inválido.',
+    'enum': '{{ field }} inválido.',
+    'date': '{{ field }}: informe uma data válida.',
+    'date.afterOrSameAs': 'O término não pode ser antes do início.',
+    'database.unique': '{{ field }} já está em uso.',
+    'database.exists': '{{ field }}: escolha uma opção válida.',
+    'number': '{{ field }}: escolha uma opção válida.',
+    'file': '{{ field }} precisa ser um arquivo.',
+    'file.size': '{{ field }}: o arquivo pode ter no máximo {{ size }}.',
+    'file.extname': '{{ field }}: envie um arquivo {{ extnames }}.',
+    'hashtag.regex': 'Use só letras, números e _ (ex.: #SNCT2026).',
+  },
+  {
+    name: 'Nome',
+    startsOn: 'Início',
+    endsOn: 'Término',
+    location: 'Local',
+    hashtag: 'Hashtag',
+    description: 'Descrição',
+    category: 'Categoria',
+    categoryId: 'Categoria',
+    moveToCategoryId: 'Categoria de destino',
+    summary: 'Resumo',
+    image: 'Imagem',
+    logo: 'Logomarca',
+    file: 'Arquivo',
+    email: 'E-mail',
+    password: 'Senha',
+  }
+)

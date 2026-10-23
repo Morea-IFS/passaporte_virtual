@@ -32,6 +32,87 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class CheckpointCategorySchema extends BaseModel {
+  static $columns = ['color', 'createdAt', 'deletedAt', 'eventId', 'id', 'name', 'position', 'updatedAt'] as const
+  $columns = CheckpointCategorySchema.$columns
+  @column()
+  declare color: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare eventId: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare position: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class CheckpointSchema extends BaseModel {
+  static $columns = ['categoryId', 'code', 'createdAt', 'deletedAt', 'eventId', 'id', 'imagePath', 'isActive', 'location', 'logoPath', 'name', 'qrToken', 'summary', 'updatedAt'] as const
+  $columns = CheckpointSchema.$columns
+  @column()
+  declare categoryId: number
+  @column()
+  declare code: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare eventId: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare imagePath: string | null
+  @column()
+  declare isActive: boolean
+  @column()
+  declare location: string | null
+  @column()
+  declare logoPath: string | null
+  @column()
+  declare name: string
+  @column()
+  declare qrToken: string
+  @column()
+  declare summary: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class EventSchema extends BaseModel {
+  static $columns = ['createdAt', 'deletedAt', 'description', 'endsOn', 'hashtag', 'id', 'location', 'name', 'slug', 'startsOn', 'updatedAt'] as const
+  $columns = EventSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column.date()
+  declare endsOn: DateTime
+  @column()
+  declare hashtag: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare location: string | null
+  @column()
+  declare name: string
+  @column()
+  declare slug: string
+  @column.date()
+  declare startsOn: DateTime
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class UserSchema extends BaseModel {
   static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
   $columns = UserSchema.$columns

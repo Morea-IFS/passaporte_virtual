@@ -27,9 +27,12 @@ router.get('/health', async ({ response }) => {
 
 router
   .group(() => {
+    /**
+     * Não há cadastro público: organizadores são criados com
+     * `node ace organizer:create`.
+     */
     router
       .group(() => {
-        router.post('signup', [controllers.NewAccount, 'store'])
         router.post('login', [controllers.AccessTokens, 'store'])
       })
       .prefix('auth')
@@ -42,6 +45,51 @@ router
       })
       .prefix('account')
       .as('profile')
+      .use(middleware.auth())
+
+    /**
+     * Área do organizador: gestão de eventos e checkpoints.
+     */
+    router
+      .group(() => {
+        router.resource('events', controllers.Events).apiOnly()
+
+        router
+          .get('events/:eventId/checkpoints', [controllers.Checkpoints, 'index'])
+          .as('events.checkpoints.index')
+        router
+          .post('events/:eventId/checkpoints', [controllers.Checkpoints, 'store'])
+          .as('events.checkpoints.store')
+        router
+          .post('events/:eventId/checkpoints/import', [controllers.CheckpointImports, 'store'])
+          .as('events.checkpoints.import')
+
+        router
+          .get('events/:eventId/categories', [controllers.CheckpointCategories, 'index'])
+          .as('events.categories.index')
+        router
+          .post('events/:eventId/categories', [controllers.CheckpointCategories, 'store'])
+          .as('events.categories.store')
+        router
+          .put('categories/:id', [controllers.CheckpointCategories, 'update'])
+          .as('categories.update')
+        router
+          .delete('categories/:id', [controllers.CheckpointCategories, 'destroy'])
+          .as('categories.destroy')
+
+        router.get('checkpoints/:id', [controllers.Checkpoints, 'show']).as('checkpoints.show')
+        router.put('checkpoints/:id', [controllers.Checkpoints, 'update']).as('checkpoints.update')
+        router
+          .patch('checkpoints/:id/status', [controllers.Checkpoints, 'updateStatus'])
+          .as('checkpoints.status')
+        router
+          .delete('checkpoints/:id', [controllers.Checkpoints, 'destroy'])
+          .as('checkpoints.destroy')
+      })
+      .prefix('admin')
+      .as('admin')
+      .where('id', router.matchers.number())
+      .where('eventId', router.matchers.number())
       .use(middleware.auth())
   })
   .prefix('/api/v1')

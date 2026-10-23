@@ -34,4 +34,7 @@ export default await Env.create(new URL('../', import.meta.url), {
 
   // CORS
   CORS_ORIGIN: Env.schema.string.optional(),
+
+  // Drive (uploads)
+  DRIVE_DISK: Env.schema.enum(['fs'] as const),
 })

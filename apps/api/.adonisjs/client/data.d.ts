@@ -5,9 +5,24 @@
 
 /// <reference path="./manifest.d.ts" />
 import type { InferData, InferVariants } from '@adonisjs/core/types/transformers'
+import type CheckpointCategoryTransformer from '#transformers/checkpoint_category_transformer'
+import type CheckpointTransformer from '#transformers/checkpoint_transformer'
+import type EventTransformer from '#transformers/event_transformer'
 import type UserTransformer from '#transformers/user_transformer'
 
 export namespace Data {
+  export type CheckpointCategory = InferData<CheckpointCategoryTransformer>
+  export namespace CheckpointCategory {
+    export type Variants = InferVariants<CheckpointCategoryTransformer>
+  }
+  export type Checkpoint = InferData<CheckpointTransformer>
+  export namespace Checkpoint {
+    export type Variants = InferVariants<CheckpointTransformer>
+  }
+  export type Event = InferData<EventTransformer>
+  export namespace Event {
+    export type Variants = InferVariants<EventTransformer>
+  }
   export type User = InferData<UserTransformer>
   export namespace User {
     export type Variants = InferVariants<UserTransformer>
