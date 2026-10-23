@@ -99,6 +99,26 @@
   --font-mono: var(--font-space-mono), ui-monospace, Menlo, monospace;
 }
 
+/* Entrada dos blocos do mosaico (BrandMosaic), só com motion-safe */
+@keyframes tile-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Rolagem horizontal sem barra visível (ex.: fileira de chips no celular) */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer base {
   body {
     background: var(--color-bg);
@@ -117,5 +137,14 @@
   :focus-visible {
     outline: 3px solid var(--color-amarelo);
     outline-offset: 2px;
+  }
+
+  /* Tailwind 4 deixa botões com cursor padrão; aqui todo clicável mostra a mãozinha */
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  label:has(> input[type='file']),
+  label:has(> input[type='checkbox']),
+  label:has(> input[type='radio']) {
+    cursor: pointer;
   }
 }

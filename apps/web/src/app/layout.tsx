@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Montserrat, Nunito_Sans, Space_Mono } from 'next/font/google'
+import { THEME_SCRIPT } from '@/lib/theme'
 import './globals.css'
 
 const montserrat = Montserrat({
@@ -38,7 +39,11 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     <html
       lang="pt-BR"
       className={`${montserrat.variable} ${nunitoSans.variable} ${spaceMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   )
