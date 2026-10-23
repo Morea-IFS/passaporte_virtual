@@ -44,6 +44,8 @@ vine.messagesProvider = new SimpleMessagesProvider(
     'file.size': '{{ field }}: o arquivo pode ter no máximo {{ size }}.',
     'file.extname': '{{ field }}: envie um arquivo {{ extnames }}.',
     'hashtag.regex': 'Use só letras, números e _ (ex.: #SNCT2026).',
+    'nickname.regex': 'Use só letras sem acento, números, ponto, hífen ou _ (ex.: ana.estrela).',
+    'nickname.database.unique': 'Esse apelido já está em uso. Tente outro.',
   },
   {
     name: 'Nome',
@@ -60,6 +62,8 @@ vine.messagesProvider = new SimpleMessagesProvider(
     logo: 'Logomarca',
     file: 'Arquivo',
     email: 'E-mail',
+    nickname: 'Apelido',
+    code: 'Código',
     password: 'Senha',
   }
 )

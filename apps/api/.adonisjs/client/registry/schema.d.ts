@@ -72,6 +72,136 @@ export interface Registry {
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/public_checkpoints_controller').default['show']>>>
     }
   }
+  'public.events.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/public/events'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['indexPublic']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['indexPublic']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['indexPublic']>>>
+    }
+  }
+  'public.events.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/public/events/:slug'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { slug: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['showPublic']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['showPublic']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['showPublic']>>>
+    }
+  }
+  'visitor.nickname': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/visitor/nickname'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/visitor').nicknameAvailabilityValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/visitors_controller').default['availability']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/visitors_controller').default['availability']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/visitors_controller').default['availability']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'visitor.register': {
+    methods: ["POST"]
+    pattern: '/api/v1/visitor'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/visitor').registerVisitorValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/visitor').registerVisitorValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/visitors_controller').default['register']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/visitors_controller').default['register']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/visitors_controller').default['register']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'visitor.recover': {
+    methods: ["POST"]
+    pattern: '/api/v1/visitor/recover'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/visitor').recoverVisitorValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/visitor').recoverVisitorValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/visitors_controller').default['recover']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/visitors_controller').default['recover']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/visitors_controller').default['recover']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'visitor.me': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/visitor/me'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/visitors_controller').default['me']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/visitors_controller').default['me']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/visitors_controller').default['me']>>>
+    }
+  }
+  'visitor.logout': {
+    methods: ["POST"]
+    pattern: '/api/v1/visitor/logout'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/visitors_controller').default['logout']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/visitors_controller').default['logout']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/visitors_controller').default['logout']>>>
+    }
+  }
+  'visitor.checkins.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/visitor/checkins'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/visitor').checkinValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/visitor').checkinValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/checkins_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/checkins_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/checkins_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'visitor.passports.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/visitor/passports'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['index']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['index']>>>
+    }
+  }
+  'visitor.passports.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/visitor/passports/:slug'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { slug: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['show']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['show']>>>
+    }
+  }
   'admin.events.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/admin/events'

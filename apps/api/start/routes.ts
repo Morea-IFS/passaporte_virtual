@@ -54,6 +54,33 @@ router
       .get('public/checkpoints/:token', [controllers.PublicCheckpoints, 'show'])
       .as('public.checkpoints.show')
 
+    router.get('public/events', [controllers.Passports, 'indexPublic']).as('public.events.index')
+    router
+      .get('public/events/:slug', [controllers.Passports, 'showPublic'])
+      .as('public.events.show')
+
+    /**
+     * Visitante: apelido, recuperação, check-in e passaporte.
+     */
+    router
+      .group(() => {
+        router.get('nickname', [controllers.Visitors, 'availability']).as('nickname')
+        router.post('/', [controllers.Visitors, 'register']).as('register')
+        router.post('recover', [controllers.Visitors, 'recover']).as('recover')
+
+        router
+          .group(() => {
+            router.get('me', [controllers.Visitors, 'me']).as('me')
+            router.post('logout', [controllers.Visitors, 'logout']).as('logout')
+            router.post('checkins', [controllers.Checkins, 'store']).as('checkins.store')
+            router.get('passports', [controllers.Passports, 'index']).as('passports.index')
+            router.get('passports/:slug', [controllers.Passports, 'show']).as('passports.show')
+          })
+          .use(middleware.visitor())
+      })
+      .prefix('visitor')
+      .as('visitor')
+
     /**
      * Área do organizador: gestão de eventos e checkpoints.
      */

@@ -24,6 +24,24 @@ export interface ApiDefinition {
     checkpoints: {
       show: typeof routes['public.checkpoints.show']
     }
+    events: {
+      index: typeof routes['public.events.index']
+      show: typeof routes['public.events.show']
+    }
+  }
+  visitor: {
+    nickname: typeof routes['visitor.nickname']
+    register: typeof routes['visitor.register']
+    recover: typeof routes['visitor.recover']
+    me: typeof routes['visitor.me']
+    logout: typeof routes['visitor.logout']
+    checkins: {
+      store: typeof routes['visitor.checkins.store']
+    }
+    passports: {
+      index: typeof routes['visitor.passports.index']
+      show: typeof routes['visitor.passports.show']
+    }
   }
   admin: {
     events: {

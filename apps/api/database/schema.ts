@@ -32,6 +32,25 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class CheckinSchema extends BaseModel {
+  static $columns = ['checkpointId', 'createdAt', 'deletedAt', 'eventId', 'id', 'updatedAt', 'visitorId'] as const
+  $columns = CheckinSchema.$columns
+  @column()
+  declare checkpointId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare eventId: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare visitorId: number
+}
+
 export class CheckpointCategorySchema extends BaseModel {
   static $columns = ['color', 'createdAt', 'deletedAt', 'eventId', 'id', 'name', 'position', 'updatedAt'] as const
   $columns = CheckpointCategorySchema.$columns
@@ -126,6 +145,38 @@ export class UserSchema extends BaseModel {
   declare id: number
   @column({ serializeAs: null })
   declare password: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class VisitorTokenSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'lastUsedAt', 'tokenHash', 'visitorId'] as const
+  $columns = VisitorTokenSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column.dateTime()
+  declare lastUsedAt: DateTime | null
+  @column()
+  declare tokenHash: string
+  @column()
+  declare visitorId: number
+}
+
+export class VisitorSchema extends BaseModel {
+  static $columns = ['createdAt', 'deletedAt', 'id', 'nickname', 'recoveryCodeEncrypted', 'updatedAt'] as const
+  $columns = VisitorSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare nickname: string
+  @column()
+  declare recoveryCodeEncrypted: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }
