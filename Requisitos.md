@@ -43,12 +43,11 @@ Status: ⬜ = pendente, ✅ = concluído.
 
 ### 4.2 QR codes
 
-| ID   | Requisito                                                                                                                                                                                                  | Prio | Status |
-| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ------ |
-| RF07 | O sistema deve gerar um QR code único por checkpoint, apontando para a URL de check-in daquele ponto.                                                                                                      | M    | ⬜     |
-| RF08 | O sistema deve exportar os QR codes em formato fácil de imprimir (ex.: PDF com um QR por página ou por etiqueta, com nome e logo do checkpoint).                                                           | M    | ⬜     |
-| RF09 | O sistema deve permitir exportar todos os QR codes de um evento de uma vez.                                                                                                                                | S    | ⬜     |
-| RF10 | Para atividades com início, meio e fim (ex.: oficinas), deve ser possível liberar o check-in apenas ao final da atividade (ex.: QR exibido ou ativado pelo responsável no encerramento). **[A CONFIRMAR]** | S    | ⬜     |
+| ID   | Requisito                                                                                                                                        | Prio | Status |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---- | ------ |
+| RF07 | O sistema deve gerar um QR code único por checkpoint, apontando para a URL de check-in daquele ponto.                                            | M    | ✅     |
+| RF08 | O sistema deve exportar os QR codes em formato fácil de imprimir (ex.: PDF com um QR por página ou por etiqueta, com nome e logo do checkpoint). | M    | ✅     |
+| RF09 | O sistema deve permitir exportar todos os QR codes de um evento de uma vez.                                                                      | S    | ✅     |
 
 ### 4.3 Passaporte do visitante
 
@@ -115,7 +114,6 @@ Status: ⬜ = pendente, ✅ = concluído.
 2. Mecanismo de identificação: apelido, e-mail ou token no dispositivo? (decidir no desenvolvimento)
 3. Histórico de visitas: banco de dados, só no dispositivo, ou os dois?
 4. Avaliação do evento: link externo ou avaliação integrada? Qual formato os financiadores exigem? (Rubens com Luan)
-5. Oficinas: como garantir que o check-in só ocorra ao final?
-6. Datas exatas dos eventos e inclusão do festival de curtas.
-7. Até quando a lista de projetos pré-cadastrados estará disponível? (Rubens)
-8. Integração com o WebEvents: importar dados de lá ou só usar a separação por evento?
+5. Datas exatas dos eventos e inclusão do festival de curtas.
+6. Até quando a lista de projetos pré-cadastrados estará disponível? (Rubens)
+7. Integração com o WebEvents: importar dados de lá ou só usar a separação por evento?

@@ -24,7 +24,7 @@ Monorepo pnpm workspaces + Turborepo.
 - Web — peças base em `apps/web/src/components/ui/` (genéricas, sem regra de negócio):
   - Botões: `buttonClass(variant, { size, block, blockOnMobile })`, `quietButtonClass`, `iconButtonClass` (`button.ts`); `SubmitButton`.
   - Campos: `Field` (casca com rótulo e mensagem; `as="group"` para fieldset), `TextField`, `TextAreaField`, `InlineField` (campo + botão), `DateField`, `Switch`, `inputClass`, `FieldMessage`.
-  - Estrutura: `Card` + `CardFooter`, `Panel`, `Actions` (botões de formulário/modal), `Modal`, `ConfirmDialog`, `ImageCropDialog`, `FilterChip`, `CategoryChip`, ícones em `icons.tsx`.
+  - Estrutura: `Card` + `CardFooter`, `Panel`, `Actions` (botões de formulário/modal), `Modal`, `ConfirmDialog`, `ImageCropDialog`, `FilterChip`, `CategoryChip`, `OptionCard` (rádio em cartão), `QrCode`, `CopyButton`, ícones em `icons.tsx`.
   - Feedback: `Notice` (erro/sucesso/neutro), `InlineError`, `EmptyState`.
   - Explicação longa de campo: prop `info` do `Field` (ícone ⓘ que abre modal, `InfoButton`). A dica abaixo do campo fica curta.
 - Marca: `BrandLockup`, `BrandMark` e `BrandMosaic` (mosaico + constelação, fundo de impacto) em `apps/web/src/components/`.
@@ -75,5 +75,6 @@ docker compose exec api node ace organizer:create   # conta do painel /admin
 - API: rotas do organizador em `/api/v1/admin/*` (token Bearer). Respostas passam por transformers (`app/transformers`) e saem em `{ data }`. Mensagens de validação em português em `start/validator.ts`.
 - Web: painel em `src/app/admin`. Dados vêm de `src/lib/api.ts` (server-only, token do cookie httpOnly); mutações são Server Actions em `src/app/admin/actions.ts`. Com `cacheComponents`, toda página que busca dados precisa de `loading.tsx` no próprio segmento (senão o Next acusa "uncached data outside Suspense").
 - Typecheck do web roda `next typegen` antes do `tsc` (tipos globais como `LayoutProps`).
+- QR codes: link `PUBLIC_WEB_URL/c/<qrToken>` (token aleatório, nunca o código CP-xxx). PDF de impressão gerado na API (`app/services/qr_codes_pdf.ts`, pdfkit + fontes da marca em `apps/api/resources/fonts`), repassado pelo web em `/admin/eventos/[id]/qrcodes/pdf`. Página pública do ponto em `apps/web/src/app/c/[token]`.
 - Env: `.env` da raiz alimenta o `docker-compose.yml` (inclui `APP_KEY`). `apps/api/.env` é usado só fora do Docker. Nenhum `.env` com segredo vai pro git.
 - Browser chama a API por `NEXT_PUBLIC_API_URL` (localhost:3333). Código server-side do Next usa `API_URL` (`http://api:3333` na rede do compose).

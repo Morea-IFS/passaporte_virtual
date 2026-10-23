@@ -35,6 +35,8 @@ As migrations rodam automaticamente quando a API sobe.
 
 Se a porta 5432 já estiver em uso na sua máquina, mude `POSTGRES_PORT` no `.env`.
 
+Para testar os QR codes lendo com o celular, coloque no `.env` o IP da máquina na rede (ex.: `PUBLIC_WEB_URL=http://192.168.0.10:3000`) e rode `docker compose up -d api`.
+
 ### Comandos úteis
 
 ```bash
