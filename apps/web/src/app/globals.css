@@ -1,26 +1,121 @@
 @import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * Identidade visual: 23ª SNCT – Ciência Delas
+ * Referência completa: docs/identidade-visual/index.html
+ *
+ * Cores de marca são fixas nos dois temas. Cores de interface (bg, surface, fg...)
+ * trocam entre claro e escuro: o tema segue o sistema e pode ser forçado com
+ * data-theme="light" | "dark" no <html>.
+ */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Variante dark: sistema em modo escuro (sem escolha explícita) ou data-theme="dark" */
+@custom-variant dark {
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme='light']) *) {
+      @slot;
+    }
+  }
+  &:where([data-theme='dark'] *) {
+    @slot;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+:root {
+  --bg: #f7f2e9;
+  --surface: #fffdf8;
+  --surface-2: #efe8da;
+  --fg: #22164d;
+  --muted: #5f5480;
+  --line: #e2d9c6;
+  --accent: #3b2492;
+  --on-accent: #fffdf8;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #140c2e;
+    --surface: #1f1645;
+    --surface-2: #2a1f58;
+    --fg: #f4eeff;
+    --muted: #b5a9d6;
+    --line: #3a2e6c;
+    --accent: #b9a6ff;
+    --on-accent: #1d1147;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: #140c2e;
+  --surface: #1f1645;
+  --surface-2: #2a1f58;
+  --fg: #f4eeff;
+  --muted: #b5a9d6;
+  --line: #3a2e6c;
+  --accent: #b9a6ff;
+  --on-accent: #1d1147;
+  color-scheme: dark;
+}
+
+@theme {
+  /* Marca (fixas) */
+  --color-violeta: #3b2492;
+  --color-violeta-noite: #1d1147;
+  --color-creme: #f7f2e9;
+  --color-amarelo: #f6c21c;
+  --color-verde: #2e9e4f;
+  --color-magenta: #d9327e;
+  --color-laranja: #f28322;
+  --color-azul: #2563c9;
+  --color-turquesa: #169c93;
+
+  /* Categorias de checkpoint */
+  --color-pesquisa: var(--color-azul);
+  --color-oficina: var(--color-laranja);
+  --color-apresentacao: var(--color-magenta);
+  --color-cultural: var(--color-verde);
+  --color-curso: var(--color-turquesa);
+
+  --radius-s: 6px;
+  --radius-m: 14px;
+}
+
+@theme inline {
+  /* Interface (mudam com o tema) */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+
+  /* Fontes (carregadas via next/font em layout.tsx) */
+  --font-display: var(--font-montserrat), 'Helvetica Neue', Arial, sans-serif;
+  --font-sans: var(--font-nunito-sans), 'Segoe UI', Roboto, sans-serif;
+  --font-mono: var(--font-space-mono), ui-monospace, Menlo, monospace;
+}
+
+@layer base {
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-amarelo);
+    outline-offset: 2px;
+  }
 }
