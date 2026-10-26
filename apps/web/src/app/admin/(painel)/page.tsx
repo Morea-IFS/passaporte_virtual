@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { EventCard } from '@/components/admin/event-card'
 import { PageHeader } from '@/components/admin/page-header'
-import { Pagination } from '@/components/admin/pagination'
+import { Pagination } from '@/components/ui/pagination'
 import { buttonClass } from '@/components/ui/button'
 import { EmptyState } from '@/components/ui/feedback'
 import { api } from '@/lib/api'

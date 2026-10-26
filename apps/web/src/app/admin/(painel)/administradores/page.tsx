@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { AdministratorActions } from '@/components/admin/administrator-actions'
 import { PageHeader } from '@/components/admin/page-header'
-import { Pagination } from '@/components/admin/pagination'
+import { Pagination } from '@/components/ui/pagination'
 import { Card, CardFooter, Panel } from '@/components/ui/card'
 import { buttonClass } from '@/components/ui/button'
 import { EmptyState } from '@/components/ui/feedback'

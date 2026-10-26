@@ -1,7 +1,7 @@
 import { PageHeader } from '@/components/admin/page-header'
 import { api } from '@/lib/api'
 import { parseId, parsePage } from '@/lib/params'
-import { Pagination } from '@/components/admin/pagination'
+import { Pagination } from '@/components/ui/pagination'
 import { hrefWith } from '@/lib/url'
 import { CategoryManager } from './category-manager'
 

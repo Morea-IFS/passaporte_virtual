@@ -1,5 +1,5 @@
 import { PageHeader } from '@/components/admin/page-header'
-import { Pagination } from '@/components/admin/pagination'
+import { Pagination } from '@/components/ui/pagination'
 import { buttonClass } from '@/components/ui/button'
 import { Card, Panel } from '@/components/ui/card'
 import { EmptyState } from '@/components/ui/feedback'

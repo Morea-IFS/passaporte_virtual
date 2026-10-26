@@ -24,12 +24,12 @@ Monorepo pnpm workspaces + Turborepo.
 - Web — peças base em `apps/web/src/components/ui/` (genéricas, sem regra de negócio):
   - Botões: `buttonClass(variant, { size, block, blockOnMobile })`, `quietButtonClass`, `iconButtonClass` (`button.ts`); `SubmitButton`.
   - Campos: `Field` (casca com rótulo e mensagem; `as="group"` para fieldset), `TextField`, `TextAreaField`, `InlineField` (campo + botão), `DateField`, `SelectField` (lista em modal, nunca `<select>` nativo), `Switch`, `inputClass`, `FieldMessage`.
-  - Estrutura: `Card` + `CardFooter`, `Panel`, `Disclosure` (seção que abre e fecha), `Actions` (botões de formulário/modal), `Modal`, `ConfirmDialog`, `ImageCropDialog`, `FilterChip`, `CategoryChip`, `OptionCard` (rádio em cartão), `QrCode`, `CopyButton`, ícones em `icons.tsx`.
+  - Estrutura: `Card` + `CardFooter`, `Panel`, `Disclosure` (seção que abre e fecha), `Actions` (botões de formulário/modal), `Modal`, `ConfirmDialog`, `ImageCropDialog`, `FilterChip`, `CategoryChip`, `Pagination` (links com `hrefFor` ou clique com `onPageChange`; `PER_PAGE`), `OptionCard` (rádio em cartão), `QrCode`, `CopyButton`, ícones em `icons.tsx`.
   - Feedback: `Notice` (erro/sucesso/neutro), `InlineError`, `EmptyState`.
   - Explicação longa de campo: prop `info` do `Field` (ícone ⓘ que abre modal, `InfoButton`). A dica abaixo do campo fica curta.
 - Passaporte (visitante): `VisitorShell`, `Stamp`/`StampSlot`, `ProgressBar`, `CheckinFlow`, `NicknameForm`, `RecoveryCode`, `EventChoiceCard` em `apps/web/src/components/passport/`.
 - Marca: `BrandLockup`, `BrandMark` e `BrandMosaic` (mosaico + constelação, fundo de impacto) em `apps/web/src/components/`.
-- Web — componentes de domínio em `apps/web/src/components/admin/` (ex.: `AdminNav`, `ImageInput`, `CategoryPicker`, `DangerZone`, `CheckpointCard`, `EventCard`, `CheckpointFilters`, `Pagination`, `PageHeader`).
+- Web — componentes de domínio em `apps/web/src/components/admin/` (ex.: `AdminNav`, `ImageInput`, `CategoryPicker`, `DangerZone`, `CheckpointCard`, `EventCard`, `CheckpointFilters`, `PageHeader`).
 - Helpers em `apps/web/src/lib/` (`hrefWith`, `firstParam`, `parseId`, `parsePage`, `pluralize`, `formatEventPeriod`, `colorStyles`, `IMAGE_SPECS`/`cropToFile`).
 - Imagens enviadas saem no tamanho do formato (`IMAGE_SPECS` em `lib/image.ts`: capa 1200 × 675 JPG, logomarca 512 × 512 PNG); proporção diferente abre o enquadramento antes do envio.
 - API: comportamento comum de models vira mixin (`app/models/mixins/`); regras de validação reaproveitadas ficam nos validators; lógica de arquivos em `app/services/`.

@@ -5,7 +5,7 @@ import {
   type CheckpointFilterValues,
 } from '@/components/admin/checkpoint-filters'
 import { PageHeader } from '@/components/admin/page-header'
-import { Pagination } from '@/components/admin/pagination'
+import { Pagination } from '@/components/ui/pagination'
 import { buttonClass } from '@/components/ui/button'
 import { EmptyState, Notice } from '@/components/ui/feedback'
 import { QrIcon } from '@/components/ui/icons'
