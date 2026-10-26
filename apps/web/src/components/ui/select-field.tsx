@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { Fragment, useRef, useState } from 'react'
 import { buttonClass } from '@/components/ui/button'
 import { Actions } from '@/components/ui/card'
 import { inputClass } from '@/components/ui/field'
@@ -62,22 +62,24 @@ export function SelectField({
         <div
           role="listbox"
           aria-label={label}
-          className="-mx-1 flex max-h-[60vh] flex-col gap-1 overflow-y-auto px-1"
+          className="-mx-1 scrollbar-none flex max-h-[60vh] flex-col gap-1.5 overflow-y-auto px-1"
         >
-          {options.map((option) => {
+          {options.map((option, index) => {
             const selected = option.value === value
             return (
-              <button
-                key={option.value}
-                type="button"
-                role="option"
-                aria-selected={selected}
-                onClick={() => choose(option)}
-                className={`flex min-h-11 w-full shrink-0 items-center justify-between gap-3 rounded-full px-4 text-left font-display text-[15px] font-bold ${selected ? 'bg-violeta text-creme' : 'text-fg hover:bg-surface-2'}`}
-              >
-                <span>{option.label}</span>
-                {selected ? <CheckIcon className="size-4 shrink-0" /> : null}
-              </button>
+              <Fragment key={option.value}>
+                {index > 0 ? <span aria-hidden className="mx-4 h-px shrink-0 bg-line" /> : null}
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={selected}
+                  onClick={() => choose(option)}
+                  className={`flex min-h-11 w-full shrink-0 items-center justify-between gap-3 rounded-full px-4 text-left font-display text-[15px] font-bold ${selected ? 'bg-violeta text-creme' : 'text-fg hover:bg-surface-2'}`}
+                >
+                  <span>{option.label}</span>
+                  {selected ? <CheckIcon className="size-4 shrink-0" /> : null}
+                </button>
+              </Fragment>
             )
           })}
         </div>
