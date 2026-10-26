@@ -1,10 +1,12 @@
 import Link from 'next/link'
 import { PageHeader } from '@/components/admin/page-header'
 import { Pagination } from '@/components/ui/pagination'
-import { Card, Panel } from '@/components/ui/card'
+import { Actions, Card, Panel } from '@/components/ui/card'
 import { buttonClass } from '@/components/ui/button'
+import { Dropdown } from '@/components/ui/dropdown'
 import { EmptyState } from '@/components/ui/feedback'
 import { inputClass } from '@/components/ui/field'
+import { FilterIcon } from '@/components/ui/icons'
 import { SelectField } from '@/components/ui/select-field'
 import { api } from '@/lib/api'
 import {
@@ -29,6 +31,14 @@ export default async function AuditPage({ searchParams }: PageProps<'/admin/audi
     to: firstParam(params.to),
     page: parsePage(params.pagina),
   }
+  const activeFilters = [
+    filters.actorId,
+    filters.action,
+    filters.resourceType,
+    filters.eventId,
+    filters.from,
+    filters.to,
+  ].filter(Boolean).length
   const [{ data: logs, metadata }, options] = await Promise.all([
     api.auditLogs(filters),
     api.auditOptions(),
@@ -39,67 +49,92 @@ export default async function AuditPage({ searchParams }: PageProps<'/admin/audi
         title="Auditoria"
         description="Histórico imutável das ações realizadas no painel."
       />
-      <Panel>
-        <form className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <Panel className="p-3">
+        <form method="get" role="search" className="relative flex flex-col gap-2 sm:flex-row">
           <input
+            type="search"
             name="q"
             defaultValue={filters.q}
             className={inputClass('sm')}
             placeholder="Autor ou recurso"
-            aria-label="Buscar"
+            aria-label="Buscar por autor ou recurso"
           />
-          <SelectField
-            name="actorId"
-            label="Administrador"
-            size="sm"
-            defaultValue={filters.actorId}
-            options={[
-              { value: '', label: 'Todos os administradores' },
-              ...options.administrators.map((item) => ({
-                value: String(item.id),
-                label: item.fullName ?? item.email,
-              })),
-            ]}
-          />
-          <SelectField
-            name="action"
-            label="Ação"
-            size="sm"
-            defaultValue={filters.action}
-            options={[{ value: '', label: 'Todas as ações' }, ...AUDIT_ACTION_OPTIONS]}
-          />
-          <SelectField
-            name="resourceType"
-            label="Recurso"
-            size="sm"
-            defaultValue={filters.resourceType}
-            options={[{ value: '', label: 'Todos os recursos' }, ...AUDIT_RESOURCE_OPTIONS]}
-          />
-          <SelectField
-            name="eventId"
-            label="Evento"
-            size="sm"
-            defaultValue={filters.eventId}
-            options={[
-              { value: '', label: 'Todos os eventos' },
-              ...options.events.map((event) => ({ value: String(event.id), label: event.name })),
-            ]}
-          />
-          <input
-            type="date"
-            name="from"
-            defaultValue={filters.from}
-            className={inputClass('sm')}
-            aria-label="Data inicial"
-          />
-          <input
-            type="date"
-            name="to"
-            defaultValue={filters.to}
-            className={inputClass('sm')}
-            aria-label="Data final"
-          />
-          <button className={buttonClass('ghost', { size: 'sm' })}>Filtrar</button>
+          <Dropdown
+            label="Filtros"
+            icon={<FilterIcon className="size-4 shrink-0" />}
+            count={activeFilters}
+            blockOnMobile
+          >
+            <div className="grid gap-3 sm:grid-cols-2">
+              <SelectField
+                name="actorId"
+                label="Administrador"
+                size="sm"
+                defaultValue={filters.actorId}
+                options={[
+                  { value: '', label: 'Todos os administradores' },
+                  ...options.administrators.map((item) => ({
+                    value: String(item.id),
+                    label: item.fullName ?? item.email,
+                  })),
+                ]}
+              />
+              <SelectField
+                name="action"
+                label="Ação"
+                size="sm"
+                defaultValue={filters.action}
+                options={[{ value: '', label: 'Todas as ações' }, ...AUDIT_ACTION_OPTIONS]}
+              />
+              <SelectField
+                name="resourceType"
+                label="Recurso"
+                size="sm"
+                defaultValue={filters.resourceType}
+                options={[{ value: '', label: 'Todos os recursos' }, ...AUDIT_RESOURCE_OPTIONS]}
+              />
+              <SelectField
+                name="eventId"
+                label="Evento"
+                size="sm"
+                defaultValue={filters.eventId}
+                options={[
+                  { value: '', label: 'Todos os eventos' },
+                  ...options.events.map((event) => ({
+                    value: String(event.id),
+                    label: event.name,
+                  })),
+                ]}
+              />
+              <input
+                type="date"
+                name="from"
+                defaultValue={filters.from}
+                className={inputClass('sm')}
+                aria-label="Data inicial"
+              />
+              <input
+                type="date"
+                name="to"
+                defaultValue={filters.to}
+                className={inputClass('sm')}
+                aria-label="Data final"
+              />
+            </div>
+            <Actions align="end">
+              {activeFilters ? (
+                <Link
+                  href={hrefWith('/admin/auditoria', { q: filters.q })}
+                  className={buttonClass('ghost', { size: 'sm' })}
+                >
+                  Limpar
+                </Link>
+              ) : null}
+              <button type="submit" className={buttonClass('primary', { size: 'sm' })}>
+                Filtrar
+              </button>
+            </Actions>
+          </Dropdown>
         </form>
       </Panel>
       {logs.length === 0 ? (

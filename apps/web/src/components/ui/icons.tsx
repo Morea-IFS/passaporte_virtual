@@ -121,3 +121,11 @@ export function CheckIcon(props: SVGProps<SVGSVGElement>) {
     </Icon>
   )
 }
+
+export function FilterIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Icon {...props}>
+      <path d="M4 6h16M7 12h10M10 18h4" />
+    </Icon>
+  )
+}
