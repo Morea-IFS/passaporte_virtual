@@ -6,6 +6,7 @@ import { Actions } from '@/components/ui/card'
 import { inputClass } from '@/components/ui/field'
 import { CheckIcon, ChevronDownIcon } from '@/components/ui/icons'
 import { Modal } from '@/components/ui/modal'
+import { Pagination, PER_PAGE } from '@/components/ui/pagination'
 
 export type SelectOption = { value: string; label: string }
 
@@ -22,6 +23,7 @@ type SelectFieldProps = {
  * Select da identidade, no mesmo padrão do DateField: um botão com cara de
  * campo que abre a lista de opções num modal. O valor vai no formulário por
  * um input escondido, então funciona em formulários GET de filtro.
+ * Listas longas são paginadas de 20 em 20, abrindo na página da opção atual.
  */
 export function SelectField({
   name,
@@ -32,11 +34,24 @@ export function SelectField({
 }: SelectFieldProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const [value, setValue] = useState(defaultValue)
+  const listRef = useRef<HTMLDivElement>(null)
+  const [page, setPage] = useState(1)
   const current = options.find((option) => option.value === value) ?? options[0]
+  const lastPage = Math.max(1, Math.ceil(options.length / PER_PAGE))
+  const visible = options.slice((page - 1) * PER_PAGE, page * PER_PAGE)
 
   function open() {
+    const index = Math.max(0, options.indexOf(current))
+    setPage(Math.floor(index / PER_PAGE) + 1)
     dialogRef.current?.showModal()
-    dialogRef.current?.querySelector<HTMLButtonElement>('[aria-selected="true"]')?.focus()
+    requestAnimationFrame(() =>
+      dialogRef.current?.querySelector<HTMLButtonElement>('[aria-selected="true"]')?.focus()
+    )
+  }
+
+  function changePage(target: number) {
+    setPage(target)
+    listRef.current?.scrollTo({ top: 0 })
   }
 
   function choose(option: SelectOption) {
@@ -60,11 +75,12 @@ export function SelectField({
 
       <Modal dialogRef={dialogRef} title={label}>
         <div
+          ref={listRef}
           role="listbox"
           aria-label={label}
           className="-mx-1 scrollbar-none flex max-h-[60vh] flex-col gap-1.5 overflow-y-auto px-1"
         >
-          {options.map((option, index) => {
+          {visible.map((option, index) => {
             const selected = option.value === value
             return (
               <Fragment key={option.value}>
@@ -83,6 +99,11 @@ export function SelectField({
             )
           })}
         </div>
+        <Pagination
+          label={`Páginas de ${label}`}
+          metadata={{ currentPage: page, lastPage, perPage: PER_PAGE, total: options.length }}
+          onPageChange={changePage}
+        />
         <Actions align="end">
           <button
             type="button"
