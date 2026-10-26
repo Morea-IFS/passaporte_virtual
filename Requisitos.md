@@ -94,6 +94,17 @@ Status: ⬜ = pendente, ✅ = concluído.
 | RF30 | O administrador deve ter uma tela de auditoria com pesquisa, filtros e visualização dos detalhes de cada ação registrada.                                                                                                 | S    | ✅     |
 | RF31 | O administrador deve ter uma tela consolidada de participantes, exibindo apelido (username), eventos, quantidade de check-ins, progresso, última atividade e checkpoints visitados, com recursos de pesquisa e filtragem. | S    | ✅     |
 
+### 4.8 Painel de dados do evento
+
+| ID   | Requisito                                                                                                                                                                                                              | Prio | Status |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ------ |
+| RF32 | O administrador deve ter, para cada evento, um painel de dados com os principais indicadores: total de participantes inscritos (passaportes criados), total de check-ins e média de pontos visitados por participante. | S    | ⬜     |
+| RF33 | O painel deve exibir o ranking dos checkpoints mais visitados e dos menos visitados, para identificar destaques e estandes com pouca procura.                                                                          | S    | ⬜     |
+| RF34 | O painel deve exibir as visitas por categoria (pesquisa, oficina, apresentação, cultural, curso).                                                                                                                      | S    | ⬜     |
+| RF35 | O painel deve exibir a distribuição das visitas ao longo do tempo (por dia e por hora), para mostrar os horários de pico.                                                                                              | C    | ⬜     |
+| RF36 | O painel deve exibir quantos participantes completaram o passaporte e a distribuição do progresso (ex.: quantos visitaram 25%, 50%, 75% e 100% dos pontos).                                                            | C    | ⬜     |
+| RF37 | Os dados do painel devem poder ser exportados (ex.: planilha CSV), para relatórios aos financiadores e à organização.                                                                                                  | C    | ⬜     |
+
 ## 5. Requisitos não funcionais
 
 | ID    | Requisito                                                                                                                                                            | Status |
