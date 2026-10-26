@@ -116,7 +116,7 @@ export default async function PassportPage({
       {account ? (
         <section aria-labelledby="carimbos" className="flex flex-col gap-3">
           <h2 id="carimbos" className="text-lg font-extrabold">
-            Carimbos {visited.length > 0 ? `(${visited.length})` : ''}
+            Carimbos
           </h2>
           {visited.length === 0 ? (
             <EmptyState title="Nenhum carimbo ainda">
@@ -149,7 +149,7 @@ export default async function PassportPage({
 
       <section aria-labelledby="faltam" className="flex flex-col gap-3">
         <h2 id="faltam" className="text-lg font-extrabold">
-          {account ? `Faltam ${pending.length}` : pluralize(pending.length, 'ponto', 'pontos')}
+          {account ? 'Faltam' : pluralize(pending.length, 'ponto', 'pontos')}
         </h2>
         {pending.length === 0 ? (
           <EmptyState title={account ? 'Você passou por todos!' : 'Nenhum ponto nesta categoria'}>
