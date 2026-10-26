@@ -34,7 +34,7 @@ pnpm db:seed
 - Massa de testes (só em desenvolvimento): administradores `maria.souza@`, `joao.lima@`, `ana.rocha@passaporte.local` com senha `senha12345` (`carla.mendes@` desativada, `pedro.alves@` removido), eventos em andamento, futuro, encerrado e excluído, pontos, visitantes, carimbos e auditoria.
 - Visitante de teste: apelido `teste`, código de recuperação `TEST-2345` (em `/recuperar`).
 
-Rodar de novo não duplica nada. Para recomeçar do zero, `pnpm db:fresh` (**apaga o banco**, roda migrations e seeds).
+Sem o seed, o banco fica só com o administrador padrão (ou nenhum): listas e filtros do painel, como "Administrador" na auditoria, aparecem praticamente vazios. Rodar de novo não duplica nada. Para recomeçar do zero, `pnpm db:fresh` (**apaga o banco**, roda migrations e seeds).
 
 Outras contas de organizador podem ser criadas pelo painel ou com:
 
