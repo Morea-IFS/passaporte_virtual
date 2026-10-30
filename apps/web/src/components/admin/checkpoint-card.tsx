@@ -14,7 +14,7 @@ export function CheckpointCard({ checkpoint }: { checkpoint: Checkpoint }) {
     <Card>
       <Link
         href={`/admin/eventos/${checkpoint.eventId}/pontos/${checkpoint.id}`}
-        className={`flex items-center gap-3 p-3 ${checkpoint.isActive ? '' : 'opacity-70'}`}
+        className="flex items-center gap-3 p-3"
       >
         <CheckpointThumb checkpoint={checkpoint} size={56} />
         <span className="flex min-w-0 flex-1 flex-col gap-1">

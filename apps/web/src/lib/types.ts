@@ -79,6 +79,8 @@ export type PassportEvent = {
   location: string | null
   hashtag: string | null
   description: string | null
+  evaluationMode: 'integrated' | 'external'
+  evaluationUrl: string | null
   checkpointsCount: number
   activeCheckpointsCount: number
 }
@@ -179,7 +181,17 @@ export type PassportCheckpoint = {
 }
 
 export type Passport = {
-  event: Pick<PassportEvent, 'name' | 'slug' | 'hashtag' | 'location' | 'startsOn' | 'endsOn'>
+  event: Pick<
+    PassportEvent,
+    | 'name'
+    | 'slug'
+    | 'hashtag'
+    | 'location'
+    | 'startsOn'
+    | 'endsOn'
+    | 'evaluationMode'
+    | 'evaluationUrl'
+  >
   progress: PassportProgress
   categories: Pick<CheckpointCategory, 'id' | 'name' | 'color'>[]
   checkpoints: PassportCheckpoint[]

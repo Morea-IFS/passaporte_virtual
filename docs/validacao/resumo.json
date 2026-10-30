@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-30",
+  "timezone": "America/Fortaleza",
+  "branch": "codex/concluir-requisitos",
+  "requirements": {
+    "functional": 36,
+    "nonFunctional": 8,
+    "completed": 44,
+    "pending": 0
+  },
+  "automatedTests": {
+    "apiFunctional": 18,
+    "webNode": 18,
+    "browserE2E": 8,
+    "browserProfiles": ["Chromium / Android emulado", "WebKit / iPhone emulado"],
+    "productionBuild": true,
+    "httpsLocal": true,
+    "allPassed": true
+  },
+  "checks": {
+    "lint": "passed",
+    "typescript": "passed",
+    "format": "passed",
+    "apiBuild": "passed",
+    "webStandaloneBuild": "passed"
+  },
+  "load": {
+    "concurrentVisitors": 300,
+    "errors": 0,
+    "newCheckinP95Ms": 554.52,
+    "newCheckinWith300msLatencyP95Ms": 913.49
+  },
+  "qr": {
+    "expected": 26,
+    "decoded": 26,
+    "productionBuild": true
+  },
+  "limits": [
+    "Validação local; sem publicação externa.",
+    "Motores de navegador emulados; não foram utilizados celulares físicos.",
+    "QR validado por rasterização e leitura automática; não houve impressão em papel."
+  ]
+}

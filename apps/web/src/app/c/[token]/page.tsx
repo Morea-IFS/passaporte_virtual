@@ -58,6 +58,9 @@ export default async function CheckpointPage({ params }: PageProps<'/c/[token]'>
         <CheckinFlow
           qrToken={token}
           code={checkpoint.code}
+          checkpointName={checkpoint.name}
+          eventName={event.name}
+          hashtag={event.hashtag}
           categoryName={checkpoint.category.name}
           color={checkpoint.category.color}
           hasPassport={hasPassport}

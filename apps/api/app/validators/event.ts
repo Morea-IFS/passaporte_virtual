@@ -14,6 +14,15 @@ const fields = {
     .nullable()
     .optional(),
   description: vine.string().trim().maxLength(2000).nullable().optional(),
+  evaluationMode: vine.enum(['integrated', 'external']).optional(),
+  evaluationUrl: vine
+    .string()
+    .trim()
+    .maxLength(2000)
+    .url()
+    .regex(/^https?:\/\//i)
+    .nullable()
+    .optional(),
 }
 
 export const createEventValidator = vine.create(fields)

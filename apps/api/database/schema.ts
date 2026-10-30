@@ -132,8 +132,44 @@ export class CheckpointSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class EventEvaluationSchema extends BaseModel {
+  static $columns = ['createdAt', 'deletedAt', 'eventId', 'id', 'rating', 'updatedAt', 'visitorId'] as const
+  $columns = EventEvaluationSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare eventId: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare rating: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare visitorId: number
+}
+
+export class EventParticipationSchema extends BaseModel {
+  static $columns = ['createdAt', 'deletedAt', 'eventId', 'id', 'updatedAt', 'visitorId'] as const
+  $columns = EventParticipationSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare eventId: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare visitorId: number
+}
+
 export class EventSchema extends BaseModel {
-  static $columns = ['createdAt', 'deletedAt', 'description', 'endsOn', 'hashtag', 'id', 'location', 'name', 'slug', 'startsOn', 'updatedAt'] as const
+  static $columns = ['createdAt', 'deletedAt', 'description', 'endsOn', 'evaluationMode', 'evaluationUrl', 'hashtag', 'id', 'location', 'name', 'slug', 'startsOn', 'updatedAt'] as const
   $columns = EventSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -143,6 +179,10 @@ export class EventSchema extends BaseModel {
   declare description: string | null
   @column.date()
   declare endsOn: DateTime
+  @column()
+  declare evaluationMode: string
+  @column()
+  declare evaluationUrl: string | null
   @column()
   declare hashtag: string | null
   @column({ isPrimary: true })

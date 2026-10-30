@@ -37,7 +37,11 @@ export default function PainelLayout({ children }: LayoutProps<'/admin'>) {
       <Suspense fallback={null}>
         <ActivityTracker />
       </Suspense>
-      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 px-4 pt-6 pb-16">
+      <main
+        id="conteudo"
+        tabIndex={-1}
+        className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 px-4 pt-6 pb-16"
+      >
         {children}
       </main>
     </div>

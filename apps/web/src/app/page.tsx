@@ -80,7 +80,7 @@ export default async function HomePage({ searchParams }: PageProps<'/'>) {
           <h2 id="encerrados" className="text-lg font-extrabold text-muted">
             Encerrados
           </h2>
-          <ul className="flex flex-col gap-2 opacity-80">
+          <ul className="flex flex-col gap-2">
             {ended.map((event) => (
               <EventChoiceCard key={event.slug} event={event} visited={visitedFor(event.slug)} />
             ))}
@@ -91,7 +91,7 @@ export default async function HomePage({ searchParams }: PageProps<'/'>) {
       {visitor ? null : (
         <Link
           href="/recuperar?voltar=%2F"
-          className="self-center font-display text-[14px] font-bold text-accent underline underline-offset-4"
+          className="flex min-h-11 items-center self-center font-display text-[14px] font-bold text-accent underline underline-offset-4"
         >
           Já tenho passaporte
         </Link>

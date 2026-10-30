@@ -9,6 +9,8 @@ import { Actions } from '@/components/ui/card'
 import { Notice } from '@/components/ui/feedback'
 import { TextAreaField, TextField } from '@/components/ui/field'
 import { SubmitButton } from '@/components/ui/submit-button'
+import { Field } from '@/components/ui/field'
+import { OptionCard } from '@/components/ui/option-card'
 import type { FormState, PassportEvent } from '@/lib/types'
 
 type EventFormProps = {
@@ -22,6 +24,9 @@ export function EventForm({ event, cancelHref }: EventFormProps) {
   const errors = state.fieldErrors ?? {}
   const [startsOn, setStartsOn] = useState(values?.startsOn ?? event?.startsOn ?? '')
   const [endsOn, setEndsOn] = useState(values?.endsOn ?? event?.endsOn ?? '')
+  const [evaluationMode, setEvaluationMode] = useState(
+    values?.evaluationMode ?? event?.evaluationMode ?? 'integrated'
+  )
 
   return (
     <form action={action} className="flex flex-col gap-5">
@@ -88,6 +93,42 @@ export function EventForm({ event, cancelHref }: EventFormProps) {
         defaultValue={values?.description ?? event?.description ?? ''}
         error={errors.description}
       />
+
+      <Field
+        id="evaluation-mode"
+        label="Avaliação do evento"
+        as="group"
+        error={errors.evaluationMode}
+      >
+        <OptionCard
+          name="evaluationMode"
+          value="integrated"
+          checked={evaluationMode === 'integrated'}
+          onChange={() => setEvaluationMode('integrated')}
+          title="Na aplicação"
+          description="O visitante avalia o evento de 1 a 5 estrelas, sem informar novos dados pessoais."
+        />
+        <OptionCard
+          name="evaluationMode"
+          value="external"
+          checked={evaluationMode === 'external'}
+          onChange={() => setEvaluationMode('external')}
+          title="Formulário externo"
+          description="O botão de avaliação abre o formulário indicado pela organização."
+        />
+      </Field>
+      {evaluationMode === 'external' ? (
+        <TextField
+          name="evaluationUrl"
+          label="Link da avaliação"
+          type="url"
+          required
+          maxLength={2000}
+          defaultValue={values?.evaluationUrl ?? event?.evaluationUrl ?? ''}
+          placeholder="https://forms.example.com/avaliacao"
+          error={errors.evaluationUrl}
+        />
+      ) : null}
 
       <Actions>
         <Link href={cancelHref} className={buttonClass('ghost')}>

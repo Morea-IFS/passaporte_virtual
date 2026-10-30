@@ -2,6 +2,7 @@ import Checkin from '#models/checkin'
 import Checkpoint from '#models/checkpoint'
 import CheckpointCategory from '#models/checkpoint_category'
 import type Event from '#models/event'
+import db from '@adonisjs/lucid/services/db'
 
 /**
  * Passaporte de um evento: pontos (ativos, mais os já carimbados mesmo que
@@ -35,6 +36,8 @@ export async function buildPassport(event: Event, visitorId: number | null) {
       name: event.name,
       slug: event.slug,
       hashtag: event.hashtag,
+      evaluationMode: event.evaluationMode,
+      evaluationUrl: event.evaluationUrl,
       location: event.location,
       startsOn: event.startsOn.toISODate(),
       endsOn: event.endsOn.toISODate(),
@@ -58,6 +61,15 @@ export async function buildPassport(event: Event, visitorId: number | null) {
 
 /** Progresso do visitante no evento (para a tela do carimbo) */
 export async function passportProgress(event: Event, visitorId: number) {
-  const { progress } = await buildPassport(event, visitorId)
-  return progress
+  // O carimbo precisa só dos totais; não carrega imagens, categorias ou todos os pontos.
+  const result = await db.rawQuery(
+    `SELECT
+    COUNT(ci.id)::int AS visited, COUNT(cp.id)::int AS total
+    FROM checkpoints cp LEFT JOIN checkins ci
+      ON ci.checkpoint_id = cp.id AND ci.visitor_id = ? AND ci.deleted_at IS NULL
+    WHERE cp.event_id = ? AND cp.deleted_at IS NULL
+      AND (cp.is_active = true OR ci.id IS NOT NULL)`,
+    [visitorId, event.id]
+  )
+  return result.rows[0] as { visited: number; total: number }
 }

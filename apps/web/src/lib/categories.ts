@@ -15,19 +15,20 @@ export const CATEGORY_COLORS = {
     checked: 'peer-checked:bg-laranja peer-checked:text-violeta-noite',
   },
   magenta: {
-    chip: 'bg-magenta text-creme',
+    chip: 'bg-magenta/15 text-fg ring-1 ring-inset ring-magenta',
     fill: 'bg-magenta',
-    checked: 'peer-checked:bg-magenta peer-checked:text-creme',
+    checked:
+      'peer-checked:bg-magenta/15 peer-checked:text-fg peer-checked:ring-2 peer-checked:ring-magenta',
   },
   verde: {
-    chip: 'bg-verde text-creme',
+    chip: 'bg-verde text-violeta-noite',
     fill: 'bg-verde',
-    checked: 'peer-checked:bg-verde peer-checked:text-creme',
+    checked: 'peer-checked:bg-verde peer-checked:text-violeta-noite',
   },
   turquesa: {
-    chip: 'bg-turquesa text-creme',
+    chip: 'bg-turquesa text-violeta-noite',
     fill: 'bg-turquesa',
-    checked: 'peer-checked:bg-turquesa peer-checked:text-creme',
+    checked: 'peer-checked:bg-turquesa peer-checked:text-violeta-noite',
   },
   amarelo: {
     chip: 'bg-amarelo text-violeta-noite',

@@ -27,7 +27,7 @@ export function BrandLockup({ size = 'lg' }: BrandLockupProps) {
         </span>
       </div>
       <span className={`leading-[0.9] font-black ${lg ? 'text-6xl' : 'text-4xl'}`}>CIÊNCIA</span>
-      <div className="flex" aria-label="Delas">
+      <div className="flex" role="img" aria-label="Delas">
         {DELAS.map(({ letter, className }) => (
           <span
             key={letter}

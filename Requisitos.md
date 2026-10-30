@@ -1,7 +1,7 @@
 # Requisitos: Passaporte Virtual
 
 > Documento derivado da reunião de alinhamento inicial (Rubens, Genisson, Guilherme).
-> Status: **rascunho para avaliação**. Itens marcados com **[A CONFIRMAR]** dependem de decisões ainda em aberto.
+> Status: **implementação concluída e validada localmente em 30/10/2026**. Evidências e comandos de reprodução em [docs/validacao.md](docs/validacao.md). Publicação e configuração dos eventos são etapas operacionais.
 
 ## 1. Visão geral
 
@@ -58,7 +58,7 @@ Status: ⬜ = pendente, ✅ = concluído.
 | RF14 | O visitante deve ver a lista completa de checkpoints do evento, filtrável por categoria.                                     | S    | ✅     |
 | RF15 | Escanear o mesmo QR mais de uma vez não deve gerar check-in duplicado.                                                       | M    | ✅     |
 | RF16 | O passaporte deve exibir o progresso do visitante (ex.: 7 de 20 visitados).                                                  | S    | ✅     |
-| RF17 | O sistema pode exibir um ranking ou contagem ao final do evento com base nos apelidos dos visitantes.                        | C    | ⬜     |
+| RF17 | O sistema pode exibir um ranking ou contagem ao final do evento com base nos apelidos dos visitantes.                        | C    | ✅     |
 
 ### 4.4 Identificação do participante
 
@@ -73,17 +73,17 @@ Status: ⬜ = pendente, ✅ = concluído.
 
 | ID   | Requisito                                                                                                                                   | Prio | Status |
 | ---- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ------ |
-| RF22 | Após o check-in, o sistema deve oferecer um botão para compartilhar nas redes sociais (foco em Instagram Stories), com a hashtag do evento. | S    | ⬜     |
-| RF23 | O sistema deve gerar um card compartilhável (imagem no formato de Stories) com o nome da atividade, identidade visual do evento e hashtag.  | S    | ⬜     |
-| RF24 | O visitante deve poder adicionar uma foto própria (tirada na hora ou da galeria) ao card.                                                   | C    | ⬜     |
-| RF25 | O card deve poder ser baixado ou enviado pelo compartilhamento nativo do celular.                                                           | S    | ⬜     |
+| RF22 | Após o check-in, o sistema deve oferecer um botão para compartilhar nas redes sociais (foco em Instagram Stories), com a hashtag do evento. | S    | ✅     |
+| RF23 | O sistema deve gerar um card compartilhável (imagem no formato de Stories) com o nome da atividade, identidade visual do evento e hashtag.  | S    | ✅     |
+| RF24 | O visitante deve poder adicionar uma foto própria (tirada na hora ou da galeria) ao card.                                                   | C    | ✅     |
+| RF25 | O card deve poder ser baixado ou enviado pelo compartilhamento nativo do celular.                                                           | S    | ✅     |
 
 ### 4.6 Avaliação do evento
 
 | ID   | Requisito                                                                                                                                                                     | Prio | Status |
 | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ------ |
-| RF26 | A aplicação deve oferecer um botão "Avaliar o evento" que leva a um sistema externo de avaliação (ex.: formulário online). Avaliação do evento como um todo, não por estande. | S    | ⬜     |
-| RF27 | Alternativa: avaliação integrada simples (ex.: 1 a 5 estrelas), armazenada pela aplicação. **[A CONFIRMAR] com Luan qual formato é exigido pelos financiadores**              | C    | ⬜     |
+| RF26 | A aplicação deve oferecer um botão "Avaliar o evento" que leva a um sistema externo de avaliação (ex.: formulário online). Avaliação do evento como um todo, não por estande. | S    | ✅     |
+| RF27 | Avaliação integrada de 1 a 5 estrelas, armazenada pela aplicação, como alternativa configurável por evento ao formulário externo (decisão confirmada em 30/10/2026).          | C    | ✅     |
 
 ### 4.7 Administração, auditoria e participantes
 
@@ -98,25 +98,25 @@ Status: ⬜ = pendente, ✅ = concluído.
 
 | ID   | Requisito                                                                                                                                                                                                              | Prio | Status |
 | ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ------ |
-| RF32 | O administrador deve ter, para cada evento, um painel de dados com os principais indicadores: total de participantes inscritos (passaportes criados), total de check-ins e média de pontos visitados por participante. | S    | ⬜     |
-| RF33 | O painel deve exibir o ranking dos checkpoints mais visitados e dos menos visitados, para identificar destaques e estandes com pouca procura.                                                                          | S    | ⬜     |
-| RF34 | O painel deve exibir as visitas por categoria (pesquisa, oficina, apresentação, cultural, curso).                                                                                                                      | S    | ⬜     |
-| RF35 | O painel deve exibir a distribuição das visitas ao longo do tempo (por dia e por hora), para mostrar os horários de pico.                                                                                              | C    | ⬜     |
-| RF36 | O painel deve exibir quantos participantes completaram o passaporte e a distribuição do progresso (ex.: quantos visitaram 25%, 50%, 75% e 100% dos pontos).                                                            | C    | ⬜     |
-| RF37 | Os dados do painel devem poder ser exportados (ex.: planilha CSV), para relatórios aos financiadores e à organização.                                                                                                  | C    | ⬜     |
+| RF32 | O administrador deve ter, para cada evento, um painel de dados com os principais indicadores: total de participantes inscritos (passaportes criados), total de check-ins e média de pontos visitados por participante. | S    | ✅     |
+| RF33 | O painel deve exibir o ranking dos checkpoints mais visitados e dos menos visitados, para identificar destaques e estandes com pouca procura.                                                                          | S    | ✅     |
+| RF34 | O painel deve exibir as visitas por categoria (pesquisa, oficina, apresentação, cultural, curso).                                                                                                                      | S    | ✅     |
+| RF35 | O painel deve exibir a distribuição das visitas ao longo do tempo (por dia e por hora), para mostrar os horários de pico.                                                                                              | C    | ✅     |
+| RF36 | O painel deve exibir quantos participantes completaram o passaporte e a distribuição do progresso (ex.: quantos visitaram 25%, 50%, 75% e 100% dos pontos).                                                            | C    | ✅     |
+| RF37 | Os dados do painel devem poder ser exportados (ex.: planilha CSV), para relatórios aos financiadores e à organização.                                                                                                  | C    | ✅     |
 
 ## 5. Requisitos não funcionais
 
-| ID    | Requisito                                                                                                                                                            | Status |
-| ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| RNF01 | Aplicação web responsiva, pensada primeiro para celular, funcionando em Android e iPhone sem instalar app de loja.                                                   | ⬜     |
-| RNF02 | Instalável na tela inicial como PWA, funcionando "como aplicativo" e como site.                                                                                      | ⬜     |
-| RNF03 | Check-in rápido: do escaneamento ao registro em poucos segundos, mesmo em rede móvel instável.                                                                       | ⬜     |
-| RNF04 | Tolerância a conexão ruim: guardar check-ins localmente e sincronizar quando a conexão voltar. **[A CONFIRMAR] se o histórico fica no servidor, só local, ou ambos** | ⬜     |
-| RNF05 | Coleta mínima de dados pessoais (princípio da LGPD): guardar só o essencial para o funcionamento.                                                                    | ⬜     |
-| RNF06 | Suportar o volume de visitantes simultâneos do evento multicampi. **[A CONFIRMAR] estimativa de público**                                                            | ⬜     |
-| RNF07 | QR codes legíveis quando impressos em tamanho de etiqueta ou cartaz.                                                                                                 | ⬜     |
-| RNF08 | Interface em português, acessível (contraste, tamanho de toque, leitores de tela).                                                                                   | ⬜     |
+| ID    | Requisito                                                                                                                                                                            | Status |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ |
+| RNF01 | Aplicação web responsiva, pensada primeiro para celular, funcionando em Android e iPhone sem instalar app de loja.                                                                   | ✅     |
+| RNF02 | Instalável na tela inicial como PWA, funcionando "como aplicativo" e como site.                                                                                                      | ✅     |
+| RNF03 | Check-in rápido: do escaneamento ao registro em poucos segundos, mesmo em rede móvel instável.                                                                                       | ✅     |
+| RNF04 | Tolerância a conexão ruim: guardar check-ins localmente e sincronizar quando a conexão voltar. Histórico confirmado no servidor; fila temporária no dispositivo até a sincronização. | ✅     |
+| RNF05 | Coleta mínima de dados pessoais (princípio da LGPD): guardar só o essencial para o funcionamento.                                                                                    | ✅     |
+| RNF06 | Suportar o volume de visitantes simultâneos do evento multicampi. Meta confirmada: de 100 a 300 visitantes simultâneos, validada com 300 em carga local.                             | ✅     |
+| RNF07 | QR codes legíveis quando impressos em tamanho de etiqueta ou cartaz.                                                                                                                 | ✅     |
+| RNF08 | Interface em português, acessível (contraste, tamanho de toque, leitores de tela).                                                                                                   | ✅     |
 
 ## 6. Regras de negócio
 
@@ -131,11 +131,12 @@ Status: ⬜ = pendente, ✅ = concluído.
 | RN07 | Os registros de auditoria não podem ser editados nem removidos pela interface administrativa.                                                     |
 | RN08 | As funcionalidades administrativas e de auditoria não ampliam a coleta de dados pessoais dos visitantes.                                          |
 
-## 7. Questões em aberto
+## 7. Decisões e configuração operacional
 
-1. Quais tipos de atividade entram no passaporte: só estandes de pesquisa, ou também oficinas, cursos, banners, editais, culturais? Precisa de categorização? (Rubens)
-2. Histórico de visitas: banco de dados, só no dispositivo, ou os dois?
-3. Avaliação do evento: link externo ou avaliação integrada? Qual formato os financiadores exigem? (Rubens com Luan)
-4. Datas exatas dos eventos e inclusão do festival de curtas.
-5. Até quando a lista de projetos pré-cadastrados estará disponível? (Rubens)
-6. Integração com o WebEvents: importar dados de lá ou só usar a separação por evento?
+1. Categorias são configuráveis por evento; pesquisa, oficina, apresentação, cultural e curso são os valores iniciais.
+2. O servidor guarda o histórico confirmado; o dispositivo mantém uma fila temporária de visitas pendentes, sem credenciais, e sincroniza com o aplicativo aberto.
+3. A organização escolhe por evento entre formulário externo e avaliação integrada de 1 a 5 estrelas, conforme confirmação de 30/10/2026.
+4. O público informado é de 100 a 300 visitantes simultâneos. O teste local de produção utilizou 300, incluindo uma execução com 300 ms de latência adicional.
+5. Datas, festival de curtas, atividades e lista final de projetos devem ser cadastrados ou importados pela organização antes do evento.
+6. A importação de planilhas está disponível. Uma integração direta com a API do WebEvents não integra os requisitos funcionais atuais e depende de definição futura de escopo e acesso.
+7. Para publicar, configurar domínio HTTPS, `PUBLIC_WEB_URL`, credenciais e banco do ambiente definitivo. PWA e compartilhamento nativo dependem de HTTPS (localhost é permitido para desenvolvimento).

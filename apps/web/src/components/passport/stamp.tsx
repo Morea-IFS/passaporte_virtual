@@ -1,5 +1,5 @@
 import { CATEGORY_COLORS, type CategoryColor } from '@/lib/categories'
-import { formatStampDate } from '@/lib/format'
+import { formatDateTime, formatStampDate } from '@/lib/format'
 
 /** Hex das cores de categoria, para o SVG (o mesmo da identidade) */
 const STAMP_HEX: Record<CategoryColor, string> = {
@@ -56,7 +56,7 @@ export function Stamp({
     <svg
       viewBox="0 0 100 100"
       role="img"
-      aria-label={label}
+      aria-label={`${label}. ${categoryName}, ${code}. ${formatDateTime(date)}.`}
       className={`${className} ${animate ? 'motion-safe:animate-[stamp-in_0.6s_cubic-bezier(.2,1.6,.4,1)_both]' : ''}`}
       style={{ color: hex, rotate: `${tilt(code)}deg` }}
     >
@@ -66,7 +66,7 @@ export function Stamp({
       <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" strokeWidth="3.5" />
       <circle cx="50" cy="50" r="27" fill="none" stroke="currentColor" strokeWidth="1.5" />
       <text
-        fill="currentColor"
+        fill="var(--fg)"
         className="font-display"
         fontWeight="800"
         fontSize="8.5"
@@ -80,21 +80,14 @@ export function Stamp({
         x="50"
         y="48"
         textAnchor="middle"
-        fill="currentColor"
+        fill="var(--fg)"
         className="font-mono"
         fontWeight="700"
         fontSize="10"
       >
         {day}
       </text>
-      <text
-        x="50"
-        y="61"
-        textAnchor="middle"
-        fill="currentColor"
-        className="font-mono"
-        fontSize="8.5"
-      >
+      <text x="50" y="61" textAnchor="middle" fill="var(--fg)" className="font-mono" fontSize="8.5">
         {time}
       </text>
     </svg>

@@ -11,6 +11,8 @@ export default class EventTransformer extends BaseTransformer<Event> {
         'location',
         'hashtag',
         'description',
+        'evaluationMode',
+        'evaluationUrl',
         'createdAt',
         'updatedAt',
       ]),

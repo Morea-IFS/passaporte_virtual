@@ -26,6 +26,7 @@ export interface ApiDefinition {
     }
     events: {
       index: typeof routes['public.events.index']
+      ranking: typeof routes['public.events.ranking']
       show: typeof routes['public.events.show']
     }
   }
@@ -41,6 +42,11 @@ export interface ApiDefinition {
     passports: {
       index: typeof routes['visitor.passports.index']
       show: typeof routes['visitor.passports.show']
+      join: typeof routes['visitor.passports.join']
+    }
+    evaluation: {
+      show: typeof routes['visitor.evaluation.show']
+      store: typeof routes['visitor.evaluation.store']
     }
   }
   admin: {
@@ -69,6 +75,10 @@ export interface ApiDefinition {
       show: typeof routes['admin.events.show']
       update: typeof routes['admin.events.update']
       destroy: typeof routes['admin.events.destroy']
+      analytics: typeof routes['admin.events.analytics'] & {
+        export: typeof routes['admin.events.analytics.export']
+      }
+      evaluations: typeof routes['admin.events.evaluations']
       checkpoints: {
         index: typeof routes['admin.events.checkpoints.index']
         store: typeof routes['admin.events.checkpoints.store']

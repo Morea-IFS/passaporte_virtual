@@ -1,0 +1,150 @@
+{
+  "version": 1,
+  "startedAt": "2026-10-30T22:21:28.483Z",
+  "finishedAt": "2026-10-30T22:21:42.016Z",
+  "profile": "development",
+  "config": {
+    "apiOrigin": "http://localhost:3333",
+    "webOrigin": null,
+    "users": 300,
+    "ramp": 25,
+    "rounds": 3,
+    "simulatedRoundTripLatencyMs": 0,
+    "timeoutMs": 30000,
+    "checkinP95LimitMs": 2000
+  },
+  "environment": {
+    "node": "v24.22.2",
+    "platform": "linux",
+    "cpu": "13th Gen Intel(R) Core(TM) i5-13420H",
+    "availableCpuCount": 12,
+    "memoryGiB": 15.31
+  },
+  "fixture": {
+    "name": "Carga mvvje6n7161c",
+    "eventId": 42,
+    "eventSlug": "carga-mvvje6n7161c",
+    "checkpointId": 89
+  },
+  "maxConcurrent": 300,
+  "scenarios": [
+    {
+      "name": "registro-rampa",
+      "plannedRequests": 300,
+      "requests": 300,
+      "errors": 0,
+      "maxConcurrent": 25,
+      "elapsedMs": 1138.68,
+      "requestsPerSecond": 263.46,
+      "latencyMs": {
+        "p50": 81.46,
+        "p95": 107.75,
+        "p99": 146.97,
+        "max": 149.29
+      },
+      "statuses": {
+        "201": 300
+      },
+      "errorSamples": []
+    },
+    {
+      "name": "inscricao",
+      "plannedRequests": 300,
+      "requests": 300,
+      "errors": 0,
+      "maxConcurrent": 300,
+      "elapsedMs": 1529.29,
+      "requestsPerSecond": 196.17,
+      "latencyMs": {
+        "p50": 723.45,
+        "p95": 1443.51,
+        "p99": 1507.64,
+        "max": 1512.36
+      },
+      "statuses": {
+        "200": 300
+      },
+      "errorSamples": []
+    },
+    {
+      "name": "checkin-novo",
+      "plannedRequests": 300,
+      "requests": 300,
+      "errors": 0,
+      "maxConcurrent": 300,
+      "elapsedMs": 1364.38,
+      "requestsPerSecond": 219.88,
+      "latencyMs": {
+        "p50": 1335.79,
+        "p95": 1347.69,
+        "p99": 1348.41,
+        "max": 1348.58
+      },
+      "statuses": {
+        "200": 300
+      },
+      "errorSamples": []
+    },
+    {
+      "name": "checkin-repetido",
+      "plannedRequests": 900,
+      "requests": 900,
+      "errors": 0,
+      "maxConcurrent": 300,
+      "elapsedMs": 5273.05,
+      "requestsPerSecond": 170.68,
+      "latencyMs": {
+        "p50": 1626.14,
+        "p95": 1950.79,
+        "p99": 1951.71,
+        "max": 1952.35
+      },
+      "statuses": {
+        "200": 900
+      },
+      "errorSamples": []
+    },
+    {
+      "name": "passaporte-api",
+      "plannedRequests": 900,
+      "requests": 900,
+      "errors": 0,
+      "maxConcurrent": 300,
+      "elapsedMs": 3166.2,
+      "requestsPerSecond": 284.25,
+      "latencyMs": {
+        "p50": 929.34,
+        "p95": 1306.99,
+        "p99": 1312.15,
+        "max": 1313.23
+      },
+      "statuses": {
+        "200": 900
+      },
+      "errorSamples": []
+    }
+  ],
+  "criteria": {
+    "visitorsAtLeast300": true,
+    "allPlannedRequestsCompleted": true,
+    "noHttpOrValidationErrors": true,
+    "checkinsP95UnderLimit": true,
+    "checkinsAtTargetConcurrency": true,
+    "cleanupSucceeded": true
+  },
+  "passed": true,
+  "fatalError": null,
+  "cleanup": {
+    "eventSoftDeleted": true,
+    "visitorTokensRevoked": 300,
+    "adminTokenRevoked": true,
+    "errors": 0
+  },
+  "limitations": [
+    "Medição HTTP local; latência simulada acrescenta espera no cliente e não reproduz perda de pacotes ou rede móvel real.",
+    "API, banco e gerador de carga podem compartilhar máquina; repetir no hardware e rede de implantação.",
+    "Cada barreira dispara uma requisição por visitante. Não simula duração completa do evento ou leitura de câmera.",
+    "Leitura web, quando solicitada, mede HTML SSR autenticado; não mede pintura, JavaScript ou interação no navegador.",
+    "Visitantes e históricos Carga são preservados; evento é excluído logicamente e tokens de sessão são revogados."
+  ]
+}

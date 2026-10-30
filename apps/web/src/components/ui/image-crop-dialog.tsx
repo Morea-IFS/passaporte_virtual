@@ -62,7 +62,7 @@ export function ImageCropDialog({
           step={0.05}
           value={zoom}
           onChange={(e) => setZoom(Number(e.target.value))}
-          className="w-full accent-violeta"
+          className="min-h-11 w-full accent-violeta"
         />
       </label>
       <Actions align="end">

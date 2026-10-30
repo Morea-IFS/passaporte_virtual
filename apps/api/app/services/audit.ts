@@ -42,7 +42,8 @@ type AuditActor = User | { email: string }
 
 /** Recebe somente campos permitidos; nunca recebe o corpo cru da requisição. */
 export async function audit(actor: AuditActor, entry: AuditEntry, trx?: TransactionClientContract) {
-  const user = 'id' in actor ? actor : null
+  // Lucid expõe atributos por getters/proxy: o operador `in` não enxerga o id.
+  const user = typeof (actor as User).id === 'number' ? (actor as User) : null
   return AuditLog.create(
     {
       actorUserId: user?.id ?? null,

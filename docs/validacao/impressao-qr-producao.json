@@ -1,0 +1,122 @@
+{
+  "profile": "production",
+  "api": "http://localhost:3334",
+  "pageResolutionChecks": 16,
+  "expectedQrReads": 26,
+  "decodedQrReads": 26,
+  "allPassed": true,
+  "checks": [
+    {
+      "layout": "etiquetas",
+      "page": 1,
+      "dpi": 150,
+      "expected": 6,
+      "decoded": 6
+    },
+    {
+      "layout": "etiquetas",
+      "page": 1,
+      "dpi": 300,
+      "expected": 6,
+      "decoded": 6
+    },
+    {
+      "layout": "cartaz",
+      "page": 1,
+      "dpi": 150,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 1,
+      "dpi": 300,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 2,
+      "dpi": 150,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 2,
+      "dpi": 300,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 3,
+      "dpi": 150,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 3,
+      "dpi": 300,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 4,
+      "dpi": 150,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 4,
+      "dpi": 300,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 5,
+      "dpi": 150,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 5,
+      "dpi": 300,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 6,
+      "dpi": 150,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 6,
+      "dpi": 300,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "entrada",
+      "page": 1,
+      "dpi": 150,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "entrada",
+      "page": 1,
+      "dpi": 300,
+      "expected": 1,
+      "decoded": 1
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import { VisitorSchema } from '#database/schema'
 import Checkin from '#models/checkin'
+import EventParticipation from '#models/event_participation'
 import VisitorToken from '#models/visitor_token'
 import { SoftDeletes } from '#models/mixins/soft_deletes'
 import { compose } from '@adonisjs/core/helpers'
@@ -22,6 +23,9 @@ export default class Visitor extends compose(VisitorSchema, SoftDeletes) {
 
   @hasMany(() => Checkin)
   declare checkins: HasMany<typeof Checkin>
+
+  @hasMany(() => EventParticipation)
+  declare participations: HasMany<typeof EventParticipation>
 
   get recoveryCode() {
     return encryption.decrypt<string>(this.recoveryCodeEncrypted) ?? ''

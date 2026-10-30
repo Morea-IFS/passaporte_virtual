@@ -1,0 +1,136 @@
+{
+  "date": "2026-10-30",
+  "environment": "QA local, API localhost:3333, seed de demonstração",
+  "requirement": "RNF07",
+  "method": "scripts/verify_printed_qr.py; exportação PDF pela API, rasterização Poppler e leitura ZXing-C++",
+  "selectedCheckpoints": 6,
+  "selection": "Até seis pontos ativos com nomes mais longos do evento, ordenados por código para comparação com o PDF.",
+  "summary": {
+    "rasterChecks": 16,
+    "expectedQrCodes": 26,
+    "decodedQrCodes": 26,
+    "allDecodedUrlsMatch": true
+  },
+  "checks": [
+    {
+      "layout": "etiquetas",
+      "page": 1,
+      "dpi": 150,
+      "expected": 6,
+      "decoded": 6
+    },
+    {
+      "layout": "etiquetas",
+      "page": 1,
+      "dpi": 300,
+      "expected": 6,
+      "decoded": 6
+    },
+    {
+      "layout": "cartaz",
+      "page": 1,
+      "dpi": 150,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 1,
+      "dpi": 300,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 2,
+      "dpi": 150,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 2,
+      "dpi": 300,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 3,
+      "dpi": 150,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 3,
+      "dpi": 300,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 4,
+      "dpi": 150,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 4,
+      "dpi": 300,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 5,
+      "dpi": 150,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 5,
+      "dpi": 300,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 6,
+      "dpi": 150,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "cartaz",
+      "page": 6,
+      "dpi": 300,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "entrada",
+      "page": 1,
+      "dpi": 150,
+      "expected": 1,
+      "decoded": 1
+    },
+    {
+      "layout": "entrada",
+      "page": 1,
+      "dpi": 300,
+      "expected": 1,
+      "decoded": 1
+    }
+  ],
+  "visualInspection": "PNG de etiquetas, cartaz e entrada inspecionados; sem cortes ou sobreposições nos exemplos gerados.",
+  "fonts": "A4 e recursos de fonte conferidos pelo script. Fontes copiadas ao build da API via metaFiles; execução equivalente na API de produção local é registrada separadamente pela validação final.",
+  "limits": "Leitura dos PDFs rasterizados em tamanho A4 a 150 e 300 dpi. Não substitui teste físico sob iluminação, foco e impressoras reais.",
+  "reproduction": {
+    "python": "/home/genissonemilio/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "isolatedDecoder": "/tmp/passaporte-qr-deps (zxing-cpp)",
+    "command": "PYTHONPATH=/tmp/passaporte-qr-deps /home/genissonemilio/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 scripts/verify_printed_qr.py --api-url http://localhost:3333 --output /tmp/passaporte-print-qa"
+  }
+}

@@ -88,7 +88,7 @@ export function CheckpointFilters({
             key={label}
             href={hrefFor({ status: value })}
             aria-current={filters.status === value ? 'page' : undefined}
-            className={`min-h-9 content-center font-display font-bold ${filters.status === value ? 'text-accent underline decoration-2 underline-offset-4' : 'text-muted'}`}
+            className={`min-h-11 min-w-11 content-center font-display font-bold ${filters.status === value ? 'text-accent underline decoration-2 underline-offset-4' : 'text-muted'}`}
           >
             {label}
           </Link>

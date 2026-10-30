@@ -125,6 +125,8 @@ export async function saveEvent(
     location: text(formData, 'location') || null,
     hashtag: text(formData, 'hashtag').replace(/^#+/, '') || null,
     description: text(formData, 'description') || null,
+    evaluationMode: text(formData, 'evaluationMode') || 'integrated',
+    evaluationUrl: text(formData, 'evaluationUrl') || null,
   }
 
   let id: number

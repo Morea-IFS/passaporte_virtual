@@ -15,7 +15,11 @@ export const metadata: Metadata = {
  */
 export default function LoginPage() {
   return (
-    <main className="flex min-h-dvh flex-1 flex-col bg-violeta-noite lg:grid lg:grid-cols-[1fr_minmax(0,32rem)]">
+    <main
+      id="conteudo"
+      tabIndex={-1}
+      className="flex min-h-dvh flex-1 flex-col bg-violeta-noite lg:grid lg:grid-cols-[1fr_minmax(0,32rem)]"
+    >
       <BrandMosaic className="min-h-20 flex-1 lg:min-h-full" />
 
       <section className="relative -mt-7 flex shrink-0 flex-col rounded-t-[28px] bg-bg px-4 pt-5 pb-8 lg:mt-0 lg:justify-center lg:rounded-none lg:px-12">

@@ -29,7 +29,7 @@ export function FilterChip({
     <Link
       href={href}
       aria-current={active ? 'page' : undefined}
-      className={`inline-flex min-h-9 shrink-0 items-center rounded-full px-3.5 font-display text-[11px] font-bold tracking-wider whitespace-nowrap uppercase ${state}`}
+      className={`inline-flex min-h-11 shrink-0 items-center rounded-full px-3.5 font-display text-[11px] font-bold tracking-wider whitespace-nowrap uppercase ${state}`}
     >
       {children}
     </Link>
