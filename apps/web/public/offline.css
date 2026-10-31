@@ -1,0 +1,107 @@
+/* Critical offline shell uses the same brand/interface tokens as globals.css. */
+:root {
+  --bg: #f7f2e9;
+  --surface: #fffdf8;
+  --fg: #22164d;
+  --muted: #5f5480;
+  --line: #e2d9c6;
+  --accent: #3b2492;
+  --on-accent: #fffdf8;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #140c2e;
+    --surface: #1f1645;
+    --fg: #f4eeff;
+    --muted: #b5a9d6;
+    --line: #3a2e6c;
+    --accent: #b9a6ff;
+    --on-accent: #1d1147;
+    color-scheme: dark;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font:
+    1rem/1.55 system-ui,
+    sans-serif;
+}
+main {
+  width: min(100%, 34rem);
+  margin: auto;
+  padding: max(1.5rem, env(safe-area-inset-top)) 1.25rem max(2rem, env(safe-area-inset-bottom));
+}
+h1 {
+  font-size: 1.9rem;
+  line-height: 1.1;
+  color: var(--accent);
+}
+h2 {
+  font-size: 1.15rem;
+}
+.brand {
+  font-weight: 800;
+  color: var(--accent);
+}
+section {
+  border: 2px solid var(--line);
+  padding: 1rem;
+  border-radius: 14px;
+  background: var(--surface);
+  margin: 1.5rem 0;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+li {
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+li:first-child {
+  border: 0;
+}
+button,
+a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.75rem 1rem;
+  margin-top: 0.75rem;
+  border-radius: 14px;
+  font: inherit;
+  font-weight: 700;
+  text-align: center;
+}
+button {
+  background: var(--accent);
+  color: var(--on-accent);
+  border: 0;
+  cursor: pointer;
+}
+a {
+  color: var(--accent);
+  border: 2px solid var(--line);
+  text-decoration: none;
+}
+button:disabled {
+  opacity: 0.65;
+}
+.small {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+:focus-visible {
+  outline: 3px solid #f6c21c;
+  outline-offset: 3px;
+}

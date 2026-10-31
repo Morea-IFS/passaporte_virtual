@@ -10,6 +10,12 @@ Monorepo com pnpm workspaces + Turborepo.
 
 `packages/` fica reservado para código compartilhado entre os apps.
 
+Requer Node.js 24+ e pnpm 12.15.0 para execução no host. Os containers já utilizam Node 24.
+
+O projeto inclui passaporte por QR, recuperação por código, ranking, cards Stories com foto local, avaliação configurável, painel de indicadores e exportação CSV. A PWA mantém uma fila offline sem credenciais e confirma os carimbos quando a conexão volta, com o aplicativo aberto.
+
+O acompanhamento dos requisitos fica em [Requisitos.md](Requisitos.md); testes e evidências estão em [docs/validacao.md](docs/validacao.md).
+
 ## Rodando com Docker (recomendado)
 
 ```bash
@@ -70,6 +76,7 @@ Imagens enviadas pelo painel ficam em `apps/api/storage` (fora do git).
 ```bash
 pnpm install
 cp apps/api/.env.example apps/api/.env   # ajuste DB_* e APP_KEY
+pnpm --filter @passaporte/api exec node ace migration:run
 pnpm dev
 cd apps/api && node ace db:seed          # admin padrão + massa de testes
 ```
@@ -77,6 +84,10 @@ cd apps/api && node ace db:seed          # admin padrão + massa de testes
 ## Scripts da raiz
 
 `pnpm dev` · `pnpm build` · `pnpm lint` · `pnpm typecheck` · `pnpm test` · `pnpm format` · `pnpm format:check`
+
+`pnpm test:e2e` executa os fluxos em Chromium/Android e WebKit/iPhone com web e API iniciados e um banco local de testes com seed. Configure `PV_WEB_URL` e `E2E_API_URL` para alterar as portas; instale os navegadores Playwright e suas dependências conforme [a validação](docs/validacao.md).
+
+Em bancos existentes, rode as migrations; elas preservam os dados e vinculam os check-ins históricos às inscrições por evento. Não é necessário recriar o banco.
 
 ## Imagens de produção
 

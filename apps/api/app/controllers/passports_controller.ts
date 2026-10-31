@@ -1,6 +1,10 @@
 import Checkin from '#models/checkin'
 import Event from '#models/event'
 import { buildPassport } from '#services/passport'
+import { joinEvent } from '#services/event_participation'
+import { eventRanking } from '#services/event_analytics'
+import { pageValidator } from '#validators/pagination'
+import db from '@adonisjs/lucid/services/db'
 import type { HttpContext } from '@adonisjs/core/http'
 import { DateTime } from 'luxon'
 
@@ -47,7 +51,27 @@ export default class PassportsController {
     return { data: await listPublicEvents() }
   }
 
-  /** Progresso do visitante em cada evento em que já carimbou algo */
+  /** Uma inscrição explícita evita mutações em GETs e conta quem ainda não carimbou. */
+  async join({ params, visitor }: HttpContext) {
+    const slug = await db.transaction(async (trx) => {
+      const event = await Event.query({ client: trx })
+        .where('slug', params.slug)
+        .forShare()
+        .firstOrFail()
+      await joinEvent(trx, visitor.id, event.id)
+      return event.slug
+    })
+    return { data: { slug } }
+  }
+
+  /** Ranking público usa somente apelidos e contagens, sem identificadores internos. */
+  async ranking({ params, request }: HttpContext) {
+    const event = await Event.query().where('slug', params.slug).firstOrFail()
+    const { page = 1 } = await pageValidator.validate(request.qs())
+    return { data: await eventRanking(event, page) }
+  }
+
+  /** Inclui passaportes com zero carimbos e preserva compatibilidade com carimbos legados. */
   async index({ visitor }: HttpContext) {
     const rows: { event_id: number; visited: string }[] = await Checkin.query()
       .where('visitor_id', visitor.id)
@@ -56,8 +80,16 @@ export default class PassportsController {
       .select('event_id')
       .count('* as visited')
       .pojo()
+    const enrolled: { event_id: number }[] = await db
+      .from('event_participations')
+      .where('visitor_id', visitor.id)
+      .whereNull('deleted_at')
+      .select('event_id')
     const visitedByEvent = new Map(rows.map((row) => [row.event_id, Number(row.visited)]))
-    const events = await Event.query().whereIn('id', [...visitedByEvent.keys()])
+    const eventIds = [
+      ...new Set([...visitedByEvent.keys(), ...enrolled.map((row) => row.event_id)]),
+    ]
+    const events = await Event.query().whereIn('id', eventIds)
     return {
       data: {
         nickname: visitor.nickname,

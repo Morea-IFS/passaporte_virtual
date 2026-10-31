@@ -56,6 +56,9 @@ router
 
     router.get('public/events', [controllers.Passports, 'indexPublic']).as('public.events.index')
     router
+      .get('public/events/:slug/ranking', [controllers.Passports, 'ranking'])
+      .as('public.events.ranking')
+    router
       .get('public/events/:slug', [controllers.Passports, 'showPublic'])
       .as('public.events.show')
 
@@ -75,6 +78,15 @@ router
             router.post('checkins', [controllers.Checkins, 'store']).as('checkins.store')
             router.get('passports', [controllers.Passports, 'index']).as('passports.index')
             router.get('passports/:slug', [controllers.Passports, 'show']).as('passports.show')
+            router
+              .post('passports/:slug/join', [controllers.Passports, 'join'])
+              .as('passports.join')
+            router
+              .get('events/:slug/evaluation', [controllers.EventEvaluations, 'show'])
+              .as('evaluation.show')
+            router
+              .post('events/:slug/evaluation', [controllers.EventEvaluations, 'store'])
+              .as('evaluation.store')
           })
           .use(middleware.visitor())
       })
@@ -103,6 +115,15 @@ router
           .as('participants.checkins')
 
         router.resource('events', controllers.Events).apiOnly()
+        router
+          .get('events/:eventId/analytics', [controllers.EventAnalytics, 'show'])
+          .as('events.analytics')
+        router
+          .get('events/:eventId/analytics/export', [controllers.EventAnalytics, 'export'])
+          .as('events.analytics.export')
+        router
+          .get('events/:eventId/evaluations', [controllers.EventEvaluations, 'summary'])
+          .as('events.evaluations')
 
         router
           .get('events/:eventId/checkpoints', [controllers.Checkpoints, 'index'])

@@ -16,8 +16,8 @@ const variants = {
     'bg-violeta pb-1 text-creme shadow-[inset_0_-4px_0_var(--color-violeta-noite)] active:translate-y-0.5 active:shadow-[inset_0_-2px_0_var(--color-violeta-noite)]',
   sun: 'bg-amarelo pb-1 text-violeta-noite shadow-[inset_0_-4px_0_#c39500] active:translate-y-0.5 active:shadow-[inset_0_-2px_0_#c39500]',
   ghost: 'border-2 border-current bg-transparent text-accent',
-  danger: 'border-2 border-current bg-transparent text-magenta',
-  dangerSolid: 'bg-magenta text-creme',
+  danger: 'border-2 border-current bg-transparent text-danger',
+  dangerSolid: 'bg-danger text-surface',
 } as const
 
 export type ButtonVariant = keyof typeof variants
@@ -47,12 +47,12 @@ export function buttonClass(variant: ButtonVariant = 'primary', options: ButtonO
  * rodapés de card: "Sair", "Excluir", "Cancelar" etc.
  */
 export function quietButtonClass(tone: 'muted' | 'danger' = 'muted') {
-  const hover = tone === 'danger' ? 'hover:text-magenta' : 'hover:text-accent'
-  return `inline-flex min-h-11 items-center gap-1.5 rounded-full px-2 font-display text-[13px] font-bold text-muted ${hover} disabled:opacity-60`
+  const hover = tone === 'danger' ? 'hover:text-danger' : 'hover:text-accent'
+  return `inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full px-2 font-display text-[13px] font-bold text-muted ${hover} disabled:opacity-60`
 }
 
 /** Botão só com ícone (alvo de toque de 44px) */
 export function iconButtonClass(tone: 'muted' | 'danger' = 'muted') {
-  const hover = tone === 'danger' ? 'hover:text-magenta' : 'hover:text-accent'
+  const hover = tone === 'danger' ? 'hover:text-danger' : 'hover:text-accent'
   return `grid size-11 place-items-center rounded-full text-muted ${hover}`
 }

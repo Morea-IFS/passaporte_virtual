@@ -1,6 +1,6 @@
 const noticeTones = {
-  error: 'border-2 border-magenta text-magenta font-semibold',
-  success: 'border-2 border-verde text-verde font-semibold',
+  error: 'border-2 border-magenta text-danger font-semibold',
+  success: 'border-2 border-verde text-success font-semibold',
   neutral: 'border-2 border-line text-muted',
 } as const
 
@@ -30,7 +30,7 @@ export function Notice({
 export function InlineError({ children }: { children?: React.ReactNode }) {
   if (!children) return null
   return (
-    <p role="alert" className="text-[15px] font-semibold text-magenta">
+    <p role="alert" className="text-[15px] font-semibold text-danger">
       {children}
     </p>
   )

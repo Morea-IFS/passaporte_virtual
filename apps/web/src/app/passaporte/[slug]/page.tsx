@@ -1,4 +1,8 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
+import { EventEvaluation } from '@/components/passport/event-evaluation'
+import { JoinEvent } from '@/components/passport/join-event'
+import { buttonClass } from '@/components/ui/button'
 import { NicknameForm } from '@/components/passport/nickname-form'
 import { ProgressBar } from '@/components/passport/progress-bar'
 import { RecoveryCode } from '@/components/passport/recovery-code'
@@ -23,11 +27,15 @@ export const metadata: Metadata = {
 /** Passaporte do visitante; sem passaporte neste celular, a lista pública do evento */
 async function loadPassport(slug: string) {
   try {
-    const [passport, account] = await Promise.all([api.passport(slug), api.visitorMe()])
-    return { passport, account: account as VisitorAccount | null }
+    const [passport, account, evaluation] = await Promise.all([
+      api.passport(slug),
+      api.visitorMe(),
+      api.evaluation(slug),
+    ])
+    return { passport, account: account as VisitorAccount | null, rating: evaluation.rating }
   } catch (error) {
     if (!(error instanceof VisitorUnauthorizedError)) throw error
-    return { passport: (await api.publicEvent(slug)) as Passport, account: null }
+    return { passport: (await api.publicEvent(slug)) as Passport, account: null, rating: null }
   }
 }
 
@@ -43,7 +51,7 @@ export default async function PassportPage({
   const query = await searchParams
   const categoria = firstParam(query.categoria)
   const welcome = firstParam(query.bemvindo) === '1'
-  const { passport, account } = await loadPassport(slug)
+  const { passport, account, rating } = await loadPassport(slug)
   const { event, categories } = passport
   const path = `/passaporte/${event.slug}`
 
@@ -56,6 +64,7 @@ export default async function PassportPage({
 
   return (
     <VisitorShell homeHref="/?escolher=1">
+      {account ? <JoinEvent slug={event.slug} /> : null}
       <BackLink href="/?escolher=1" label="Trocar de evento" />
       <header className="flex flex-col gap-1">
         <p className="font-display text-xs font-bold tracking-[0.14em] text-muted uppercase">
@@ -181,6 +190,17 @@ export default async function PassportPage({
 
       {event.hashtag ? (
         <p className="text-center font-display font-bold text-accent">{event.hashtag}</p>
+      ) : null}
+      <Link href={`${path}/ranking`} className={buttonClass('ghost')}>
+        Ranking de participantes
+      </Link>
+      {account ? (
+        <EventEvaluation
+          slug={event.slug}
+          mode={event.evaluationMode}
+          url={event.evaluationUrl}
+          initialRating={rating}
+        />
       ) : null}
     </VisitorShell>
   )

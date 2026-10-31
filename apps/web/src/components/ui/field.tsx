@@ -16,7 +16,7 @@ export const fieldLabelClass = 'font-display text-[13px] font-bold'
 export function FieldMessage({ id, error, hint }: { id: string; error?: string; hint?: string }) {
   if (error) {
     return (
-      <p id={`${id}-error`} className="text-[13px] font-semibold text-magenta">
+      <p id={`${id}-error`} className="text-[13px] font-semibold text-danger">
         {error}
       </p>
     )

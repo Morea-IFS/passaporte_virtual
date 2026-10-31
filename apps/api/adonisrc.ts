@@ -104,7 +104,7 @@ export default defineConfig({
   | the production build.
   |
   */
-  metaFiles: [],
+  metaFiles: [{ pattern: 'resources/fonts/**', reloadServer: false }],
 
   hooks: {
     init: [

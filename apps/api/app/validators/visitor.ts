@@ -10,6 +10,7 @@ export const nicknameRule = () =>
     .regex(/^[A-Za-z0-9._-]+$/)
 
 export const registerVisitorValidator = vine.create({
+  eventSlug: vine.string().trim().maxLength(100).optional(),
   nickname: nicknameRule().unique(async (db, value) => {
     const existing = await db
       .from('visitors')

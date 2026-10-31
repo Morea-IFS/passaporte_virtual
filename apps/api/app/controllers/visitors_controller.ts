@@ -1,5 +1,7 @@
 import Visitor from '#models/visitor'
 import VisitorToken from '#models/visitor_token'
+import Event from '#models/event'
+import { joinEvent } from '#services/event_participation'
 import {
   nicknameAvailabilityValidator,
   recoverVisitorValidator,
@@ -26,14 +28,18 @@ export default class VisitorsController {
   }
 
   async register({ request, response }: HttpContext) {
-    const { nickname } = await request.validateUsing(registerVisitorValidator)
+    const { nickname, eventSlug } = await request.validateUsing(registerVisitorValidator)
 
     const result = await db.transaction(async (trx) => {
+      const event = eventSlug
+        ? await Event.query({ client: trx }).where('slug', eventSlug).forShare().firstOrFail()
+        : null
       const visitor = new Visitor()
       visitor.useTransaction(trx)
       visitor.nickname = nickname
       visitor.recoveryCode = Visitor.generateRecoveryCode()
       await visitor.save()
+      if (event) await joinEvent(trx, visitor.id, event.id)
       const token = await VisitorToken.issue(visitor)
       return { token, visitor }
     })

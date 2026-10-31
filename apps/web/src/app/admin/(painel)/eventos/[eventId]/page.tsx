@@ -62,6 +62,12 @@ export default async function EventPage({
         }
         actions={
           <>
+            <Link href={`${listPath}/dados`} className={buttonClass('primary')}>
+              Dados do evento
+            </Link>
+            <Link href={`${listPath}/avaliacoes`} className={buttonClass('ghost')}>
+              Avaliações
+            </Link>
             <Link href={`${listPath}/editar`} className={buttonClass('ghost')}>
               Editar evento
             </Link>

@@ -1,0 +1,708 @@
+{
+  "date": "2026-10-30",
+  "environment": "QA local, Next dev localhost:3000, Chrome com emulação móvel",
+  "method": "scripts/verify_accessibility.mjs; axe-core via @axe-core/playwright; @playwright/test, canal chrome",
+  "viewport": {
+    "width": 360,
+    "height": 800
+  },
+  "minimumTouchTargetPx": 44,
+  "axeTags": ["wcag2a", "wcag2aa", "wcag21aa"],
+  "devToolExcluded": "nextjs-portal (interface de depuração do Next, fora do produto)",
+  "summary": {
+    "screensAndThemes": 46,
+    "automaticViolations": 0,
+    "targetsSmallerThan44px": 0,
+    "horizontalOverflows": 0
+  },
+  "pages": [
+    {
+      "role": "public",
+      "route": "/?escolher=1",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "role": "public",
+      "route": "/recuperar",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "role": "public",
+      "route": "/privacidade",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "role": "public",
+      "route": "/passaporte/23a-snct-ciencia-delas",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 7
+        }
+      ]
+    },
+    {
+      "role": "public",
+      "route": "/admin/login",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 5
+        }
+      ]
+    },
+    {
+      "role": "visitor",
+      "route": "/passaporte/23a-snct-ciencia-delas",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 40
+        }
+      ]
+    },
+    {
+      "role": "visitor",
+      "route": "/passaporte/23a-snct-ciencia-delas/ranking",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "aria-prohibited-attr",
+          "nodes": 20
+        },
+        {
+          "rule": "color-contrast",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "role": "visitor",
+      "route": "/c/[token]",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 6
+        }
+      ]
+    },
+    {
+      "role": "visitor",
+      "route": "/c/[token]#card",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": []
+    },
+    {
+      "role": "admin",
+      "route": "/admin",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/novo",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 9
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7/dados",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7/avaliacoes",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7/categorias",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7/qrcodes",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7/editar",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7/editar#calendario",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7/importar",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/participantes",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/administradores",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/administradores#seletor",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": []
+    },
+    {
+      "role": "admin",
+      "route": "/admin/auditoria",
+      "theme": "light",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "public",
+      "route": "/?escolher=1",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "role": "public",
+      "route": "/recuperar",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "role": "public",
+      "route": "/privacidade",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "role": "public",
+      "route": "/passaporte/23a-snct-ciencia-delas",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 7
+        }
+      ]
+    },
+    {
+      "role": "public",
+      "route": "/admin/login",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 5
+        }
+      ]
+    },
+    {
+      "role": "visitor",
+      "route": "/passaporte/23a-snct-ciencia-delas",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 40
+        }
+      ]
+    },
+    {
+      "role": "visitor",
+      "route": "/passaporte/23a-snct-ciencia-delas/ranking",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "role": "visitor",
+      "route": "/c/[token]",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 6
+        }
+      ]
+    },
+    {
+      "role": "visitor",
+      "route": "/c/[token]#card",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": []
+    },
+    {
+      "role": "admin",
+      "route": "/admin",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/novo",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 9
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7/dados",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7/avaliacoes",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7/categorias",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7/qrcodes",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7/editar",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7/editar#calendario",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/eventos/7/importar",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/participantes",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/administradores",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "route": "/admin/administradores#seletor",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": []
+    },
+    {
+      "role": "admin",
+      "route": "/admin/auditoria",
+      "theme": "dark",
+      "violations": 0,
+      "targetsSmallerThan44px": 0,
+      "horizontalOverflow": false,
+      "incomplete": [
+        {
+          "rule": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    }
+  ],
+  "incompleteManualReview": [
+    {
+      "category": "Logotipo Ciência Delas",
+      "finding": "Letras isoladas da marca E/L/A são sinalizadas como texto curto inconclusivo.",
+      "resolution": "Mantida identidade visual do logotipo, exceção de contraste de texto do WCAG 1.4.3. Grupo tem role=img e nome acessível; letras internas são decorativas. Isto não significa que as cores atendem 4,5:1 em texto comum."
+    },
+    {
+      "category": "Links de navegação e filtros em faixa horizontal",
+      "finding": "Axe não calcula fundo de links parcialmente fora da área rolável de 360px.",
+      "resolution": "Revisado CSS: mesmos tokens text-muted/text-accent dos links visíveis, em bg/surface. A faixa rola dentro de seu contêiner e não provoca rolagem horizontal da página."
+    },
+    {
+      "category": "Legenda do calendário",
+      "finding": "Nav transparente sobrepõe geometricamente a região da legenda do mês.",
+      "resolution": "Revisado CSS: legenda usa text-fg em bg-surface; sem fundo opaco na nav. Calendário conferido aberto nos dois temas, dias de 44px."
+    },
+    {
+      "category": "Posições no ranking",
+      "finding": "A rodada em tema claro capturou aria-label em span genérico antes da correção.",
+      "resolution": "Corrigido por texto sr-only e numeral aria-hidden. Tema escuro após a correção sem inconclusivos de aria-prohibited-attr; E2E principal também valida o ranking."
+    },
+    {
+      "category": "Textos dos carimbos SVG",
+      "finding": "Axe não determina fundo de text/textPath em SVG. Revisão encontrou contraste baixo em algumas cores de categoria.",
+      "resolution": "Textos passaram a fill var(--fg), círculos preservam cores da marca. Verificação adicional direta em claro/escuro, 11 carimbos por tema; valores calculados e contraste conferidos. Nome acessível inclui categoria, código, data e hora."
+    }
+  ],
+  "stampFollowup": [
+    {
+      "theme": "light",
+      "stamps": 11,
+      "foreground": "rgb(34, 22, 77)",
+      "labelsIncludeDates": true,
+      "violations": 0,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 33
+        }
+      ],
+      "minimumTextContrast": 14.6,
+      "incompleteReviewed": "A análise automática de texto SVG é inconclusiva. Conferido fill calculado em cada texto: igual ao foreground semântico e contraste mínimo >= 4,5:1 com o fundo, nos dois temas."
+    },
+    {
+      "theme": "dark",
+      "stamps": 11,
+      "foreground": "rgb(244, 238, 255)",
+      "labelsIncludeDates": true,
+      "violations": 0,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 33
+        }
+      ],
+      "minimumTextContrast": 16.51,
+      "incompleteReviewed": "A análise automática de texto SVG é inconclusiva. Conferido fill calculado em cada texto: igual ao foreground semântico e contraste mínimo >= 4,5:1 com o fundo, nos dois temas."
+    }
+  ],
+  "limits": "Varredura automatizada e revisão de CSS dos resultados inconclusivos. Não equivale a certificação WCAG nem a ensaio com leitor de tela físico."
+}

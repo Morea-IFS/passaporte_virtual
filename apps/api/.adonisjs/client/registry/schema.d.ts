@@ -85,6 +85,19 @@ export interface Registry {
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['indexPublic']>>>
     }
   }
+  'public.events.ranking': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/public/events/:slug/ranking'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { slug: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/pagination').pageValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['ranking']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['ranking']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['ranking']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'public.events.show': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/public/events/:slug'
@@ -200,6 +213,45 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['show']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['show']>>>
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['show']>>>
+    }
+  }
+  'visitor.passports.join': {
+    methods: ["POST"]
+    pattern: '/api/v1/visitor/passports/:slug/join'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { slug: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['join']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['join']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/passports_controller').default['join']>>>
+    }
+  }
+  'visitor.evaluation.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/visitor/events/:slug/evaluation'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { slug: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/event_evaluations_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/event_evaluations_controller').default['show']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/event_evaluations_controller').default['show']>>>
+    }
+  }
+  'visitor.evaluation.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/visitor/events/:slug/evaluation'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { slug: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/event_evaluations_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/event_evaluations_controller').default['store']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/event_evaluations_controller').default['store']>>>
     }
   }
   'admin.administrators.index': {
@@ -434,6 +486,45 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/events_controller').default['destroy']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/events_controller').default['destroy']>>>
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/events_controller').default['destroy']>>>
+    }
+  }
+  'admin.events.analytics': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/events/:eventId/analytics'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { eventId: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/pagination').pageValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/event_analytics_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/event_analytics_controller').default['show']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/event_analytics_controller').default['show']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.events.analytics.export': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/events/:eventId/analytics/export'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { eventId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/event_analytics_controller').default['export']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/event_analytics_controller').default['export']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/event_analytics_controller').default['export']>>>
+    }
+  }
+  'admin.events.evaluations': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/events/:eventId/evaluations'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { eventId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/event_evaluations_controller').default['summary']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/event_evaluations_controller').default['summary']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/event_evaluations_controller').default['summary']>>>
     }
   }
   'admin.events.checkpoints.index': {

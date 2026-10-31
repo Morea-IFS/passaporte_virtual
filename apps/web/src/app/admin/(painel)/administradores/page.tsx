@@ -74,7 +74,7 @@ export default async function AdministratorsPage({
                   <p className="text-[14px] text-muted">{administrator.email}</p>
                 </div>
                 <span
-                  className={`rounded-full px-3 py-1 text-[12px] font-bold ${administrator.isActive ? 'bg-verde/15 text-verde' : 'bg-surface-2 text-muted'}`}
+                  className={`rounded-full px-3 py-1 text-[12px] font-bold ${administrator.isActive ? 'bg-verde/15 text-success' : 'bg-surface-2 text-muted'}`}
                 >
                   {administrator.isActive ? 'Ativo' : 'Desativado'}
                 </span>

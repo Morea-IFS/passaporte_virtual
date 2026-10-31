@@ -30,6 +30,8 @@
   --line: #e2d9c6;
   --accent: #3b2492;
   --on-accent: #fffdf8;
+  --success: #176f36;
+  --danger: #b31c62;
   color-scheme: light;
 }
 
@@ -43,6 +45,8 @@
     --line: #3a2e6c;
     --accent: #b9a6ff;
     --on-accent: #1d1147;
+    --success: #70db97;
+    --danger: #ff8cbe;
     color-scheme: dark;
   }
 }
@@ -56,6 +60,8 @@
   --line: #3a2e6c;
   --accent: #b9a6ff;
   --on-accent: #1d1147;
+  --success: #70db97;
+  --danger: #ff8cbe;
   color-scheme: dark;
 }
 
@@ -92,6 +98,8 @@
   --color-line: var(--line);
   --color-accent: var(--accent);
   --color-on-accent: var(--on-accent);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
 
   /* Fontes (carregadas via next/font em layout.tsx) */
   --font-display: var(--font-montserrat), 'Helvetica Neue', Arial, sans-serif;

@@ -24,7 +24,7 @@ export function InfoButton({ title, content, label }: InfoContent & { label: str
       <button
         type="button"
         onClick={() => dialogRef.current?.showModal()}
-        className="-my-2 grid size-9 place-items-center rounded-full text-muted hover:text-accent"
+        className="-my-1 grid size-11 place-items-center rounded-full text-muted hover:text-accent"
       >
         <InfoIcon className="size-4" />
         <span className="sr-only">Mais informações sobre {label}</span>

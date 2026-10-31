@@ -2,6 +2,7 @@ import 'server-only'
 import { notFound, redirect } from 'next/navigation'
 import { adminSession, visitorSession } from '@/lib/session'
 import { hrefWith } from '@/lib/url'
+import type { EventAnalytics, PublicRanking } from '@/lib/analytics-types'
 import type {
   Checkpoint,
   CheckpointCategory,
@@ -167,6 +168,20 @@ export const api = {
 
   events: (page = 1) => requestPage<PassportEvent>(hrefWith('/admin/events', { page })),
   event: (id: number) => request<PassportEvent>(`/admin/events/${id}`),
+  eventAnalytics: (id: number, page = 1) =>
+    request<EventAnalytics>(hrefWith(`/admin/events/${id}/analytics`, { page })),
+  eventAnalyticsCsv: (id: number) => call(`/admin/events/${id}/analytics/export`),
+  eventRanking: (slug: string, page = 1) =>
+    request<PublicRanking>(
+      hrefWith(`/public/events/${encodeURIComponent(slug)}/ranking`, { page }),
+      { auth: 'none' }
+    ),
+  evaluationSummary: (id: number) =>
+    request<{
+      total: number
+      average: number | null
+      distribution: { rating: number; total: number }[]
+    }>(`/admin/events/${id}/evaluations`),
   createEvent: (payload: unknown) =>
     request<PassportEvent>('/admin/events', { method: 'POST', json: payload }),
   updateEvent: (id: number, payload: unknown) =>
@@ -213,10 +228,10 @@ export const api = {
   /* ---------- Visitante ---------- */
   nicknameAvailable: (nickname: string) =>
     request<{ available: boolean }>(hrefWith('/visitor/nickname', { nickname }), { auth: 'none' }),
-  registerVisitor: (nickname: string) =>
+  registerVisitor: (nickname: string, eventSlug?: string) =>
     request<VisitorAccount & { token: string }>('/visitor', {
       method: 'POST',
-      json: { nickname },
+      json: { nickname, eventSlug },
       auth: 'none',
     }),
   recoverVisitor: (nickname: string, code: string) =>
@@ -227,6 +242,23 @@ export const api = {
     }),
   visitorLogout: () => request<void>('/visitor/logout', { method: 'POST', auth: 'visitor' }),
   visitorMe: () => request<VisitorAccount>('/visitor/me', { auth: 'visitor' }),
+  joinEvent: (slug: string, visitorToken?: string) =>
+    request<{ slug: string }>(`/visitor/passports/${encodeURIComponent(slug)}/join`, {
+      method: 'POST',
+      auth: 'visitor',
+      visitorToken,
+    }),
+  evaluation: (slug: string) =>
+    request<{ mode: string; url: string | null; rating: number | null }>(
+      `/visitor/events/${encodeURIComponent(slug)}/evaluation`,
+      { auth: 'visitor' }
+    ),
+  evaluate: (slug: string, rating: number) =>
+    request<{ rating: number }>(`/visitor/events/${encodeURIComponent(slug)}/evaluation`, {
+      method: 'POST',
+      json: { rating },
+      auth: 'visitor',
+    }),
   checkIn: (qrToken: string, visitorToken?: string) =>
     request<CheckinResult>('/visitor/checkins', {
       method: 'POST',

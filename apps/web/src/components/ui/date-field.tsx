@@ -79,13 +79,13 @@ export function DateField({ name, label, value, onChange, min, error, hint }: Da
         }}
         className={`${inputClass()} flex items-center justify-between gap-3 text-left`}
       >
-        <span className={value ? 'text-fg' : 'text-muted/70'}>
+        <span className={value ? 'text-fg' : 'text-muted'}>
           {value ? formatDisplay(value) : 'Escolher data'}
         </span>
         <CalendarIcon className="size-5 shrink-0 text-accent" />
       </button>
 
-      <Modal dialogRef={dialogRef} title={label}>
+      <Modal dialogRef={dialogRef} title={label} size="lg">
         <DayPicker
           key={openCount}
           mode="single"
@@ -112,9 +112,9 @@ export function DateField({ name, label, value, onChange, min, error, hint }: Da
             chevron: 'size-5 fill-current',
             month_grid: 'w-full border-collapse',
             weekday: 'pb-2 font-display text-[11px] font-bold tracking-wider text-muted uppercase',
-            day: 'p-0.5 text-center',
+            day: 'p-0 text-center',
             day_button:
-              'mx-auto grid size-10 place-items-center rounded-full font-display text-[15px] font-bold text-fg hover:bg-surface-2',
+              'mx-auto grid size-11 place-items-center rounded-full font-display text-[15px] font-bold text-fg hover:bg-surface-2',
             selected: '[&>button]:bg-violeta [&>button]:text-creme [&>button]:hover:bg-violeta',
             today: '[&>button]:text-accent [&>button]:underline [&>button]:underline-offset-4',
             outside: 'opacity-40',

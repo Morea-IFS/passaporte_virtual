@@ -11,6 +11,7 @@ import { PER_PAGE, pageValidator } from '#validators/pagination'
 import type { HttpContext } from '@adonisjs/core/http'
 import type { ModelQueryBuilderContract } from '@adonisjs/lucid/types/model'
 import { audit } from '#services/audit'
+import { evaluationSettings } from '#services/event_evaluation'
 
 function withCounts(query: ModelQueryBuilderContract<typeof Event>) {
   return query
@@ -59,7 +60,7 @@ export default class EventsController {
     assertStartNotInPast(payload.startsOn)
     const event = await db.transaction(async (trx) => {
       const slug = await Event.uniqueSlug(payload.name, trx)
-      const created = await Event.create({ ...payload, slug }, { client: trx })
+      const created = await Event.create({ ...evaluationSettings(payload), slug }, { client: trx })
       await CheckpointCategory.createDefaults(created.id, trx)
       await audit(
         actor,
@@ -94,7 +95,7 @@ export default class EventsController {
         .forUpdate()
         .firstOrFail()
       assertStartNotInPast(payload.startsOn, event.startsOn)
-      event.merge(payload)
+      event.merge(evaluationSettings(payload, event))
       await event.save()
       await audit(
         actor,

@@ -59,7 +59,10 @@ export async function startPassport(
   const nickname = text(formData, 'nickname')
   let account
   try {
-    account = await api.registerVisitor(nickname)
+    account = await api.registerVisitor(
+      nickname,
+      'eventSlug' in start ? start.eventSlug : undefined
+    )
   } catch (error) {
     if (error instanceof ApiValidationError) {
       return {
@@ -112,4 +115,33 @@ export async function leavePassport() {
   }
   await visitorSession.clear()
   redirect('/')
+}
+
+/** Registra a entrada em outro evento sem exigir outro apelido. */
+export async function joinPassport(slug: string) {
+  try {
+    await api.joinEvent(slug)
+    return { success: true }
+  } catch {
+    return {
+      error:
+        'Não foi possível registrar sua entrada no evento. Tente novamente quando estiver conectado.',
+    }
+  }
+}
+
+export async function evaluateEvent(
+  slug: string,
+  _: FormState & { rating?: number },
+  formData: FormData
+): Promise<FormState & { rating?: number }> {
+  try {
+    const { rating } = await api.evaluate(slug, Number(formData.get('rating')))
+    return { rating }
+  } catch (error) {
+    if (error instanceof ApiValidationError) return { error: error.message }
+    if (error instanceof VisitorUnauthorizedError)
+      return { error: 'Recupere seu passaporte para enviar a avaliação.' }
+    return { error: 'Não foi possível enviar. Confira sua conexão e tente novamente.' }
+  }
 }

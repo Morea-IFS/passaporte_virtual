@@ -69,7 +69,7 @@ export function ImportForm({ eventId }: { eventId: number }) {
         <section className="flex flex-col gap-4" aria-live="polite">
           {preview.errors.length > 0 ? (
             <Panel tone="danger">
-              <p className="font-display font-extrabold text-magenta">
+              <p className="font-display font-extrabold text-danger">
                 {pluralize(preview.errors.length, 'linha precisa', 'linhas precisam')} de ajuste.
                 Corrija o arquivo e envie de novo: nada foi salvo.
               </p>

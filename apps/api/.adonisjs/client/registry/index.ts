@@ -42,6 +42,12 @@ const routes = {
     tokens: [[0,"api"],[0,"v1"],[0,"public"],[0,"events"]],
     types: placeholder as Registry['public.events.index']['types'],
   },
+  'public.events.ranking': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/public/events/:slug/ranking',
+    tokens: [[0,"api"],[0,"v1"],[0,"public"],[0,"events"],[1,"slug"],[0,"ranking"]],
+    types: placeholder as Registry['public.events.ranking']['types'],
+  },
   'public.events.show': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/public/events/:slug',
@@ -95,6 +101,24 @@ const routes = {
     pattern: '/api/v1/visitor/passports/:slug',
     tokens: [[0,"api"],[0,"v1"],[0,"visitor"],[0,"passports"],[1,"slug"]],
     types: placeholder as Registry['visitor.passports.show']['types'],
+  },
+  'visitor.passports.join': {
+    methods: ["POST"],
+    pattern: '/api/v1/visitor/passports/:slug/join',
+    tokens: [[0,"api"],[0,"v1"],[0,"visitor"],[0,"passports"],[1,"slug"],[0,"join"]],
+    types: placeholder as Registry['visitor.passports.join']['types'],
+  },
+  'visitor.evaluation.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/visitor/events/:slug/evaluation',
+    tokens: [[0,"api"],[0,"v1"],[0,"visitor"],[0,"events"],[1,"slug"],[0,"evaluation"]],
+    types: placeholder as Registry['visitor.evaluation.show']['types'],
+  },
+  'visitor.evaluation.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/visitor/events/:slug/evaluation',
+    tokens: [[0,"api"],[0,"v1"],[0,"visitor"],[0,"events"],[1,"slug"],[0,"evaluation"]],
+    types: placeholder as Registry['visitor.evaluation.store']['types'],
   },
   'admin.administrators.index': {
     methods: ["GET","HEAD"],
@@ -203,6 +227,24 @@ const routes = {
     pattern: '/api/v1/admin/events/:id',
     tokens: [[0,"api"],[0,"v1"],[0,"admin"],[0,"events"],[1,"id"]],
     types: placeholder as Registry['admin.events.destroy']['types'],
+  },
+  'admin.events.analytics': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/admin/events/:eventId/analytics',
+    tokens: [[0,"api"],[0,"v1"],[0,"admin"],[0,"events"],[1,"eventId"],[0,"analytics"]],
+    types: placeholder as Registry['admin.events.analytics']['types'],
+  },
+  'admin.events.analytics.export': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/admin/events/:eventId/analytics/export',
+    tokens: [[0,"api"],[0,"v1"],[0,"admin"],[0,"events"],[1,"eventId"],[0,"analytics"],[0,"export"]],
+    types: placeholder as Registry['admin.events.analytics.export']['types'],
+  },
+  'admin.events.evaluations': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/admin/events/:eventId/evaluations',
+    tokens: [[0,"api"],[0,"v1"],[0,"admin"],[0,"events"],[1,"eventId"],[0,"evaluations"]],
+    types: placeholder as Registry['admin.events.evaluations']['types'],
   },
   'admin.events.checkpoints.index': {
     methods: ["GET","HEAD"],

@@ -46,7 +46,20 @@ async function participation(visitorIds: number[]) {
       'ci.checkpoint_id',
       'ci.created_at'
     )) as CheckinRow[]
-  const eventIds = [...new Set(checkins.map((row) => row.event_id))]
+  const enrollments: Omit<CheckinRow, 'checkpoint_id'>[] = await db
+    .from('event_participations as ep')
+    .join('events as e', 'e.id', 'ep.event_id')
+    .whereIn('ep.visitor_id', visitorIds)
+    .whereNull('ep.deleted_at')
+    .whereNull('e.deleted_at')
+    .select(
+      'ep.visitor_id',
+      'ep.event_id',
+      'e.name as event_name',
+      'e.slug as event_slug',
+      'ep.created_at'
+    )
+  const eventIds = [...new Set([...checkins, ...enrollments].map((row) => row.event_id))]
   const checkpoints = eventIds.length
     ? ((await db
         .from('checkpoints')
@@ -56,6 +69,17 @@ async function participation(visitorIds: number[]) {
     : []
   const byVisitor = new Map<number, ReturnType<typeof makeSummary>>()
   for (const visitorId of visitorIds) byVisitor.set(visitorId, makeSummary())
+  for (const row of enrollments) {
+    const summary = byVisitor.get(row.visitor_id)!
+    summary.events.set(row.event_id, {
+      id: row.event_id,
+      name: row.event_name,
+      slug: row.event_slug,
+      visited: new Set<number>(),
+    })
+    const timestamp = iso(row.created_at)
+    if (!summary.lastActivity || timestamp > summary.lastActivity) summary.lastActivity = timestamp
+  }
   for (const row of checkins) {
     const summary = byVisitor.get(row.visitor_id)!
     let event = summary.events.get(row.event_id)
@@ -123,7 +147,25 @@ export default class ParticipantsController {
     const visitors = await Visitor.query()
       .if(q, (query) => query.whereILike('nickname', `%${q}%`))
       .if(eventId, (query) =>
-        query.whereHas('checkins', (checkins) => checkins.where('event_id', eventId!))
+        query.where((participationQuery) =>
+          participationQuery
+            .whereHas('participations', (participations) =>
+              participations
+                .where('event_id', eventId!)
+                .whereNull('deleted_at')
+                .whereHas('event', (event) => event.whereNull('deleted_at'))
+            )
+            .orWhereHas('checkins', (checkins) =>
+              checkins
+                .where('event_id', eventId!)
+                .whereNull('deleted_at')
+                .whereHas('checkpoint', (checkpoint) =>
+                  checkpoint
+                    .whereNull('deleted_at')
+                    .whereHas('event', (event) => event.whereNull('deleted_at'))
+                )
+            )
+        )
       )
       .orderBy('nickname', 'asc')
       .paginate(page, PER_PAGE)

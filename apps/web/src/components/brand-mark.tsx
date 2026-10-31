@@ -13,7 +13,7 @@ export function BrandMark() {
   return (
     <span className="inline-flex items-center gap-1.5 font-display text-base font-black text-accent">
       SNCT
-      <span className="flex" aria-label="Delas">
+      <span className="flex" role="img" aria-label="Delas">
         {DELAS.map(({ letter, className }) => (
           <span
             key={letter}

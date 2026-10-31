@@ -88,10 +88,19 @@ export function NicknameForm({
       </SubmitButton>
       <Link
         href={`/recuperar?voltar=${encodeURIComponent(returnTo)}`}
-        className="self-center font-display text-[14px] font-bold text-accent underline underline-offset-4"
+        className="flex min-h-11 items-center self-center font-display text-[14px] font-bold text-accent underline underline-offset-4"
       >
         Já tenho passaporte
       </Link>
+      <p className="text-[13px] text-muted">
+        Seu apelido e a quantidade de carimbos podem aparecer no ranking.{' '}
+        <Link
+          href="/privacidade"
+          className="inline-flex min-h-11 items-center text-accent underline"
+        >
+          Como usamos seus dados
+        </Link>
+      </p>
     </form>
   )
 }

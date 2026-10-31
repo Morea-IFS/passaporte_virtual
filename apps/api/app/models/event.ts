@@ -46,8 +46,8 @@ export default class Event extends compose(EventSchema, SoftDeletes) {
   }
 
   /**
-   * Exclusão lógica do evento e dos pontos ativos dele, com o mesmo
-   * deleted_at: para restaurar tudo junto, limpe os dois pelo mesmo horário.
+   * Exclusão lógica do evento, pontos, inscrições e avaliações com o mesmo
+   * deleted_at; preserva exclusões anteriores para permitir restauração conjunta.
    */
   async softDelete(trx?: TransactionClientContract) {
     const deletedAt = DateTime.now()
@@ -55,6 +55,13 @@ export default class Event extends compose(EventSchema, SoftDeletes) {
       .where('event_id', this.id)
       .whereNull('deleted_at')
       .update({ deleted_at: deletedAt.toSQL(), updated_at: deletedAt.toSQL() })
+    for (const table of ['event_participations', 'event_evaluations']) {
+      await (trx ?? db)
+        .from(table)
+        .where('event_id', this.id)
+        .whereNull('deleted_at')
+        .update({ deleted_at: deletedAt.toSQL(), updated_at: deletedAt.toSQL() })
+    }
     if (trx) this.useTransaction(trx)
     this.deletedAt = deletedAt
     await this.save()

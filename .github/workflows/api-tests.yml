@@ -1,0 +1,83 @@
+name: Testes da API
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  api-tests:
+    name: Rotas e regras da API
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: passaporte_virtual_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d passaporte_virtual_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      CI: 'true'
+      TZ: UTC
+      NODE_ENV: test
+      HOST: 127.0.0.1
+      PORT: '3333'
+      LOG_LEVEL: error
+      APP_URL: http://127.0.0.1:3333
+      PUBLIC_WEB_URL: http://localhost:3000
+      SESSION_DRIVER: memory
+      DRIVE_DISK: fs
+      DB_HOST: 127.0.0.1
+      DB_PORT: '5432'
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_DATABASE: passaporte_virtual_ci
+
+    steps:
+      - name: Obter código
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+
+      - name: Configurar Node.js 24
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: '24'
+          package-manager-cache: false
+
+      - name: Configurar pnpm do projeto
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        with:
+          run_install: false
+          cache: true
+
+      - name: Instalar dependências da API
+        run: pnpm install --frozen-lockfile --filter @passaporte/api...
+
+      - name: Gerar chave temporária de teste
+        run: |
+          node -e 'require("node:fs").appendFileSync(process.env.GITHUB_ENV, "APP_KEY=" + require("node:crypto").randomBytes(32).toString("base64url") + "\n")'
+
+      - name: Preparar banco de testes
+        run: pnpm --filter @passaporte/api exec node ace migration:run --force
+
+      # O Japa inicia e encerra o servidor HTTP; os testes criam seus próprios dados.
+      - name: Executar testes das rotas e regras de negócio
+        run: pnpm --filter @passaporte/api test

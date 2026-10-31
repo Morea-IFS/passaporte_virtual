@@ -33,7 +33,7 @@ export function VisitorShell({
 }) {
   const mark = <BrandMark />
   return (
-    <main className="flex min-h-dvh flex-1 flex-col bg-violeta-noite">
+    <main id="conteudo" tabIndex={-1} className="flex min-h-dvh flex-1 flex-col bg-violeta-noite">
       <BrandMosaic className="min-h-28 flex-1" />
       <section className="relative -mt-6 flex shrink-0 flex-col rounded-t-[28px] bg-bg px-4 pt-5 pb-10">
         <div className="mx-auto flex w-full max-w-md flex-col gap-5">
@@ -51,6 +51,12 @@ export function VisitorShell({
             </div>
           </div>
           {children}
+          <Link
+            href="/privacidade"
+            className="flex min-h-11 items-center justify-center text-[13px] text-muted underline"
+          >
+            Privacidade
+          </Link>
         </div>
       </section>
     </main>
