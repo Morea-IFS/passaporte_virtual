@@ -1,12 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 import { EventChoiceCard } from '@/components/passport/event-choice-card'
 import { VisitorShell } from '@/components/passport/visitor-shell'
 import { quietButtonClass } from '@/components/ui/button'
 import { EmptyState } from '@/components/ui/feedback'
 import { api, VisitorUnauthorizedError } from '@/lib/api'
-import { firstParam } from '@/lib/url'
 
 export const metadata: Metadata = {
   title: 'Passaporte Virtual',
@@ -21,18 +19,11 @@ async function loadVisitor() {
   }
 }
 
-/**
- * Entrada do visitante (QR da recepção). Um evento aberto: vai direto
- * para o passaporte dele. Vários: a pessoa escolhe.
- */
-export default async function HomePage({ searchParams }: PageProps<'/'>) {
-  // ?escolher=1: veio de "Trocar de evento", mostra a lista mesmo com um evento só
-  const choosing = firstParam((await searchParams).escolher) === '1'
+/** Entrada do visitante: sempre permite escolher explicitamente o evento. */
+export default async function HomePage() {
   const [events, visitor] = await Promise.all([api.publicEvents(), loadVisitor()])
   const open = events.filter((event) => !event.ended)
   const ended = events.filter((event) => event.ended)
-
-  if (open.length === 1 && !choosing) redirect(`/passaporte/${open[0].slug}`)
 
   const visitedBySlug = new Map(
     visitor?.passports.map((passport) => [passport.slug, passport.visited])

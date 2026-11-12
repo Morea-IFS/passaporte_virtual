@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ChangeEvent } from 'react'
 import { buttonClass, quietButtonClass } from '@/components/ui/button'
 import { InlineError, Notice } from '@/components/ui/feedback'
-import { DownloadIcon, ImageIcon } from '@/components/ui/icons'
+import { CameraIcon, DownloadIcon, ImageIcon } from '@/components/ui/icons'
 import { Modal } from '@/components/ui/modal'
 import { createStoryCard, shareStoryCard, type StoryCardDetails } from '@/lib/story-card'
 
@@ -165,6 +165,7 @@ export function ShareCheckin(details: StoryCardDetails) {
             <label
               className={`${buttonClass('ghost', { size: 'sm' })} relative text-center focus-within:outline-3 focus-within:outline-offset-2 focus-within:outline-amarelo`}
             >
+              <CameraIcon className="size-4 shrink-0" />
               Tirar foto
               <input
                 type="file"
@@ -187,10 +188,6 @@ export function ShareCheckin(details: StoryCardDetails) {
               Remover foto
             </button>
           ) : null}
-          <p className="text-left text-[12px] text-muted">
-            Sua foto fica apenas neste celular, não é enviada nem salva pela aplicação. Ao fechar,
-            ela é descartada. O card baixado fica na sua galeria ou pasta de downloads.
-          </p>
         </div>
 
         <InlineError>{error}</InlineError>
@@ -215,10 +212,6 @@ export function ShareCheckin(details: StoryCardDetails) {
               Baixar card (PNG)
             </a>
           ) : null}
-          <p className="text-left text-[12px] text-muted">
-            O Instagram pode não aparecer no menu de compartilhamento. Nesse caso, baixe a imagem e
-            selecione-a ao criar um Story. Formato: 1080 × 1920 px.
-          </p>
           <button
             type="button"
             onClick={() => dialogRef.current?.close()}

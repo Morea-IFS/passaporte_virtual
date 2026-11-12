@@ -39,6 +39,8 @@ type CheckinFlowProps = {
   checkpointName: string
   eventName: string
   hashtag: string | null
+  imageUrl: string | null
+  logoUrl: string | null
   /** Este celular já tem passaporte (cookie) */
   hasPassport: boolean
 }
@@ -53,6 +55,8 @@ export function CheckinFlow({
   checkpointName,
   eventName,
   hashtag,
+  imageUrl,
+  logoUrl,
 }: CheckinFlowProps) {
   const [state, setState] = useState<CheckinState>(hasPassport ? {} : { needsPassport: true })
   const [queued, setQueued] = useState<OfflineEntry | null>(null)
@@ -245,6 +249,8 @@ export function CheckinFlow({
         hashtag={hashtag}
         categoryName={categoryName}
         color={color}
+        imageUrl={imageUrl}
+        logoUrl={logoUrl}
       />
       {recoveryCode ? <RecoveryCode code={recoveryCode} nickname={result.nickname} /> : null}
       <Link

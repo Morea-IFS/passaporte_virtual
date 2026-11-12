@@ -1,12 +1,14 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import { evaluateEvent } from '@/app/passaporte/actions'
 import { Panel } from '@/components/ui/card'
 import { Notice } from '@/components/ui/feedback'
+import { StarIcon } from '@/components/ui/icons'
 import { SubmitButton } from '@/components/ui/submit-button'
 import { buttonClass } from '@/components/ui/button'
-import { OptionCard } from '@/components/ui/option-card'
+
+const RATING_LABELS = ['Muito ruim', 'Ruim', 'Regular', 'Bom', 'Excelente'] as const
 
 export function EventEvaluation({
   slug,
@@ -24,6 +26,9 @@ export function EventEvaluation({
     {} as { error?: string; rating?: number }
   )
   const rating = state.rating ?? initialRating
+  const [selectedRating, setSelectedRating] = useState(rating ?? 0)
+  const [previewRating, setPreviewRating] = useState<number | null>(null)
+  const displayedRating = previewRating ?? selectedRating
   return (
     <Panel>
       <h2 className="text-xl font-extrabold">Avaliar o evento</h2>
@@ -45,19 +50,40 @@ export function EventEvaluation({
             Avalie o evento como um todo. Sua resposta aparece apenas nos resultados agregados da
             organização.
           </p>
-          <fieldset key={rating ?? 'new'} className="flex flex-col gap-2">
+          <fieldset className="flex flex-col gap-2">
             <legend className="mb-2 font-bold">Que nota você dá ao evento?</legend>
-            {[1, 2, 3, 4, 5].map((value) => (
-              <OptionCard
-                key={value}
-                name="rating"
-                value={value}
-                required
-                defaultChecked={rating === value}
-                title={`${value} ${value === 1 ? 'estrela' : 'estrelas'}`}
-                description={['Muito ruim', 'Ruim', 'Regular', 'Bom', 'Excelente'][value - 1]}
-              />
-            ))}
+            <div
+              className="flex flex-wrap gap-1"
+              onMouseLeave={() => setPreviewRating(null)}
+            >
+              {[1, 2, 3, 4, 5].map((value) => {
+                const label = `${value} ${value === 1 ? 'estrela' : 'estrelas'}: ${RATING_LABELS[value - 1]}`
+                return (
+                  <label
+                    key={value}
+                    title={label}
+                    className="group relative flex size-12 cursor-pointer items-center justify-center"
+                    onMouseEnter={() => setPreviewRating(value)}
+                  >
+                    <input
+                      type="radio"
+                      className="peer sr-only"
+                      name="rating"
+                      value={value}
+                      required
+                      checked={selectedRating === value}
+                      aria-label={label}
+                      onChange={() => setSelectedRating(value)}
+                      onFocus={() => setPreviewRating(value)}
+                      onBlur={() => setPreviewRating(null)}
+                    />
+                    <StarIcon
+                      className={`size-10 text-accent transition-colors peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent ${value <= displayedRating ? 'fill-accent' : 'fill-none'}`}
+                    />
+                  </label>
+                )
+              })}
+            </div>
           </fieldset>
           <Notice tone="error">{state.error}</Notice>
           <Notice tone="success">

@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 
 const LINKS = [
   { href: '/admin', label: 'Eventos', match: ['/admin', '/admin/eventos'] },
+  { href: '/admin/dashboard', label: 'Dashboard' },
   { href: '/admin/participantes', label: 'Participantes' },
   { href: '/admin/administradores', label: 'Administradores' },
   { href: '/admin/auditoria', label: 'Auditoria' },
@@ -21,7 +22,7 @@ export function AdminNav() {
   const pathname = usePathname()
   return (
     <nav aria-label="Área administrativa" className="border-b border-line bg-surface">
-      <div className="mx-auto flex w-full max-w-5xl [scrollbar-width:none] gap-1 overflow-x-auto px-4 [&::-webkit-scrollbar]:hidden">
+      <div className="mx-auto flex w-full max-w-5xl gap-1 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {LINKS.map((link) => {
           const active = isActive(pathname, link)
           return (

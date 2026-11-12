@@ -51,12 +51,6 @@ export function VisitorShell({
             </div>
           </div>
           {children}
-          <Link
-            href="/privacidade"
-            className="flex min-h-11 items-center justify-center text-[13px] text-muted underline"
-          >
-            Privacidade
-          </Link>
         </div>
       </section>
     </main>

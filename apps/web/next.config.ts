@@ -1,9 +1,18 @@
 import path from 'node:path'
 import type { NextConfig } from 'next'
 
+const publicWebHostname = (() => {
+  try {
+    return new URL(process.env.PUBLIC_WEB_URL ?? 'http://localhost:3000').hostname
+  } catch {
+    return 'localhost'
+  }
+})()
+
 const nextConfig: NextConfig = {
   output: 'standalone',
   outputFileTracingRoot: path.join(import.meta.dirname, '../..'),
+  allowedDevOrigins: [publicWebHostname],
   cacheComponents: true,
   experimental: {
     // Capa + logomarca de um ponto (5 MB cada) passam pela Server Action

@@ -63,6 +63,8 @@ export default async function CheckpointPage({ params }: PageProps<'/c/[token]'>
           hashtag={event.hashtag}
           categoryName={checkpoint.category.name}
           color={checkpoint.category.color}
+          imageUrl={checkpoint.imageUrl}
+          logoUrl={checkpoint.logoUrl}
           hasPassport={hasPassport}
         />
       ) : (

@@ -8,6 +8,8 @@ export type StoryCardDetails = {
   hashtag: string | null
   categoryName: string
   color: string
+  imageUrl?: string | null
+  logoUrl?: string | null
 }
 
 const BRAND_COLORS = [
@@ -126,12 +128,80 @@ function drawText(
 }
 
 /**
- * Exportação local: lê apenas tokens da marca e, opcionalmente, um blob da
- * foto escolhida. Nunca envia a foto ou o card ao servidor.
+ * Imagens cadastradas são opcionais: uma falha de rede ou CORS não pode
+ * impedir a geração do card. O blob local também evita contaminar o canvas
+ * quando a API e a aplicação web estão em origens diferentes.
+ */
+async function loadOptionalImage(src: string | null | undefined) {
+  if (!src) return null
+  let objectUrl: string | null = null
+  const controller = new AbortController()
+  const timeout = window.setTimeout(() => controller.abort(), 8000)
+  try {
+    const response = await fetch(src, { signal: controller.signal })
+    if (!response.ok) return null
+    objectUrl = URL.createObjectURL(await response.blob())
+    return await loadImage(objectUrl)
+  } catch {
+    return null
+  } finally {
+    window.clearTimeout(timeout)
+    if (objectUrl) URL.revokeObjectURL(objectUrl)
+  }
+}
+
+function drawCover(
+  context: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  x: number,
+  y: number,
+  width: number,
+  height: number
+) {
+  const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight)
+  const renderedWidth = image.naturalWidth * scale
+  const renderedHeight = image.naturalHeight * scale
+  context.imageSmoothingQuality = 'high'
+  context.drawImage(
+    image,
+    x + (width - renderedWidth) / 2,
+    y + (height - renderedHeight) / 2,
+    renderedWidth,
+    renderedHeight
+  )
+}
+
+function drawLogo(context: CanvasRenderingContext2D, logo: HTMLImageElement, background: string) {
+  const box = { x: 804, y: 466, width: 156, height: 156, padding: 18 }
+  context.fillStyle = background
+  context.beginPath()
+  context.roundRect(box.x, box.y, box.width, box.height, 28)
+  context.fill()
+
+  const available = box.width - box.padding * 2
+  const scale = Math.min(available / logo.naturalWidth, available / logo.naturalHeight)
+  const width = logo.naturalWidth * scale
+  const height = logo.naturalHeight * scale
+  context.imageSmoothingQuality = 'high'
+  context.drawImage(
+    logo,
+    box.x + (box.width - width) / 2,
+    box.y + (box.height - height) / 2,
+    width,
+    height
+  )
+}
+
+/**
+ * Exportação local: usa a identidade visual, as imagens públicas cadastradas
+ * para o ponto e, opcionalmente, um blob da foto escolhida. Nunca envia a foto
+ * escolhida ou o card ao servidor.
  */
 export async function createStoryCard(details: StoryCardDetails, photoUrl: string | null = null) {
-  const [photo] = await Promise.all([
+  const [photo, projectImage, projectLogo] = await Promise.all([
     photoUrl ? loadImage(photoUrl) : Promise.resolve(null),
+    photoUrl ? Promise.resolve(null) : loadOptionalImage(details.imageUrl),
+    loadOptionalImage(details.logoUrl),
     document.fonts.ready,
   ])
   const style = getComputedStyle(document.documentElement)
@@ -187,12 +257,9 @@ export async function createStoryCard(details: StoryCardDetails, photoUrl: strin
   context.fillStyle = palette.creme
   context.fillRect(84, 430, 912, 730)
 
-  if (photo) {
-    const scale = Math.max(912 / photo.naturalWidth, 730 / photo.naturalHeight)
-    const width = photo.naturalWidth * scale
-    const height = photo.naturalHeight * scale
-    context.imageSmoothingQuality = 'high'
-    context.drawImage(photo, 84 + (912 - width) / 2, 430 + (730 - height) / 2, width, height)
+  const featuredImage = photo ?? projectImage
+  if (featuredImage) {
+    drawCover(context, featuredImage, 84, 430, 912, 730)
   } else {
     for (let index = 0; index < 6; index++) {
       context.fillStyle = palette[tiles[index]]
@@ -215,6 +282,7 @@ export async function createStoryCard(details: StoryCardDetails, photoUrl: strin
       family: display,
     })
   }
+  if (projectLogo) drawLogo(context, projectLogo, palette.creme)
   context.restore()
 
   context.fillStyle = palette.creme

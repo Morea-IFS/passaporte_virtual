@@ -104,14 +104,46 @@ test(
       photoContext.fillRect(0, 0, 200, 400);
       const photoBlob = await new Promise(resolve => photo.toBlob(resolve));
       const photoUrl = URL.createObjectURL(photoBlob);
-      const photoCard = await createStoryCard(details, photoUrl);
+      const project = document.createElement('canvas');
+      project.width = 400; project.height = 200;
+      const projectContext = project.getContext('2d');
+      projectContext.fillStyle = '#2e9e4f';
+      projectContext.fillRect(0, 0, 400, 200);
+      const projectBlob = await new Promise(resolve => project.toBlob(resolve));
+      const projectUrl = URL.createObjectURL(projectBlob);
+      const logo = document.createElement('canvas');
+      logo.width = 200; logo.height = 100;
+      const logoContext = logo.getContext('2d');
+      logoContext.fillStyle = '#2563c9';
+      logoContext.fillRect(0, 0, 200, 100);
+      const logoBlob = await new Promise(resolve => logo.toBlob(resolve));
+      const logoUrl = URL.createObjectURL(logoBlob);
+      lines.length = 0;
+      const projectCard = await createStoryCard({ ...details, imageUrl: projectUrl, logoUrl });
+      const projectTexts = lines.map(line => line.text);
+      const photoCard = await createStoryCard({ ...details, imageUrl: projectUrl, logoUrl }, photoUrl);
+      lines.length = 0;
+      const fallbackCard = await createStoryCard({
+        ...details,
+        imageUrl: 'data:image/png;base64,invalid',
+        logoUrl: 'data:image/png;base64,invalid',
+      });
+      const fallbackTexts = lines.map(line => line.text);
       URL.revokeObjectURL(photoUrl);
+      URL.revokeObjectURL(projectUrl);
+      URL.revokeObjectURL(logoUrl);
       const photoBitmap = await createImageBitmap(photoCard);
+      const projectBitmap = await createImageBitmap(projectCard);
+      const fallbackBitmap = await createImageBitmap(fallbackCard);
       const inspect = document.createElement('canvas');
       inspect.width = 1080; inspect.height = 1920;
       const inspectContext = inspect.getContext('2d');
       inspectContext.drawImage(photoBitmap, 0, 0);
-      const pixel = [...inspectContext.getImageData(540, 700, 1, 1).data];
+      const photoPixel = [...inspectContext.getImageData(540, 700, 1, 1).data];
+      inspectContext.clearRect(0, 0, inspect.width, inspect.height);
+      inspectContext.drawImage(projectBitmap, 0, 0);
+      const projectPixel = [...inspectContext.getImageData(540, 700, 1, 1).data];
+      const logoPixel = [...inspectContext.getImageData(882, 544, 1, 1).data];
       const preview = document.createElement('img');
       preview.src = URL.createObjectURL(card);
       preview.width = 1080; preview.height = 1920;
@@ -119,7 +151,9 @@ test(
       await preview.decode();
       document.querySelector('#result').textContent = JSON.stringify({
         width: bitmap.width, height: bitmap.height, type: card.type, bytes: card.size,
-        texts: originalLines.map(line => line.text), overflow, photoPixel: pixel,
+        texts: originalLines.map(line => line.text), overflow, photoPixel, projectPixel, logoPixel,
+        projectTexts, fallbackTexts,
+        fallback: { width: fallbackBitmap.width, height: fallbackBitmap.height },
       });
     } catch (error) { document.querySelector('#result').textContent = JSON.stringify({ error: error.message }); }
   `
@@ -211,8 +245,14 @@ test(
       assert.ok(actual.texts.includes(details.checkpointName))
       assert.ok(actual.texts.includes(details.eventName))
       assert.ok(actual.texts.includes('#SNCT2026'))
+      assert.ok(actual.texts.includes('EU ESTIVE AQUI!'))
       assert.deepEqual(actual.overflow, [])
       assert.deepEqual(actual.photoPixel, [217, 50, 126, 255])
+      assert.deepEqual(actual.projectPixel, [46, 158, 79, 255])
+      assert.deepEqual(actual.logoPixel, [37, 99, 201, 255])
+      assert.equal(actual.projectTexts.includes('EU ESTIVE AQUI!'), false)
+      assert.ok(actual.fallbackTexts.includes('EU ESTIVE AQUI!'))
+      assert.deepEqual(actual.fallback, { width: 1080, height: 1920 })
       if (process.env.STORY_PREVIEW) {
         const screenshot = await command('Page.captureScreenshot', { format: 'png' }, sessionId)
         writeFileSync(process.env.STORY_PREVIEW, Buffer.from(screenshot.data, 'base64'))

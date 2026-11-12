@@ -85,6 +85,23 @@ export function ImageIcon(props: SVGProps<SVGSVGElement>) {
   )
 }
 
+export function CameraIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Icon {...props}>
+      <path d="M14.5 4H9.5L8 6H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3Z" />
+      <circle cx="12" cy="13" r="4" />
+    </Icon>
+  )
+}
+
+export function StarIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Icon {...props}>
+      <path d="m12 2.5 2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.31l-5.8 3.05 1.11-6.46-4.7-4.58 6.49-.94Z" />
+    </Icon>
+  )
+}
+
 export function DownloadIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <Icon {...props}>

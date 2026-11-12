@@ -63,9 +63,9 @@ export default async function PassportPage({
   const pending = inCategory.filter((checkpoint) => !checkpoint.visitedAt)
 
   return (
-    <VisitorShell homeHref="/?escolher=1">
+    <VisitorShell homeHref="/">
       {account ? <JoinEvent slug={event.slug} /> : null}
-      <BackLink href="/?escolher=1" label="Trocar de evento" />
+      <BackLink href="/" label="Trocar de evento" />
       <header className="flex flex-col gap-1">
         <p className="font-display text-xs font-bold tracking-[0.14em] text-muted uppercase">
           {account ? (
