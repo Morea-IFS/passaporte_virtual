@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: [publicWebHostname],
   cacheComponents: true,
   experimental: {
+    agentUpgrade: 'security',
     // Capa + logomarca de um ponto (5 MB cada) passam pela Server Action
     serverActions: { bodySizeLimit: '12mb' },
   },
