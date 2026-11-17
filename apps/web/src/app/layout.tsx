@@ -22,7 +22,7 @@ const spaceMono = Space_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Passaporte Virtual · 23ª SNCT',
+  title: 'Passaporte Virtual · MOREA',
   description: 'Passaporte digital da 23ª SNCT – Ciência Delas',
   appleWebApp: { capable: true, statusBarStyle: 'default', title: 'Passaporte' },
   icons: {

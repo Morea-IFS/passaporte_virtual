@@ -1,5 +1,5 @@
 /**
- * Mosaico da identidade Ciência Delas: blocos nas cores da marca com
+ * Mosaico da identidade Passaporte MOREA: blocos nas cores da marca com
  * quartos e meios círculos, e a rede de pontos (constelação) por cima.
  * Padrão determinístico (mesmo resultado no servidor e no navegador).
  * Não tem altura própria: quem usa define (h-*, flex-1...); blocos que

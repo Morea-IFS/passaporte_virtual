@@ -4,7 +4,7 @@ const SEGMENT_COLORS = ['bg-amarelo', 'bg-verde', 'bg-magenta', 'bg-laranja', 'b
 
 /**
  * Progresso do passaporte (RF16): número grande e uma barra em segmentos
- * coloridos (as cores de DELAS).
+ * coloridos (as cores de MOREA).
  */
 export function ProgressBar({
   progress,

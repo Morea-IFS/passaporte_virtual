@@ -1,24 +1,24 @@
-const DELAS = [
-  { letter: 'D', className: 'bg-amarelo text-violeta-noite' },
-  { letter: 'E', className: 'bg-verde text-creme' },
-  { letter: 'L', className: 'bg-magenta text-creme' },
-  { letter: 'A', className: 'bg-laranja text-creme' },
-  { letter: 'S', className: 'bg-azul text-creme' },
+const MOREA = [
+  { letter: 'M', className: 'bg-amarelo text-violeta-noite' },
+  { letter: 'O', className: 'bg-verde text-creme' },
+  { letter: 'R', className: 'bg-magenta text-creme' },
+  { letter: 'E', className: 'bg-laranja text-creme' },
+  { letter: 'A', className: 'bg-azul text-creme' },
 ]
 
 /**
- * Marca compacta para barras de navegação: "SNCT" + DELAS nos quadradinhos coloridos.
+ * Marca compacta para barras de navegação: "Passaporte" + MOREA nos quadradinhos coloridos.
  */
 export function BrandMark() {
   return (
-    <span className="inline-flex items-center gap-1.5 font-display text-base font-black text-accent">
-      SNCT
-      <span className="flex" role="img" aria-label="Delas">
-        {DELAS.map(({ letter, className }) => (
+    <span className="inline-flex items-center gap-1.5 font-display text-xs font-black text-accent">
+      PASSAPORTE
+      <span className="flex" role="img" aria-label="MOREA">
+        {MOREA.map(({ letter, className }) => (
           <span
             key={letter}
             aria-hidden="true"
-            className={`grid h-5 w-4 place-items-center text-[11px] leading-none font-black ${className}`}
+            className={`grid h-5 w-3.5 place-items-center text-[10px] leading-none font-black ${className}`}
           >
             {letter}
           </span>

@@ -3,7 +3,7 @@ import type { MetadataRoute } from 'next'
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: '/',
-    name: 'Passaporte Virtual · 23ª SNCT',
+    name: 'Passaporte Virtual · MOREA',
     short_name: 'Passaporte',
     description: 'Explore os pontos da SNCT e guarde suas visitas, mesmo sem conexão.',
     lang: 'pt-BR',

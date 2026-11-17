@@ -19,7 +19,7 @@ export default function PainelLayout({ children }: LayoutProps<'/admin'>) {
         <div className="mx-auto flex min-h-14 w-full max-w-5xl items-center justify-between gap-3 px-4">
           <Link href="/admin" className="flex min-h-11 items-center gap-2">
             <BrandMark />
-            <span className="font-display text-[11px] font-bold tracking-[0.14em] text-muted uppercase">
+            <span className="hidden font-display text-[11px] font-bold tracking-[0.14em] text-muted uppercase sm:inline">
               Organização
             </span>
           </Link>
