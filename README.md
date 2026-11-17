@@ -69,6 +69,8 @@ docker compose exec postgres psql -U postgres -d passaporte_virtual
 
 Ao adicionar dependências, rode `pnpm install` no host e depois `docker compose up --build --renew-anon-volumes` (ou `pnpm docker:up`). Sem `--renew-anon-volumes`, os containers continuam com o `node_modules` antigo.
 
+Se o ambiente já estava aberto durante uma atualização de dependências e aparecer `Cannot find package`, recrie somente os serviços da aplicação com `docker compose up -d --build --force-recreate --renew-anon-volumes web api`. Esse comando renova os volumes de `node_modules` e preserva o volume nomeado do Postgres.
+
 Imagens enviadas pelo painel ficam em `apps/api/storage` (fora do git).
 
 ## Rodando sem Docker
