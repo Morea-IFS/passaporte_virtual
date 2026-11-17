@@ -48,6 +48,8 @@ export async function buildPassport(event: Event, visitorId: number | null) {
       code: checkpoint.code,
       qrToken: checkpoint.qrToken,
       name: checkpoint.name,
+      summary: checkpoint.summary,
+      teamInfo: checkpoint.teamInfo,
       location: checkpoint.location,
       imageUrl: checkpoint.imageUrl,
       logoUrl: checkpoint.logoUrl,

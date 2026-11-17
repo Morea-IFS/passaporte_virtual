@@ -9,6 +9,7 @@ const image = () => vine.file({ size: '5mb', extnames: ['jpg', 'jpeg', 'png', 'w
 const textFields = {
   name: vine.string().trim().minLength(2).maxLength(160),
   summary: vine.string().trim().maxLength(1000).nullable().optional(),
+  teamInfo: vine.string().trim().maxLength(2000).nullable().optional(),
   location: vine.string().trim().maxLength(160).nullable().optional(),
 }
 

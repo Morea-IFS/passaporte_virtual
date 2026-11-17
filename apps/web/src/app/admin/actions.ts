@@ -165,6 +165,7 @@ export async function saveCheckpoint(
   body.set('name', text(formData, 'name'))
   body.set('categoryId', text(formData, 'categoryId'))
   body.set('summary', text(formData, 'summary'))
+  body.set('teamInfo', text(formData, 'teamInfo'))
   body.set('location', text(formData, 'location'))
   body.set('isActive', formData.get('isActive') === 'on' ? 'true' : 'false')
 

@@ -100,7 +100,7 @@ export class CheckpointCategorySchema extends BaseModel {
 }
 
 export class CheckpointSchema extends BaseModel {
-  static $columns = ['categoryId', 'code', 'createdAt', 'deletedAt', 'eventId', 'id', 'imagePath', 'isActive', 'location', 'logoPath', 'name', 'qrToken', 'summary', 'updatedAt'] as const
+  static $columns = ['categoryId', 'code', 'createdAt', 'deletedAt', 'eventId', 'id', 'imagePath', 'isActive', 'location', 'logoPath', 'name', 'qrToken', 'summary', 'teamInfo', 'updatedAt'] as const
   $columns = CheckpointSchema.$columns
   @column()
   declare categoryId: number
@@ -128,6 +128,8 @@ export class CheckpointSchema extends BaseModel {
   declare qrToken: string
   @column()
   declare summary: string | null
+  @column()
+  declare teamInfo: string | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }

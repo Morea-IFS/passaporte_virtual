@@ -13,6 +13,7 @@ export default class CheckpointTransformer extends BaseTransformer<Checkpoint> {
         'name',
         'categoryId',
         'summary',
+        'teamInfo',
         'location',
         'imageUrl',
         'logoUrl',

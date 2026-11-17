@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { CheckpointDetails } from '@/components/passport/checkpoint-details'
 import { EventEvaluation } from '@/components/passport/event-evaluation'
 import { JoinEvent } from '@/components/passport/join-event'
 import { buttonClass } from '@/components/ui/button'
@@ -146,9 +147,10 @@ export default async function PassportPage({
                     label={`Carimbo de ${checkpoint.name}`}
                     className="w-full max-w-24"
                   />
-                  <span className="line-clamp-2 text-[12px] leading-tight font-semibold">
-                    {checkpoint.name}
-                  </span>
+                  <CheckpointDetails
+                    checkpoint={checkpoint}
+                    className="line-clamp-2 text-center text-[12px] leading-tight font-semibold"
+                  />
                 </li>
               ))}
             </ul>
@@ -172,7 +174,10 @@ export default async function PassportPage({
                   {checkpoint.code}
                   {checkpoint.location ? ` · ${checkpoint.location}` : ''}
                 </span>
-                <span className="font-display leading-tight font-extrabold">{checkpoint.name}</span>
+                <CheckpointDetails
+                  checkpoint={checkpoint}
+                  className="font-display leading-tight font-extrabold"
+                />
                 <span>
                   <CategoryChip category={checkpoint.category} />
                 </span>

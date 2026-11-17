@@ -103,6 +103,7 @@ export type Checkpoint = {
   categoryId: number
   category: CheckpointCategory
   summary: string | null
+  teamInfo: string | null
   location: string | null
   imageUrl: string | null
   logoUrl: string | null
@@ -170,6 +171,8 @@ export type PassportCheckpoint = {
   code: string
   qrToken: string
   name: string
+  summary: string | null
+  teamInfo: string | null
   location: string | null
   imageUrl: string | null
   logoUrl: string | null

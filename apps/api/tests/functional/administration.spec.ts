@@ -87,6 +87,59 @@ test.group('Administração, auditoria e participantes', (group) => {
     self.assertBodyContains({ errors: [{ message: 'Você não pode desativar a própria conta.' }] })
   })
 
+  test('cadastra e edita as informações da equipe de um ponto', async ({ client, assert }) => {
+    const { authorization } = await admin()
+    const suffix = randomUUID().slice(0, 8)
+    const event = await Event.create({
+      name: `Evento ${suffix}`,
+      slug: `evento-${suffix}`,
+      startsOn: DateTime.fromISO('2026-10-23'),
+      endsOn: DateTime.fromISO('2026-10-24'),
+    })
+    const category = await CheckpointCategory.create({
+      eventId: event.id,
+      name: 'Pesquisa',
+      color: 'azul',
+      position: 0,
+    })
+
+    const created = await client
+      .post(`/api/v1/admin/events/${event.id}/checkpoints`)
+      .header('Authorization', authorization)
+      .json({
+        name: 'Laboratório aberto',
+        categoryId: category.id,
+        summary: 'Experimentos para todas as idades.',
+        teamInfo: 'Ana e Bruno\nInstituto Federal',
+      })
+    created.assertStatus(201)
+    created.assertBodyContains({
+      data: { teamInfo: 'Ana e Bruno\nInstituto Federal' },
+    })
+    const checkpointId = (created.body().data as { id: number }).id
+
+    const updated = await client
+      .put(`/api/v1/admin/checkpoints/${checkpointId}`)
+      .header('Authorization', authorization)
+      .json({
+        name: 'Laboratório aberto',
+        categoryId: category.id,
+        summary: 'Experimentos para todas as idades.',
+        teamInfo: 'Equipe de Ciências da Natureza',
+      })
+    updated.assertStatus(200)
+    updated.assertBodyContains({
+      data: { teamInfo: 'Equipe de Ciências da Natureza' },
+    })
+
+    const passport = await client.get(`/api/v1/public/events/${event.slug}`)
+    passport.assertStatus(200)
+    const passportData = passport.body().data as {
+      checkpoints: { teamInfo: string | null }[]
+    }
+    assert.equal(passportData.checkpoints[0].teamInfo, 'Equipe de Ciências da Natureza')
+  })
+
   test('lista participante com eventos, progresso e checkpoints sem dados secretos', async ({
     client,
     assert,

@@ -84,6 +84,16 @@ export function CheckpointForm({ eventId, categories, checkpoint }: CheckpointFo
         error={errors.summary}
       />
 
+      <TextAreaField
+        name="teamInfo"
+        label="Equipe da apresentação"
+        maxLength={2000}
+        placeholder="Nomes, instituição, curso, turma ou outras informações sobre a equipe."
+        defaultValue={values?.teamInfo ?? checkpoint?.teamInfo ?? ''}
+        hint="Esse texto aparecerá nos detalhes do ponto no passaporte."
+        error={errors.teamInfo}
+      />
+
       <ImageInput
         key={`image-${state.attempt ?? 0}`}
         name="image"
