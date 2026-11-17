@@ -25,7 +25,10 @@ export const metadata: Metadata = {
   title: 'Passaporte Virtual · 23ª SNCT',
   description: 'Passaporte digital da 23ª SNCT – Ciência Delas',
   appleWebApp: { capable: true, statusBarStyle: 'default', title: 'Passaporte' },
-  icons: { apple: '/icons/apple-touch-icon.png' },
+  icons: {
+    icon: [{ url: '/icons/passport-192.png', type: 'image/png', sizes: '192x192' }],
+    apple: '/icons/apple-touch-icon.png',
+  },
 }
 
 export const viewport: Viewport = {
