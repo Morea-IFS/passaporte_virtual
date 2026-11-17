@@ -51,6 +51,12 @@ export function VisitorShell({
             </div>
           </div>
           {children}
+          <footer className="pt-3 text-center text-xs leading-relaxed text-muted">
+            <p>
+              Desenvolvido pelo <span className="font-bold">MOREA</span>
+            </p>
+            <p>Guilherme da Invenção · Genisson Emílio</p>
+          </footer>
         </div>
       </section>
     </main>
