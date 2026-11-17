@@ -102,12 +102,8 @@ export async function recoverPassport(
   redirect(safePath(returnTo))
 }
 
-/**
- * Sai do passaporte neste navegador. Só em desenvolvimento (para testar
- * com outros apelidos); em produção o visitante não tem "sair".
- */
+/** Sai do passaporte neste navegador. */
 export async function leavePassport() {
-  if (process.env.NODE_ENV !== 'development') return
   try {
     await api.visitorLogout()
   } catch (error) {

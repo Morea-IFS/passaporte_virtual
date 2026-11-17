@@ -6,13 +6,13 @@ import { ThemeToggle } from '@/components/theme-toggle'
 import { quietButtonClass } from '@/components/ui/button'
 import { visitorSession } from '@/lib/session'
 
-/** "Sair" do passaporte: só em desenvolvimento e com passaporte aberto */
-async function DevLeaveButton() {
-  if (process.env.NODE_ENV !== 'development' || !(await visitorSession.get())) return null
+/** "Sair" do passaporte: exibido somente quando há um passaporte aberto. */
+async function LeaveButton() {
+  if (!(await visitorSession.get())) return null
   return (
     <form action={leavePassport}>
       <button type="submit" className={quietButtonClass()}>
-        Sair (dev)
+        Sair
       </button>
     </form>
   )
@@ -46,7 +46,7 @@ export function VisitorShell({
               mark
             )}
             <div className="flex items-center gap-1">
-              <DevLeaveButton />
+              <LeaveButton />
               <ThemeToggle />
             </div>
           </div>
