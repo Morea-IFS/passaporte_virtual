@@ -147,6 +147,7 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: write
+      packages: write
       attestations: write
       id-token: write
     env:
@@ -167,7 +168,7 @@ jobs:
         with:
           subject-path: dist/*.tar.gz
 
-      - name: Verificar os anexos do rascunho e publicar a Release
+      - name: Verificar os anexos do rascunho
         working-directory: dist
         run: |
           tag="$GITHUB_REF_NAME"
@@ -185,4 +186,41 @@ jobs:
             gh attestation verify "$image" --repo "$GH_REPO" --source-ref "$GITHUB_REF" \
               --source-digest "$GITHUB_SHA" --signer-workflow "$GH_REPO/.github/workflows/docker-build.yml"
           done
-          gh release edit "$tag" --draft=false
+
+      - name: Publicar as imagens verificadas no GHCR
+        working-directory: dist/downloaded
+        run: |
+          auth=$(mktemp -d)
+          trap 'rm -rf "$auth"' EXIT
+          printf '%s' "$GH_TOKEN" | docker --config "$auth" login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          for app in api web; do
+            image="passaporte-$app:$GITHUB_REF_NAME"
+            docker load --input "passaporte-$app-$GITHUB_REF_NAME.tar.gz"
+            remote="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/$image"
+            docker tag "$image" "$remote"
+            docker --config "$auth" push "$remote"
+          done
+          docker --config "$auth" logout ghcr.io
+
+      - name: Verificar acesso público e incluir comandos de pull na Release
+        run: |
+          tag="$GITHUB_REF_NAME"
+          public_config=$(mktemp -d)
+          gh release view "$tag" --json body --jq .body > release-notes.md
+          printf '\n## Imagens Docker (Linux/AMD64)\n' >> release-notes.md
+          for app in api web; do
+            package="passaporte-$app"
+            repo="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/$package"
+            ref="$repo:$tag"
+            if ! docker --config "$public_config" pull "$ref"; then
+              echo "::error::Falha no pull anônimo de $ref. Confira a visibilidade Public do pacote e repita o job."
+              exit 1
+            fi
+            expected=$(docker image inspect --format '{{.Id}}' "$package:$tag")
+            test "$(docker image inspect --format '{{.Id}}' "$ref")" = "$expected"
+            pinned=$(docker image inspect --format '{{json .RepoDigests}}' "$ref" |
+              jq -er --arg repo "$repo" 'map(select(startswith($repo + "@sha256:"))) | select(length == 1) | .[0]')
+            printf '\n### [%s](%s/%s/pkgs/container/%s)\n\n' "$package" "$GITHUB_SERVER_URL" "$GH_REPO" "$package" >> release-notes.md
+            printf '```bash\n# Por versão\ndocker pull %s\n# Por digest imutável\ndocker pull %s\n```\n' "$ref" "$pinned" >> release-notes.md
+          done
+          gh release edit "$tag" --notes-file release-notes.md --draft=false

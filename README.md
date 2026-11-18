@@ -98,7 +98,7 @@ docker build -f apps/api/Dockerfile --target prod -t passaporte-api .
 docker build -f apps/web/Dockerfile --target prod -t passaporte-web --build-arg NEXT_PUBLIC_API_URL=https://api.exemplo.com .
 ```
 
-### Publicação no GitHub Releases
+### Publicação no GitHub Releases e no GHCR
 
 Pushes em branches e pull requests executam os testes da API e da web. Para distribuir uma versão, envie uma tag SemVer estável de um commit revisado ao repositório público. Exemplo para a versão `v0.1.0`.
 
@@ -107,8 +107,9 @@ git tag -a v0.1.0 -m "Passaporte Virtual v0.1.0"
 git push origin v0.1.0
 ```
 
-O GitHub Actions repete os testes no commit da tag, constrói as imagens Linux/AMD64 e testa os arquivos exportados com PostgreSQL e Playwright. A Release publica as imagens da API e da web em formato Docker compactado e um arquivo `SHA256SUMS`. Antes da publicação, o workflow baixa os anexos do rascunho e verifica os checksums e a proveniência SLSA assinada pelo GitHub Actions.
+O GitHub Actions repete os testes no commit da tag, constrói as imagens Linux/AMD64 e testa os arquivos exportados com PostgreSQL e Playwright. A Release publica as imagens da API e da web em formato Docker compactado e um arquivo `SHA256SUMS`. Antes da publicação, o workflow baixa os anexos do rascunho e verifica os checksums e a proveniência SLSA assinada pelo GitHub Actions. Em seguida, publica as mesmas imagens no GitHub Container Registry (GHCR), testa o download anônimo e inclui na descrição da Release os links dos pacotes e os comandos `docker pull` por tag e por digest.
 
+Na primeira publicação, configure os pacotes `passaporte-api` e `passaporte-web` como **Public** em **Package settings**. Se o teste de acesso anônimo falhar, ajuste a visibilidade de ambos e repita o job de publicação na mesma execução. [Visibilidade de pacotes no GitHub](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#pushing-container-images)
 
 ### Roteiro de deploy de uma nova versão
 
@@ -116,24 +117,23 @@ Este roteiro considera um servidor Linux/AMD64 com Docker Compose, HTTPS configu
 
 1. **Aprove a versão.** Envie o commit revisado para a `main` do GitHub e aguarde os testes da API e da web. Na primeira publicação, inclua o commit que adiciona o workflow de Release.
 2. **Publique a tag.** No commit aprovado, crie e envie uma tag estável inédita, como `v0.1.1`, seguindo o exemplo acima. Aguarde o workflow **Release Docker** concluir e confira na aba **Releases** os dois arquivos `.tar.gz` e o `SHA256SUMS`.
-3. **Verifique as imagens no servidor.** Use os comandos da seção anterior com a tag escolhida. Prossiga quando os dois arquivos passarem na verificação de SHA-256 e de proveniência e estiverem carregados pelo `docker load`.
+3. **Verifique as imagens no servidor.** Na descrição da Release, copie as duas referências completas por digest (`ghcr.io/…@sha256:…`). Defina-as como `API_IMAGE` e `WEB_IMAGE` no ambiente do Compose e execute `docker pull "$API_IMAGE"` e `docker pull "$WEB_IMAGE"`. O Docker verifica o conteúdo baixado contra o digest da versão.
 4. **Prepare a atualização.** Registre a versão atual para rollback. Faça backup do PostgreSQL e dos uploads. Confira o `.env` do Compose e o `apps/api/.env.production` usados pela instalação, preservando a `APP_KEY` e as credenciais. O Compose de produção já persiste o banco. Para os uploads, configure um volume persistente em `/app/storage` e, se houver arquivos no container atual, copie-os para esse volume antes de recriar a API. O usuário `node` do container precisa de permissão de escrita.
 5. **Aplique a versão.** No diretório do Compose de produção, use um arquivo complementar chamado `compose.release.yml` para selecionar as duas imagens verificadas. Mantenha nesse arquivo, ou na configuração de produção já em uso, a montagem dos uploads preparada no passo anterior.
 
    ```yaml
    services:
      api:
-       image: passaporte-api:${RELEASE_TAG:?}
+       image: ${API_IMAGE:?}
      web:
-       image: passaporte-web:${RELEASE_TAG:?}
+       image: ${WEB_IMAGE:?}
    ```
 
    ```bash
-   export RELEASE_TAG=v0.1.1
    docker compose -f docker-compose.production.yml -f compose.release.yml \
      up -d --no-build --pull never --no-deps api web
    ```
 
    Na inicialização, a API aplica as migrações e executa o seed antes de atender requisições. O seed exige `SEED_ADMIN_PASSWORD` no ambiente de produção.
 
-6. **Valide o deploy.** Consulte `/health` na URL pública da API e confirme `status: ok` e `database: up`. Abra o site por HTTPS, consulte um passaporte e confira se uma imagem de estande anterior continua acessível. Em caso de falha, consulte os logs de `api` e `web`. Se o esquema do banco for compatível, reaplique o passo 5 com a tag anterior já carregada. Se a migração for incompatível, interrompa as escritas e avalie a recuperação do banco antes de reativar a versão anterior.
+6. **Valide o deploy.** Consulte `/health` na URL pública da API e confirme `status: ok` e `database: up`. Abra o site por HTTPS, consulte um passaporte e confira se uma imagem de estande anterior continua acessível. Em caso de falha, consulte os logs de `api` e `web`. Se o esquema do banco for compatível, repita os passos 3 e 5 com os digests da versão anterior. Se a migração for incompatível, interrompa as escritas e avalie a recuperação do banco antes de reativar a versão anterior.
