@@ -1,7 +1,9 @@
-name: Testes da API
+name: Testes da aplicação
 
 on:
   push:
+    branches: ['**']
+  workflow_call:
   pull_request:
   workflow_dispatch:
 
@@ -14,7 +16,7 @@ concurrency:
 
 jobs:
   api-tests:
-    name: Rotas e regras da API
+    name: API e web
     runs-on: ubuntu-24.04
     timeout-minutes: 15
 
@@ -68,8 +70,8 @@ jobs:
           run_install: false
           cache: true
 
-      - name: Instalar dependências da API
-        run: pnpm install --frozen-lockfile --filter @passaporte/api...
+      - name: Instalar dependências do monorepo
+        run: pnpm install --frozen-lockfile
 
       - name: Gerar chave temporária de teste
         run: |
@@ -81,3 +83,6 @@ jobs:
       # O Japa inicia e encerra o servidor HTTP; os testes criam seus próprios dados.
       - name: Executar testes das rotas e regras de negócio
         run: pnpm --filter @passaporte/api test
+
+      - name: Executar testes da web
+        run: pnpm --filter @passaporte/web test

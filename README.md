@@ -97,3 +97,32 @@ Em bancos existentes, rode as migrations; elas preservam os dados e vinculam os 
 docker build -f apps/api/Dockerfile --target prod -t passaporte-api .
 docker build -f apps/web/Dockerfile --target prod -t passaporte-web --build-arg NEXT_PUBLIC_API_URL=https://api.exemplo.com .
 ```
+
+### Publicação no GitHub Releases
+
+Pushes em branches e pull requests executam os testes da API e da web. Para distribuir uma versão, envie uma tag SemVer estável de um commit revisado ao repositório público. Exemplo para a versão `v0.1.0`.
+
+```bash
+git tag -a v0.1.0 -m "Passaporte Virtual v0.1.0"
+git push origin v0.1.0
+```
+
+O GitHub Actions repete os testes no commit da tag, constrói as imagens Linux/AMD64 e testa os arquivos exportados com PostgreSQL e Playwright. A Release publica as imagens da API e da web em formato Docker compactado e um arquivo `SHA256SUMS`. Antes da publicação, o workflow baixa os anexos do rascunho e verifica os checksums e a proveniência SLSA assinada pelo GitHub Actions.
+
+Para baixar, verificar e carregar as duas imagens, ajuste a tag e execute em um diretório vazio com GitHub CLI autenticado e Docker.
+
+```bash
+(
+  set -eu
+  tag=v0.1.0
+  repo=Morea-IFS/passaporte_virtual
+  gh release download "$tag" --repo "$repo" --pattern '*.tar.gz' --pattern SHA256SUMS
+  sha256sum --check --strict SHA256SUMS
+  for app in api web; do
+    file="passaporte-$app-$tag.tar.gz"
+    gh attestation verify "$file" --repo "$repo" --source-ref "refs/tags/$tag" \
+      --signer-workflow "$repo/.github/workflows/docker-build.yml"
+    docker load --input "$file"
+  done
+)
+```

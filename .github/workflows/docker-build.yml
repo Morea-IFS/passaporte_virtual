@@ -1,50 +1,188 @@
-name: Build das imagens Docker
+name: Release Docker
 
 on:
   push:
-  pull_request:
-  workflow_dispatch:
+    tags: ['v*']
 
 permissions:
   contents: read
 
+defaults:
+  run:
+    shell: bash
+
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  docker-build:
-    name: Imagem de produção (${{ matrix.app }})
+  version:
+    name: Validar versão e visibilidade
+    if: github.event.deleted == false
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        app: [api, web]
-
     steps:
-      - name: Obter código
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - name: Exigir tag estável vMAJOR.MINOR.PATCH e repositório público
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          number='(0|[1-9][0-9]*)'
+          [[ "$GITHUB_REF_NAME" =~ ^v${number}\.${number}\.${number}$ ]] || { echo "::error::Tag de versão inválida"; exit 1; }
+          visibility=$(gh api "repos/$GITHUB_REPOSITORY" --jq .visibility)
+          [[ "$visibility" == public ]] || { echo "::error::A Release requer um repositório público"; exit 1; }
+
+  tests:
+    needs: version
+    uses: ./.github/workflows/api-tests.yml
+
+  images:
+    name: Construir e testar imagens linux/amd64
+    needs: tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: passaporte_ci
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
 
-      - name: Configurar Docker Buildx
-        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - name: Construir e exportar imagens versionadas
+        run: |
+          mkdir dist
+          for app in api web; do
+            image="passaporte-$app:$GITHUB_REF_NAME"
+            docker build --platform linux/amd64 --target prod --file "apps/$app/Dockerfile" \
+              --label "org.opencontainers.image.version=$GITHUB_REF_NAME" \
+              --label "org.opencontainers.image.revision=$GITHUB_SHA" \
+              --label "org.opencontainers.image.source=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" \
+              --tag "$image" .
+          done
+          for app in api web; do
+            image="passaporte-$app:$GITHUB_REF_NAME"
+            docker save "$image" | gzip -1 > "dist/passaporte-$app-$GITHUB_REF_NAME.tar.gz"
+            expected=$(docker image inspect --format '{{.Id}}' "$image")
+            docker image rm "$image"
+            docker load -i "dist/passaporte-$app-$GITHUB_REF_NAME.tar.gz"
+            test "$(docker image inspect --format '{{.Id}}' "$image")" = "$expected"
+          done
+          (cd dist && sha256sum *.tar.gz > SHA256SUMS)
 
-      - name: Compilar imagem de produção
-        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
-          context: .
-          file: apps/${{ matrix.app }}/Dockerfile
-          target: prod
-          platforms: linux/amd64
-          tags: passaporte-${{ matrix.app }}:ci
-          load: true
-          push: false
-          cache-from: type=gha,scope=passaporte-${{ matrix.app }}
-          cache-to: type=gha,mode=max,scope=passaporte-${{ matrix.app }}
+          node-version: '24'
+          package-manager-cache: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - name: Instalar ferramentas de teste e dados de demonstração
+        run: pnpm install --frozen-lockfile --filter @passaporte/api... --filter passaporte-virtual
 
-      - name: Confirmar que a imagem foi gerada
+      - name: Iniciar imagens exportadas e validar API, banco e web
         env:
-          IMAGE: passaporte-${{ matrix.app }}:ci
-        run: docker image inspect "$IMAGE" --format '{{.Id}}'
+          HOST: 127.0.0.1
+          PORT: '3333'
+          APP_URL: http://127.0.0.1:3333
+          LOG_LEVEL: info
+          SESSION_DRIVER: memory
+          DRIVE_DISK: fs
+          DB_HOST: 127.0.0.1
+          DB_PORT: '5432'
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          DB_DATABASE: passaporte_ci
+          PUBLIC_WEB_URL: https://localhost:3002
+        run: |
+          APP_KEY=$(openssl rand -hex 32)
+          export APP_KEY
+          config=(--network host -e HOST -e PORT -e APP_URL -e LOG_LEVEL -e APP_KEY -e SESSION_DRIVER
+            -e DRIVE_DISK -e DB_HOST -e DB_PORT -e DB_USER -e DB_PASSWORD -e DB_DATABASE -e PUBLIC_WEB_URL)
+          api="passaporte-api:$GITHUB_REF_NAME"
+          docker run --rm "${config[@]}" "$api" node ace migration:run --force
+          NODE_ENV=development pnpm --filter @passaporte/api exec node ace db:seed
+          docker run -d --name api "${config[@]}" "$api"
+          docker run -d --name web --network host -e PUBLIC_WEB_URL -e "API_URL=$APP_URL" "passaporte-web:$GITHUB_REF_NAME"
+          curl -fsS --retry 20 --retry-all-errors --retry-delay 1 "$APP_URL/health" | jq -e '.database == "up"'
+          curl -fsS --retry 20 --retry-all-errors --retry-delay 1 http://127.0.0.1:3000/manifest.webmanifest | jq -e '.short_name == "Passaporte"'
+
+      - name: Testar fluxos de ponta a ponta nas imagens de produção
+        env:
+          PV_WEB_URL: https://localhost:3002
+          E2E_API_URL: http://127.0.0.1:3333
+          E2E_LOCAL_TLS: '1'
+          PV_TLS_UPSTREAM: http://127.0.0.1:3000
+        run: |
+          pnpm exec playwright install --with-deps webkit
+          export PV_TLS_KEY="$RUNNER_TEMP/localhost.key" PV_TLS_CERT="$RUNNER_TEMP/localhost.crt"
+          openssl req -x509 -newkey rsa:2048 -nodes -days 1 -subj '/CN=localhost' \
+            -addext 'subjectAltName=DNS:localhost' -keyout "$PV_TLS_KEY" -out "$PV_TLS_CERT"
+          node scripts/serve-local-https.mjs &
+          trap 'kill "$!"' EXIT
+          curl -kfsS --retry 10 --retry-connrefused "$PV_WEB_URL/manifest.webmanifest" >/dev/null
+          pnpm test:e2e
+
+      - name: Logs dos serviços em caso de falha
+        if: failure()
+        run: |
+          docker logs api || true
+          docker logs web || true
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: imagens
+          path: dist/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 3
+          overwrite: true
+
+  publish:
+    name: Assinar, verificar e publicar
+    needs: images
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      attestations: write
+      id-token: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: imagens
+          path: dist
+
+      - name: Conferir checksums dos arquivos recebidos
+        working-directory: dist
+        run: sha256sum --check --strict SHA256SUMS
+
+      - name: Assinar proveniência dos arquivos Docker
+        uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
+        with:
+          subject-path: dist/*.tar.gz
+
+      - name: Verificar os anexos do rascunho e publicar a Release
+        working-directory: dist
+        run: |
+          tag="$GITHUB_REF_NAME"
+          if draft=$(gh release view "$tag" --json isDraft --jq .isDraft); then
+            [[ "$draft" == true ]] || { echo "::error::Versão já publicada"; exit 1; }
+          else
+            gh release create "$tag" --verify-tag --draft --title "$tag" --generate-notes
+          fi
+          gh release upload "$tag" ./*.tar.gz SHA256SUMS --clobber
+          gh release download "$tag" --dir downloaded --pattern '*.tar.gz' --pattern SHA256SUMS
+          cd downloaded
+          cmp ../SHA256SUMS SHA256SUMS
+          sha256sum --check --strict SHA256SUMS
+          for image in *.tar.gz; do
+            gh attestation verify "$image" --repo "$GH_REPO" --source-ref "$GITHUB_REF" \
+              --source-digest "$GITHUB_SHA" --signer-workflow "$GH_REPO/.github/workflows/docker-build.yml"
+          done
+          gh release edit "$tag" --draft=false
