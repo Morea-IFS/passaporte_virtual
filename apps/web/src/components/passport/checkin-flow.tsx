@@ -207,7 +207,7 @@ export function CheckinFlow({
     )
   }
 
-  if (pending || !state.result) {
+  if (!state.result) {
     return (
       <Panel className="items-center py-8">
         <span className="size-24 animate-pulse rounded-full border-4 border-dashed border-line" />

@@ -70,6 +70,8 @@ test('visitante cria, carimba, compartilha, avalia e organização consulta indi
   const errors: string[] = []
   page.on('pageerror', (error) => errors.push(error.message))
   await page.goto(`/passaporte/${event.slug}`)
+  const installDialog = page.getByRole('dialog', { name: 'Instalar o Passaporte' })
+  await installDialog.getByRole('button', { name: /^(Entendi|Agora não)$/ }).click()
   await page.getByLabel('Apelido', { exact: true }).fill(nickname)
   await page.getByRole('button', { name: 'Criar meu passaporte' }).click()
   await expect(page.getByText('Passaporte criado!', { exact: true })).toBeVisible()
@@ -85,7 +87,9 @@ test('visitante cria, carimba, compartilha, avalia e organização consulta indi
   await expect(page.getByRole('link', { name: /Baixar/ })).toBeVisible()
   await page.keyboard.press('Escape')
   await page.goto(`/passaporte/${event.slug}`)
-  await page.getByText('5 estrelas', { exact: true }).click()
+  const rating = '5 estrelas: Excelente'
+  await page.getByTitle(rating, { exact: true }).click()
+  await expect(page.getByRole('radio', { name: rating, exact: true })).toBeChecked()
   await page.getByRole('button', { name: 'Enviar avaliação' }).click()
   await expect(page.getByText('Avaliação salva. Obrigado por participar!')).toBeVisible()
   await accessible(page)
